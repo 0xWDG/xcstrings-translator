@@ -1,0 +1,18 @@
+# .github/workflows/build-multiplatform.yml
+
+name: Build-Packages
+
+on:
+  # Run on pull_request
+  pull_request:
+
+  # Dispatch if triggered using Github (website)
+  workflow_dispatch:
+
+jobs:
+  Build-Packages:
+    if: github.repository_owner == '0xWDG'
+    runs-on: macos-latest
+    steps:
+      - name: Build Swift Packages
+        uses: 0xWDG/build-swift@main
