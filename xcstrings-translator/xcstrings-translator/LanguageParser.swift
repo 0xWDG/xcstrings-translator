@@ -11,13 +11,16 @@ struct LanguageItem: Codable {
     var base: String
 
     // ISO Languages
+    // swiftlint:disable identifier_name
     var nl: String
     var en: String
     var fr: String
     var de: String
+    // swiftlint:enable identifier_name
 }
 
 class LanguageParser: ObservableObject {
+    // swiftlint:disable:previous type_body_length
     @Published var languageDictionary: [String: Any] = [:]
     @Published var stringsToTranslate: [String] = []
     @Published var shouldTranslate: [Bool] = []
@@ -753,7 +756,7 @@ class LanguageParser: ObservableObject {
         }
     }
 
-    func load(file url: URL)  {
+    func load(file url: URL) {
         fileURL = url
 
         do {
@@ -786,7 +789,7 @@ class LanguageParser: ObservableObject {
 //                try jsonData.write(to: fileURL)
 //            }
 
-            print("SAVED", String(data: jsonData, encoding: .utf8)!)
+            print("SAVED", String(data: jsonData, encoding: .utf8))
         } catch {
             print("An error occurred while saving the file: \(error)")
         }
@@ -807,3 +810,4 @@ class LanguageParser: ObservableObject {
         }
     }
 }
+// swiftlint:disable:this file_length

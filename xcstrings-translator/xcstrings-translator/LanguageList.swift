@@ -50,7 +50,7 @@ class LanguageList {
         .init(identifier: "id", name: "Indonesian", localizedName: "Indonesia", flag: "🇮🇩"),
         .init(identifier: "th", name: "Thai", localizedName: "ไทย", flag: "🇹🇭"),
         .init(identifier: "ar", name: "Arabic", localizedName: "اَلْعَرَبِيَّةُ", flag: "🇦🇪"),
-        .init(identifier: "hi", name: "Hindi", localizedName: "हिन्दी", flag: "🇮🇳"),
+        .init(identifier: "hi", name: "Hindi", localizedName: "हिन्दी", flag: "🇮🇳")
     ]
 
     init() {

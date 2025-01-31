@@ -7,8 +7,9 @@
 
 import XCTest
 
-final class xcstrings_translatorUITestsLaunchTests: XCTestCase {
+final class XCSTRINGSTranslatorUITestsLaunchTests: XCTestCase {
 
+    // swiftlint:disable:next static_over_final_class
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true
     }

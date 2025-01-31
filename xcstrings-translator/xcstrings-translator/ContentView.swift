@@ -16,7 +16,7 @@ struct ContentView: View {
     @State var supportedLanguages: [Locale.Language] = []
     @State var translationSession: TranslationSession?
     @State var status: String = "Idle"
-    @ObservedObject var lp = LanguageParser()
+    @ObservedObject var languageParser = LanguageParser()
 
     // MARK: Filepicker
     @State var filePickerOpen = false
@@ -28,7 +28,7 @@ struct ContentView: View {
                 let language = LanguageList()
                     .language(
                         for: sourceLanguage
-                    )?.name ?? "Unknown [\(sourceLanguage.languageCode!)]"
+                    )?.name ?? "Unknown [\(sourceLanguage.languageCode ?? "")]"
                 Text("Source Language (\(language))")
                 Spacer()
                 Picker("Target Language", selection: $destinationLanguage) {
@@ -54,14 +54,12 @@ struct ContentView: View {
                 .disabled(translationSession == nil)
             }
             List {
-                ForEach(lp.stringsToTranslate, id: \.self) { string in
+                ForEach(languageParser.stringsToTranslate, id: \.self) { string in
                     HStack {
-                        LabeledContent(content: {
-                            Text(translatedStrings[string] ?? "")
-                        }) {
-                            Text(string)
-                        }
-
+                        LabeledContent(
+                            string,
+                            value: translatedStrings[string] ?? ""
+                        )
                         // if !shouldTranslate {
                         // }
                     }
@@ -71,7 +69,7 @@ struct ContentView: View {
                 Text("Status: \(status).")
                 Spacer()
                 Text(
-                    "Translated: \(translatedStrings.count)/\(lp.stringsToTranslate.count)"
+                    "Translated: \(translatedStrings.count)/\(languageParser.stringsToTranslate.count)"
                 )
                 Button("Open", systemImage: "square.and.arrow.down") {
                     filePickerOpen.toggle()
@@ -85,7 +83,7 @@ struct ContentView: View {
                 Button("Save", systemImage: "square.and.arrow.up") {
 
                     /// ...
-                    lp.save()
+                    languageParser.save()
                 }
             }
         }
@@ -103,8 +101,8 @@ struct ContentView: View {
             print(newValue)
             if let val = newValue.first,
                val.absoluteString.hasSuffix("xcstrings") {
-                lp.load(file: val)
-                sourceLanguage = .init(identifier: lp.sourceLanguage)
+                languageParser.load(file: val)
+                sourceLanguage = .init(identifier: languageParser.sourceLanguage)
             }
         }
         .translationTask(
@@ -122,7 +120,7 @@ struct ContentView: View {
             if let session = translationSession {
                 do {
                     status = "Translating"
-                    for string in lp.stringsToTranslate {
+                    for string in languageParser.stringsToTranslate {
                         // Perform translation
                         let response = try await session.translate(string)
 
