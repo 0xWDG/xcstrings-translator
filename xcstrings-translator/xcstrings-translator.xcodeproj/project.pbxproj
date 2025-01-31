@@ -1,0 +1,577 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2B7647CE2D4D4DAD00C22D54 /* FilePicker in Frameworks */ = {isa = PBXBuildFile; productRef = 2B7647CD2D4D4DAD00C22D54 /* FilePicker */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		2B7647102D4D12AE00C22D54 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2B7646F62D4D12AD00C22D54 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2B7646FD2D4D12AD00C22D54;
+			remoteInfo = "xcstrings-translator";
+		};
+		2B76471A2D4D12AE00C22D54 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2B7646F62D4D12AD00C22D54 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2B7646FD2D4D12AD00C22D54;
+			remoteInfo = "xcstrings-translator";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		2B7646FE2D4D12AD00C22D54 /* xcstrings-translator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "xcstrings-translator.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2B76470F2D4D12AE00C22D54 /* xcstrings-translatorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "xcstrings-translatorTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2B7647192D4D12AE00C22D54 /* xcstrings-translatorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "xcstrings-translatorUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2B7647CB2D4D4DA500C22D54 /* FilePicker */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = FilePicker; path = /Users/wesley/Developer/Frameworks/FilePicker; sourceTree = "<absolute>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		2B7647002D4D12AD00C22D54 /* xcstrings-translator */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "xcstrings-translator";
+			sourceTree = "<group>";
+		};
+		2B7647122D4D12AE00C22D54 /* xcstrings-translatorTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "xcstrings-translatorTests";
+			sourceTree = "<group>";
+		};
+		2B76471C2D4D12AE00C22D54 /* xcstrings-translatorUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "xcstrings-translatorUITests";
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2B7646FB2D4D12AD00C22D54 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2B7647CE2D4D4DAD00C22D54 /* FilePicker in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2B76470C2D4D12AE00C22D54 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2B7647162D4D12AE00C22D54 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2B7646F52D4D12AD00C22D54 = {
+			isa = PBXGroup;
+			children = (
+				2B7647CB2D4D4DA500C22D54 /* FilePicker */,
+				2B7647002D4D12AD00C22D54 /* xcstrings-translator */,
+				2B7647122D4D12AE00C22D54 /* xcstrings-translatorTests */,
+				2B76471C2D4D12AE00C22D54 /* xcstrings-translatorUITests */,
+				2B7647CC2D4D4DAD00C22D54 /* Frameworks */,
+				2B7646FF2D4D12AD00C22D54 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		2B7646FF2D4D12AD00C22D54 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2B7646FE2D4D12AD00C22D54 /* xcstrings-translator.app */,
+				2B76470F2D4D12AE00C22D54 /* xcstrings-translatorTests.xctest */,
+				2B7647192D4D12AE00C22D54 /* xcstrings-translatorUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2B7647CC2D4D4DAD00C22D54 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2B7646FD2D4D12AD00C22D54 /* xcstrings-translator */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2B7647232D4D12AE00C22D54 /* Build configuration list for PBXNativeTarget "xcstrings-translator" */;
+			buildPhases = (
+				2B7646FA2D4D12AD00C22D54 /* Sources */,
+				2B7646FB2D4D12AD00C22D54 /* Frameworks */,
+				2B7646FC2D4D12AD00C22D54 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				2B7647002D4D12AD00C22D54 /* xcstrings-translator */,
+			);
+			name = "xcstrings-translator";
+			packageProductDependencies = (
+				2B7647CD2D4D4DAD00C22D54 /* FilePicker */,
+			);
+			productName = "xcstrings-translator";
+			productReference = 2B7646FE2D4D12AD00C22D54 /* xcstrings-translator.app */;
+			productType = "com.apple.product-type.application";
+		};
+		2B76470E2D4D12AE00C22D54 /* xcstrings-translatorTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2B7647262D4D12AE00C22D54 /* Build configuration list for PBXNativeTarget "xcstrings-translatorTests" */;
+			buildPhases = (
+				2B76470B2D4D12AE00C22D54 /* Sources */,
+				2B76470C2D4D12AE00C22D54 /* Frameworks */,
+				2B76470D2D4D12AE00C22D54 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2B7647112D4D12AE00C22D54 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				2B7647122D4D12AE00C22D54 /* xcstrings-translatorTests */,
+			);
+			name = "xcstrings-translatorTests";
+			packageProductDependencies = (
+			);
+			productName = "xcstrings-translatorTests";
+			productReference = 2B76470F2D4D12AE00C22D54 /* xcstrings-translatorTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		2B7647182D4D12AE00C22D54 /* xcstrings-translatorUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2B7647292D4D12AE00C22D54 /* Build configuration list for PBXNativeTarget "xcstrings-translatorUITests" */;
+			buildPhases = (
+				2B7647152D4D12AE00C22D54 /* Sources */,
+				2B7647162D4D12AE00C22D54 /* Frameworks */,
+				2B7647172D4D12AE00C22D54 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2B76471B2D4D12AE00C22D54 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				2B76471C2D4D12AE00C22D54 /* xcstrings-translatorUITests */,
+			);
+			name = "xcstrings-translatorUITests";
+			packageProductDependencies = (
+			);
+			productName = "xcstrings-translatorUITests";
+			productReference = 2B7647192D4D12AE00C22D54 /* xcstrings-translatorUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2B7646F62D4D12AD00C22D54 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1620;
+				LastUpgradeCheck = 1620;
+				TargetAttributes = {
+					2B7646FD2D4D12AD00C22D54 = {
+						CreatedOnToolsVersion = 16.2;
+					};
+					2B76470E2D4D12AE00C22D54 = {
+						CreatedOnToolsVersion = 16.2;
+						TestTargetID = 2B7646FD2D4D12AD00C22D54;
+					};
+					2B7647182D4D12AE00C22D54 = {
+						CreatedOnToolsVersion = 16.2;
+						TestTargetID = 2B7646FD2D4D12AD00C22D54;
+					};
+				};
+			};
+			buildConfigurationList = 2B7646F92D4D12AD00C22D54 /* Build configuration list for PBXProject "xcstrings-translator" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 2B7646F52D4D12AD00C22D54;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 2B7646FF2D4D12AD00C22D54 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2B7646FD2D4D12AD00C22D54 /* xcstrings-translator */,
+				2B76470E2D4D12AE00C22D54 /* xcstrings-translatorTests */,
+				2B7647182D4D12AE00C22D54 /* xcstrings-translatorUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2B7646FC2D4D12AD00C22D54 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2B76470D2D4D12AE00C22D54 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2B7647172D4D12AE00C22D54 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2B7646FA2D4D12AD00C22D54 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2B76470B2D4D12AE00C22D54 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2B7647152D4D12AE00C22D54 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2B7647112D4D12AE00C22D54 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2B7646FD2D4D12AD00C22D54 /* xcstrings-translator */;
+			targetProxy = 2B7647102D4D12AE00C22D54 /* PBXContainerItemProxy */;
+		};
+		2B76471B2D4D12AE00C22D54 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2B7646FD2D4D12AD00C22D54 /* xcstrings-translator */;
+			targetProxy = 2B76471A2D4D12AE00C22D54 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		2B7647212D4D12AE00C22D54 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		2B7647222D4D12AE00C22D54 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		2B7647242D4D12AE00C22D54 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "xcstrings-translator/xcstrings_translator.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"xcstrings-translator/Preview Content\"";
+				DEVELOPMENT_TEAM = 4V2D72S45C;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "nl.wesleydegroot.xcstrings-translator";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		2B7647252D4D12AE00C22D54 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "xcstrings-translator/xcstrings_translator.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"xcstrings-translator/Preview Content\"";
+				DEVELOPMENT_TEAM = 4V2D72S45C;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "nl.wesleydegroot.xcstrings-translator";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		2B7647272D4D12AE00C22D54 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4V2D72S45C;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "nl.wesleydegroot.xcstrings-translatorTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/xcstrings-translator.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/xcstrings-translator";
+			};
+			name = Debug;
+		};
+		2B7647282D4D12AE00C22D54 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4V2D72S45C;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "nl.wesleydegroot.xcstrings-translatorTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/xcstrings-translator.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/xcstrings-translator";
+			};
+			name = Release;
+		};
+		2B76472A2D4D12AE00C22D54 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4V2D72S45C;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "nl.wesleydegroot.xcstrings-translatorUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = "xcstrings-translator";
+			};
+			name = Debug;
+		};
+		2B76472B2D4D12AE00C22D54 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4V2D72S45C;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "nl.wesleydegroot.xcstrings-translatorUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = "xcstrings-translator";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2B7646F92D4D12AD00C22D54 /* Build configuration list for PBXProject "xcstrings-translator" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2B7647212D4D12AE00C22D54 /* Debug */,
+				2B7647222D4D12AE00C22D54 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2B7647232D4D12AE00C22D54 /* Build configuration list for PBXNativeTarget "xcstrings-translator" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2B7647242D4D12AE00C22D54 /* Debug */,
+				2B7647252D4D12AE00C22D54 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2B7647262D4D12AE00C22D54 /* Build configuration list for PBXNativeTarget "xcstrings-translatorTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2B7647272D4D12AE00C22D54 /* Debug */,
+				2B7647282D4D12AE00C22D54 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2B7647292D4D12AE00C22D54 /* Build configuration list for PBXNativeTarget "xcstrings-translatorUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2B76472A2D4D12AE00C22D54 /* Debug */,
+				2B76472B2D4D12AE00C22D54 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		2B7647CD2D4D4DAD00C22D54 /* FilePicker */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FilePicker;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 2B7646F62D4D12AD00C22D54 /* Project object */;
+}
