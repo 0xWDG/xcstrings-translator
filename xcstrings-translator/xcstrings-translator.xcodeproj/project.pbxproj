@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2B2C31742D4E6E5E001F4259 /* FilePicker in Frameworks */ = {isa = PBXBuildFile; productRef = 2B2C31732D4E6E5E001F4259 /* FilePicker */; };
+		2B63257F2D4E6E340082D4F2 /* SwiftExtras in Frameworks */ = {isa = PBXBuildFile; productRef = 2B63257E2D4E6E340082D4F2 /* SwiftExtras */; };
 		2B7647CE2D4D4DAD00C22D54 /* FilePicker in Frameworks */ = {isa = PBXBuildFile; productRef = 2B7647CD2D4D4DAD00C22D54 /* FilePicker */; };
 /* End PBXBuildFile section */
 
@@ -57,7 +59,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B2C31742D4E6E5E001F4259 /* FilePicker in Frameworks */,
 				2B7647CE2D4D4DAD00C22D54 /* FilePicker in Frameworks */,
+				2B63257F2D4E6E340082D4F2 /* SwiftExtras in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -128,6 +132,8 @@
 			name = "xcstrings-translator";
 			packageProductDependencies = (
 				2B7647CD2D4D4DAD00C22D54 /* FilePicker */,
+				2B63257E2D4E6E340082D4F2 /* SwiftExtras */,
+				2B2C31732D4E6E5E001F4259 /* FilePicker */,
 			);
 			productName = "xcstrings-translator";
 			productReference = 2B7646FE2D4D12AD00C22D54 /* xcstrings-translator.app */;
@@ -211,6 +217,10 @@
 			);
 			mainGroup = 2B7646F52D4D12AD00C22D54;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				2B63257D2D4E6E340082D4F2 /* XCRemoteSwiftPackageReference "SwiftExtras" */,
+				2B2C31722D4E6E5E001F4259 /* XCRemoteSwiftPackageReference "FilePicker" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 2B7646FF2D4D12AD00C22D54 /* Products */;
 			projectDirPath = "";
@@ -566,7 +576,36 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		2B2C31722D4E6E5E001F4259 /* XCRemoteSwiftPackageReference "FilePicker" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/0xWDG/FilePicker";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.0.1;
+			};
+		};
+		2B63257D2D4E6E340082D4F2 /* XCRemoteSwiftPackageReference "SwiftExtras" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/0xWDG/SwiftExtras.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.0.5;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
+		2B2C31732D4E6E5E001F4259 /* FilePicker */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2B2C31722D4E6E5E001F4259 /* XCRemoteSwiftPackageReference "FilePicker" */;
+			productName = FilePicker;
+		};
+		2B63257E2D4E6E340082D4F2 /* SwiftExtras */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2B63257D2D4E6E340082D4F2 /* XCRemoteSwiftPackageReference "SwiftExtras" */;
+			productName = SwiftExtras;
+		};
 		2B7647CD2D4D4DAD00C22D54 /* FilePicker */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = FilePicker;

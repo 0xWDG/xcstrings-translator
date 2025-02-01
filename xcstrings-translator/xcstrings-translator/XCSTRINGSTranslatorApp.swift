@@ -12,6 +12,8 @@ struct XCSTRINGSTranslatorApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .toolbarBackground(.hidden, for: .windowToolbar)
+                .containerBackground(.ultraThinMaterial, for: .window)
         }
     }
 }

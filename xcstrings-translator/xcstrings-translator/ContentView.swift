@@ -65,12 +65,16 @@ struct ContentView: View {
                     }
                 }
             }
+            .scrollContentBackground(.hidden)
+            .border(.gray, width: 1)
+
             HStack {
                 Text("Status: \(status).")
                 Spacer()
                 Text(
                     "Translated: \(translatedStrings.count)/\(languageParser.stringsToTranslate.count)"
                 )
+                
                 Button("Open", systemImage: "square.and.arrow.down") {
                     filePickerOpen.toggle()
                 }
@@ -79,14 +83,19 @@ struct ContentView: View {
                     status = "Idle"
                     translatedStrings = [:]
                 }
+                .disabled(languageParser.stringsToTranslate.isEmpty)
 
                 Button("Save", systemImage: "square.and.arrow.up") {
-
                     /// ...
                     languageParser.save()
                 }
+                .disabled(
+                    languageParser.stringsToTranslate.isEmpty ||
+                    translatedStrings.count != languageParser.stringsToTranslate.count
+                )
             }
         }
+        .navigationTitle("xcstrings Translator")
         .task {
             supportedLanguages = await LanguageAvailability().supportedLanguages
             destinationLanguage = supportedLanguages.first(where: { $0.languageCode == "nl" })
@@ -97,9 +106,8 @@ struct ContentView: View {
             files: $filePickerFiles,
             types: [.json]
         )
-        .onChange(of: $filePickerFiles.wrappedValue) { newValue in
-            print(newValue)
-            if let val = newValue.first,
+        .onChange(of: $filePickerFiles.wrappedValue) {
+            if let val = $filePickerFiles.wrappedValue.first,
                val.absoluteString.hasSuffix("xcstrings") {
                 languageParser.load(file: val)
                 sourceLanguage = .init(identifier: languageParser.sourceLanguage)
