@@ -74,7 +74,7 @@ struct ContentView: View {
                 Text(
                     "Translated: \(translatedStrings.count)/\(languageParser.stringsToTranslate.count)"
                 )
-                
+
                 Button("Open", systemImage: "square.and.arrow.down") {
                     filePickerOpen.toggle()
                 }

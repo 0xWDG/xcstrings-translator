@@ -1,15 +1,34 @@
 # xcstrings translator
 
-spm-template is a Swift Package for ...
+xcstrings translator is a simple tool to translate `.xcstrings` files, using Apple's Translate framework.
+The tool is written in Swift and uses the Apple's Translate framework to translate the `.xcstrings` files.
 
-[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2F0xWDG%2Fspm-template%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/0xWDG/spm-template)
-[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2F0xWDG%2Fspm-template%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/0xWDG/spm-template)
-[![Swift Package Manager](https://img.shields.io/badge/SPM-compatible-brightgreen.svg)](https://swift.org/package-manager)
-![License](https://img.shields.io/github/license/0xWDG/spm-template)
+Please note that this tool is still in development and may not work as expected.
 
-## Requirements
+## Limitations/todo
+
+- It cannot save the translated `.xcstrings` files.
+- The translations are not saved in the (internal) array, which would be saved later as a `.xcstrings` file.
+- Translate in _all_ supported languages with one button.
+- Skip string if it's already translated.
+- Skip strings marked with "do not translate".
+- ... probably more.
+
+## Screenshots
 
 <img width="1012" alt="image" src="https://github.com/user-attachments/assets/f4d1bb94-957c-40a8-a9c0-cb961047454a" />
+
+## Alternatives
+
+I'm not planning to add support for `Google Translate`, `DeepL`, `Microsoft Translator` or any other translation service.
+If you think it should be added, feel free to create a pull request.
+
+Alternatives to this tool are (but not limited to):
+- [TranslateKit](https://translatekit.app) by [Cihat Gündüz](https://www.fline.dev/about/?ref=wesleydegroot.nl), TranslateKit uses `DeepL`, `Google Translate` and `Microsoft Translator`, it relies on in-app subscriptions.
+
+## Frameworks/Packages used
+
+- [Apple's Translation framework](https://developer.apple.com/documentation/translation/)
 
 ## Contact
 
