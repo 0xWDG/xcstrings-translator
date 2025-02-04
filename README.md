@@ -11,7 +11,7 @@ Please note that this tool is still in development and may not work as expected.
 - The translations are not saved in the (internal) array, which would be saved later as a `.xcstrings` file.
 - Translate in _all_ supported languages with one button.
 - Skip string if it's already translated.
-- Skip strings marked with "do not translate".
+- Skip strings marked with `shouldTranslate: false`.
 - Improve code quality, ui fixes.
 - ... probably more.
 

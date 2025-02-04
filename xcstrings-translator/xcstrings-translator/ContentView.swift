@@ -8,15 +8,22 @@
 import SwiftUI
 import Translation
 import FilePicker
+import OSLog
 
 struct ContentView: View {
+    private let logger = Logger(
+        subsystem: "nl.wesleydegroot.xcstrings-translator",
+        category: "User Interface"
+    )
+
+    @ObservedObject var languageParser = LanguageParser()
+
     @State var translatedStrings: [String: String] = [:]
     @State var sourceLanguage: Locale.Language?
     @State var destinationLanguage: Locale.Language?
     @State var supportedLanguages: [Locale.Language] = []
     @State var translationSession: TranslationSession?
     @State var status: String = "Idle"
-    @ObservedObject var languageParser = LanguageParser()
 
     // MARK: Filepicker
     @State var filePickerOpen = false
@@ -104,12 +111,11 @@ struct ContentView: View {
             supportedLanguages = await LanguageAvailability().supportedLanguages
             destinationLanguage = supportedLanguages.first(where: { $0.languageCode == "nl" })
             sourceLanguage = supportedLanguages.first(where: { $0.languageCode == "en" })
-            print(supportedLanguages)
         }
         .filePicker(
             isPresented: $filePickerOpen,
             files: $filePickerFiles,
-            types: [.init(filenameExtension: "xcstrings")!]
+            types: [.init(filenameExtension: "xcstrings")!] // swiftlint:disable:this force_unwrapping
         )
         .onChange(of: $filePickerFiles.wrappedValue) {
             if let val = $filePickerFiles.wrappedValue.first {
@@ -125,7 +131,7 @@ struct ContentView: View {
             source: sourceLanguage,
             target: destinationLanguage
         ) { session in
-            print("Updated session")
+            logger.debug("Updated session")
             translationSession = session
         }
         .padding()
@@ -141,7 +147,11 @@ struct ContentView: View {
                         let response = try await session.translate(string)
 
                         // Update target text
-                        print("Translating: \(string), Response: \(response)")
+                        logger
+                            .debug(
+                                "Translating: \(string), Response: \(response.targetText)"
+                            )
+
                         translatedStrings[string] = response.targetText
                     }
                     status = "Finished translating, idle"
