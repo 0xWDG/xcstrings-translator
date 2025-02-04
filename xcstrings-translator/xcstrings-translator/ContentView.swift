@@ -142,7 +142,7 @@ struct ContentView: View {
             if let session = translationSession {
                 do {
                     status = "Translating"
-                    for string in languageParser.stringsToTranslate {
+                    for string in languageParser.stringsToTranslate where !string.isEmpty {
                         // Perform translation
                         let response = try await session.translate(string)
 
@@ -157,6 +157,10 @@ struct ContentView: View {
                     status = "Finished translating, idle"
                 } catch {
                     // code to handle error
+                    logger
+                        .error(
+                            "Translation failed: \(error.localizedDescription, privacy: .public)"
+                        )
                 }
             }
         }
