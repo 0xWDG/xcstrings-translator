@@ -23,6 +23,8 @@ Please note that this tool is still in development and may not work as expected.
 
 <img width="1012" alt="image" src="https://github.com/user-attachments/assets/f4d1bb94-957c-40a8-a9c0-cb961047454a" />
 
+https://github.com/user-attachments/assets/0aaf99fc-4c60-4775-bd1c-cb977758d65f
+
 ## Alternatives
 
 I'm not planning to add support for `Google Translate`, `DeepL`, `Microsoft Translator` or any other (AI) translation service, If you think it should be added, feel welcome to create a pull request.
