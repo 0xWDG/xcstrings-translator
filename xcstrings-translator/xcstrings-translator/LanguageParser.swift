@@ -21,7 +21,6 @@ struct LanguageItem: Codable {
 }
 
 class LanguageParser: ObservableObject {
-    // swiftlint:disable:previous type_body_length
     private let logger = Logger(
         subsystem: "nl.wesleydegroot.xcstrings-translator",
         category: "LanguageParser"
@@ -92,4 +91,3 @@ class LanguageParser: ObservableObject {
         }
     }
 }
-// swiftlint:disable:this file_length
