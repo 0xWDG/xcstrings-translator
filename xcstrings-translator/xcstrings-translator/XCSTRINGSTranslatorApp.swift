@@ -9,6 +9,8 @@ import SwiftUI
 
 @main
 struct XCSTRINGSTranslatorApp: App {
+    @Environment(\.openWindow) private var openWindow
+
     var body: some Scene {
         WindowGroup {
             ContentView()

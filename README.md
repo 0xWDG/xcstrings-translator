@@ -5,14 +5,19 @@ The tool is written in Swift and uses the Apple's Translate framework to transla
 
 Please note that this tool is still in development and may not work as expected.
 
-## Limitations/todo
+## Limitations/TODO
 
 - It cannot save the translated `.xcstrings` files.
 - The translations are not saved in the (internal) array, which would be saved later as a `.xcstrings` file.
 - Translate in _all_ supported languages with one button.
 - Skip string if it's already translated.
 - Skip strings marked with "do not translate".
+- Improve code quality, ui fixes.
 - ... probably more.
+
+## Finished
+- Input language detection.
+- Translate to a specific language.
 
 ## Screenshots
 
@@ -20,15 +25,15 @@ Please note that this tool is still in development and may not work as expected.
 
 ## Alternatives
 
-I'm not planning to add support for `Google Translate`, `DeepL`, `Microsoft Translator` or any other translation service.
-If you think it should be added, feel free to create a pull request.
+I'm not planning to add support for `Google Translate`, `DeepL`, `Microsoft Translator` or any other (AI) translation service, If you think it should be added, feel welcome to create a pull request.
 
 Alternatives to this tool are (but not limited to):
 - [TranslateKit](https://translatekit.app) by [Cihat Gündüz](https://www.fline.dev/about/?ref=wesleydegroot.nl), TranslateKit uses `DeepL`, `Google Translate` and `Microsoft Translator`, it relies on in-app subscriptions.
 
 ## Frameworks/Packages used
 
-- [Apple's Translation framework](https://developer.apple.com/documentation/translation/)
+- [Translation framework](https://developer.apple.com/documentation/translation/) by [Apple](https://apple.com)
+- [FilePicker](https://github.com/0xWDG/FilePicker) by [Wesley de Groot](https://wesleydegroot.nl)
 
 ## Contact
 

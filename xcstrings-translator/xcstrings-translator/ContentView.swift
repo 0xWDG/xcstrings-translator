@@ -11,7 +11,7 @@ import FilePicker
 
 struct ContentView: View {
     @State var translatedStrings: [String: String] = [:]
-    @State var sourceLanguage: Locale.Language = .init(identifier: "en")
+    @State var sourceLanguage: Locale.Language?
     @State var destinationLanguage: Locale.Language?
     @State var supportedLanguages: [Locale.Language] = []
     @State var translationSession: TranslationSession?
@@ -25,11 +25,18 @@ struct ContentView: View {
     var body: some View {
         VStack {
             HStack {
-                let language = LanguageList()
-                    .language(
-                        for: sourceLanguage
-                    )?.name ?? "Unknown [\(sourceLanguage.languageCode ?? "")]"
-                Text("Source Language (\(language))")
+                Picker("Source Language", selection: $sourceLanguage) {
+                    ForEach(supportedLanguages, id: \.self) { language in
+                        if let code = language.languageCode {
+                            Text(
+                                LanguageList()
+                                    .language(for: language)?.name ?? "\(code)"
+                            )
+                            .tag(language)
+                        }
+                    }
+                }
+                .frame(maxWidth: 300)
                 Spacer()
                 Picker("Target Language", selection: $destinationLanguage) {
                     ForEach(supportedLanguages, id: \.self) { language in
@@ -65,8 +72,6 @@ struct ContentView: View {
                     }
                 }
             }
-            .scrollContentBackground(.hidden)
-            .border(.gray, width: 1)
 
             HStack {
                 Text("Status: \(status).")
@@ -86,7 +91,6 @@ struct ContentView: View {
                 .disabled(languageParser.stringsToTranslate.isEmpty)
 
                 Button("Save", systemImage: "square.and.arrow.up") {
-                    /// ...
                     languageParser.save()
                 }
                 .disabled(
@@ -99,18 +103,22 @@ struct ContentView: View {
         .task {
             supportedLanguages = await LanguageAvailability().supportedLanguages
             destinationLanguage = supportedLanguages.first(where: { $0.languageCode == "nl" })
+            sourceLanguage = supportedLanguages.first(where: { $0.languageCode == "en" })
             print(supportedLanguages)
         }
         .filePicker(
             isPresented: $filePickerOpen,
             files: $filePickerFiles,
-            types: [.json]
+            types: [.init(filenameExtension: "xcstrings")!]
         )
         .onChange(of: $filePickerFiles.wrappedValue) {
-            if let val = $filePickerFiles.wrappedValue.first,
-               val.absoluteString.hasSuffix("xcstrings") {
+            if let val = $filePickerFiles.wrappedValue.first {
                 languageParser.load(file: val)
-                sourceLanguage = .init(identifier: languageParser.sourceLanguage)
+                sourceLanguage = supportedLanguages.first(where: {
+                    $0.languageCode == Locale.Language(
+                        identifier: languageParser.sourceLanguage
+                    ).languageCode
+                })
             }
         }
         .translationTask(
