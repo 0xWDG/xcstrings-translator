@@ -1,4 +1,4 @@
-# spm-template
+# xcstrings translator
 
 spm-template is a Swift Package for ...
 
@@ -9,43 +9,7 @@ spm-template is a Swift Package for ...
 
 ## Requirements
 
-- Swift 5.9+ (Xcode 15+)
-- iOS 13+, macOS 10.15+
-
-## Installation (Pakage.swift)
-
-```swift
-dependencies: [
-    .package(url: "https://github.com/0xWDG/spm-template.git", branch: "main"),
-],
-targets: [
-    .target(name: "MyTarget", dependencies: [
-        .product(name: "spm-template", package: "spm-template"),
-    ]),
-]
-```
-
-## Installation (Xcode)
-
-1. In Xcode, open your project and navigate to **File** → **Swift Packages** → **Add Package Dependency...**
-2. Paste the repository URL (`https://github.com/0xWDG/spm-template`) and click **Next**.
-3. Click **Finish**.
-
-## Usage
-
-```swift
-import SwiftUI
-import spm-template
-
-struct ContentView: View {
-    var body: some View {
-        VStack {
-            /// ...
-        }
-        .padding()
-    }
-}
-```
+<img width="1012" alt="image" src="https://github.com/user-attachments/assets/f4d1bb94-957c-40a8-a9c0-cb961047454a" />
 
 ## Contact
 
