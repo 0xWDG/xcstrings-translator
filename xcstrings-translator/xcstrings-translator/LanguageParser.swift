@@ -74,7 +74,7 @@ class LanguageParser: ObservableObject {
                     .dropLast()
                     .joined(separator: "/")
                     + "/test.json"
-                )!
+                )! // swiftlint:disable:this force_unwrapping
             }
 
             try jsonData.write(to: fileURL)

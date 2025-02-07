@@ -157,12 +157,11 @@ struct ContentView: View {
 
                         translatedStrings[string] = response.targetText
 
-                        //    func add(tranlsation: String, forLanguage: String, original: String) {
-
                         languageParser
                             .add(
                                 tranlsation: response.targetText,
                                 forLanguage: response.targetLanguage.languageCode!.identifier,
+                                // swiftlint:disable:previous force_unwrapping
                                 original: response.sourceText
                             )
                     }
