@@ -65,7 +65,10 @@ struct ContentView: View {
                         Text("Translate")
                     }
                 }
-                .disabled(translationSession == nil)
+                .disabled(
+                    translationSession == nil ||
+                    languageParser.stringsToTranslate.isEmpty
+                )
             }
             List {
                 ForEach(languageParser.stringsToTranslate, id: \.self) { string in
@@ -153,6 +156,15 @@ struct ContentView: View {
                             )
 
                         translatedStrings[string] = response.targetText
+
+                        //    func add(tranlsation: String, forLanguage: String, original: String) {
+
+                        languageParser
+                            .add(
+                                tranlsation: response.targetText,
+                                forLanguage: response.targetLanguage.languageCode!.identifier,
+                                original: response.sourceText
+                            )
                     }
                     status = "Finished translating, idle"
                 } catch {

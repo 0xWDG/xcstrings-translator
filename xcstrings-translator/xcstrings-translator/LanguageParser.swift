@@ -62,9 +62,19 @@ class LanguageParser: ObservableObject {
                 options: .prettyPrinted
             )
 
+            print(String(data: jsonData, encoding: .utf8))
+
             if isTesting {
                 logger.debug("We are testing, appending _test.json to the filename")
-                fileURL = fileURL.appending(component: "_test.json")
+
+                fileURL = URL(string:
+                    fileURL
+                    .relativeString
+                    .split(separator: "/")
+                    .dropLast()
+                    .joined(separator: "/")
+                    + "/test.json"
+                )!
             }
 
             try jsonData.write(to: fileURL)
@@ -74,6 +84,31 @@ class LanguageParser: ObservableObject {
         } catch {
             logger.error("An error occurred while saving the file: \(error, privacy: .public)")
         }
+    }
+
+    func add(tranlsation: String, forLanguage: String, original: String) {
+        if var strings = languageDictionary["strings"] as? [String: Any] {
+            if var item = strings[original] as? [String: Any] {
+                // { "strings": { "string": { shouldtranslate: false?
+                // "localizations" : { "nl" : { "stringUnit" : { "state" : "translated", "value" : "%@"
+
+                if var localizations = item["localizations"] as? [String: Any] {
+                    print(
+                        "Updated \(forLanguage) with \(original) with \(tranlsation)"
+                    )
+                    localizations[forLanguage] = ["stringUnit": ["state": "translated", "value": tranlsation]]
+                    return
+                } else {
+                    print(
+                        "Created localizations: \(forLanguage) for \(original) with \(tranlsation)"
+                    )
+                    item["localizations"] = [forLanguage: ["stringUnit": ["state": "translated", "value": tranlsation]]]
+                    return
+                }
+            }
+            print("Failed to extract \"\(original)\".")
+        }
+        print("Failed to get strings")
     }
 
     func parse() {
