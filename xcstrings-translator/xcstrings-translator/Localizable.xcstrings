@@ -1,0 +1,51 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "Key" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Key"
+          }
+        }
+      }
+    },
+    "Open" : {
+
+    },
+    "Reload" : {
+
+    },
+    "Save" : {
+
+    },
+    "Source Language" : {
+
+    },
+    "Status: %@." : {
+
+    },
+    "Target Language" : {
+
+    },
+    "Translate" : {
+
+    },
+    "Translated: %lld/%lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Translated: %1$lld/%2$lld"
+          }
+        }
+      }
+    },
+    "xcstrings Translator" : {
+
+    }
+  },
+  "version" : "1.0"
+}

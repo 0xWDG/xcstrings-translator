@@ -122,6 +122,8 @@ struct ContentView: View {
         )
         .onChange(of: $filePickerFiles.wrappedValue) {
             if let val = $filePickerFiles.wrappedValue.first {
+                status = "Idle"
+                translatedStrings = [:]
                 languageParser.load(file: val)
                 sourceLanguage = supportedLanguages.first(where: {
                     $0.languageCode == Locale.Language(
@@ -156,14 +158,7 @@ struct ContentView: View {
                             )
 
                         translatedStrings[string] = response.targetText
-
-                        languageParser
-                            .add(
-                                tranlsation: response.targetText,
-                                forLanguage: response.targetLanguage.languageCode!.identifier,
-                                // swiftlint:disable:previous force_unwrapping
-                                original: response.sourceText
-                            )
+                        languageParser.add(translation: response)
                     }
                     status = "Finished translating, idle"
                 } catch {
