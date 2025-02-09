@@ -145,6 +145,7 @@ class LanguageParser: ObservableObject {
 
             if var localizations = item["localizations"] as? [String: Any] {
                 logger.debug(
+                    // swiftlint:disable:next line_length
                     "[\(forLanguage)] Updated \"\(original)\" with translation \"\(translation)\" and state: \(self.state.rawValue)."
                 )
                 localizations[forLanguage] = ["stringUnit": ["state": "\(state.rawValue)", "value": translation]]
@@ -156,9 +157,17 @@ class LanguageParser: ObservableObject {
                 return
             } else {
                 logger.debug(
+                    // swiftlint:disable:next line_length
                     "[\(forLanguage)] Created localizations for \"\(original)\" with translation \"\(translation)\" and state \(self.state.rawValue)."
                 )
-                item["localizations"] = [forLanguage: ["stringUnit": ["state": "\(state.rawValue)", "value": translation]]]
+                item["localizations"] = [
+                    forLanguage: [
+                        "stringUnit": [
+                            "state": "\(state.rawValue)",
+                            "value": translation
+                        ]
+                    ]
+                ]
 
                 // https://mastodon.social/@zhenyi/113969196950076700
                 strings[original] = item
