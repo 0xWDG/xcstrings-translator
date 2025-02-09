@@ -96,13 +96,14 @@ struct ContentView: View {
                     filePickerOpen.toggle()
                 }
                 .keyboardShortcut("o", modifiers: .command)
-
-                Button("Reload", systemImage: "arrow.clockwise.circle") {
-                    status = "Idle"
-                    translatedStrings = [:]
-                }
-                .keyboardShortcut("r", modifiers: .command)
-                .disabled(languageParser.stringsToTranslate.isEmpty)
+//
+//                Button("Reload", systemImage: "arrow.clockwise.circle") {
+//                    status = "Idle"
+//                    translatedStrings = [:]
+//                    languageParser.reset()
+//                }
+//                .keyboardShortcut("r", modifiers: .command)
+//                .disabled(languageParser.stringsToTranslate.isEmpty)
 
                 Button("Save", systemImage: "square.and.arrow.up") {
                     languageParser.save()
@@ -142,6 +143,10 @@ struct ContentView: View {
                     ).languageCode
                 })
             }
+        }
+        .onChange(of: $destinationLanguage.wrappedValue) {
+            status = "Idle"
+            translatedStrings = [:]
         }
         .translationTask(
             source: sourceLanguage,

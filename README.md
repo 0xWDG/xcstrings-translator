@@ -3,21 +3,18 @@
 xcstrings translator is a simple tool to translate `.xcstrings` files, using Apple's Translate framework.
 The tool is written in Swift and uses the Apple's Translate framework to translate the `.xcstrings` files.
 
-Please note that this tool is still in development and may not work as expected.
-
 ## Limitations/TODO
 
-- It cannot save the translated `.xcstrings` files.
-- The translations are not saved in the (internal) array, which would be saved later as a `.xcstrings` file.
 - Translate in _all_ supported languages with one button.
 - Skip string if it's already translated.
 - Skip strings marked with `shouldTranslate: false`.
-- Improve code quality, ui fixes.
-- ... probably more.
 
 ## Finished
+
 - Input language detection.
 - Translate to a specific language.
+- Save translated strings to the input file.
+- Save translated strings to a new file. (only if _test mode_ is enabled)
 
 ## Screenshots
 
@@ -32,10 +29,18 @@ I'm not planning to add support for `Google Translate`, `DeepL`, `Microsoft Tran
 Alternatives to this tool are (but not limited to):
 - [TranslateKit](https://translatekit.app) by [Cihat Gündüz](https://www.fline.dev/about/?ref=wesleydegroot.nl), TranslateKit uses `DeepL`, `Google Translate` and `Microsoft Translator`, it relies on in-app subscriptions.
 
+## Special Thanks
+
+Special thanks to these wonderful people:
+- [Zhenyi Tan](https://andadinosaur.com) for his help on a [saving issue](https://mastodon.social/@zhenyi/113969196950076700) which I encountered.
+- [Cihat Gündüz](https://www.fline.dev/about) creating [TranslateKit](https://translatekit.app) which gave me an idea how to build the GUI of this application.
+
 ## Frameworks/Packages used
 
+Here are the frameworks/packages used in this project:
 - [Translation framework](https://developer.apple.com/documentation/translation/) by [Apple](https://apple.com)
 - [FilePicker](https://github.com/0xWDG/FilePicker) by [Wesley de Groot](https://wesleydegroot.nl)
+- [SwiftExtras](https://github.com/0xWDG/SwiftExtras) by [Wesley de Groot](https://wesleydegroot.nl)
 
 ## Contact
 
