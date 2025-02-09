@@ -25,6 +25,8 @@ struct ContentView: View {
     @State var translationSession: TranslationSession?
     @State var status: String = "Idle"
 
+    @State var settingsOpened = false
+
     // MARK: Filepicker
     @State var filePickerOpen = false
     @State var filePickerFiles: [URL] = []
@@ -57,13 +59,15 @@ struct ContentView: View {
                     }
                 }
                 .frame(maxWidth: 300)
-                Button {
-                    translate()
-                } label: {
-                    HStack {
-                        Image(systemName: "translate")
-                        Text("Translate")
+                Picker("state", selection: $languageParser.state) {
+                    ForEach(LanguageParser.LPState.allCases, id: \.rawValue) { state in
+                        Text(state.humanReadableName)
+                            .tag(state)
                     }
+                }
+                .frame(maxWidth: 150)
+                Button("Translate", systemImage: "translate") {
+                    translate()
                 }
                 .keyboardShortcut("t", modifiers: .command)
                 .disabled(
@@ -91,6 +95,10 @@ struct ContentView: View {
                     "Translated: \(translatedStrings.count)/\(languageParser.stringsToTranslate.count)"
                 )
 
+                Button("Settings", systemImage: "gear") {
+                    settingsOpened.toggle()
+                }
+                .keyboardShortcut(",", modifiers: .command)
                 Button("Open", systemImage: "square.and.arrow.down") {
                     filePickerOpen.toggle()
                 }
@@ -126,6 +134,10 @@ struct ContentView: View {
             files: $filePickerFiles,
             types: [.init(filenameExtension: "xcstrings")!] // swiftlint:disable:this force_unwrapping
         )
+        .sheet(isPresented: $settingsOpened) {
+            SettingsView()
+                .environmentObject(languageParser)
+        }
         .onChange(of: $filePickerFiles.wrappedValue) {
             if let val = $filePickerFiles.wrappedValue.first {
                 status = "Idle"
@@ -156,13 +168,6 @@ struct ContentView: View {
                     for string in languageParser.stringsToTranslate where !string.isEmpty {
                         // Perform translation
                         let response = try await session.translate(string)
-
-                        // Update target text
-                        logger
-                            .debug(
-                                "Translating: \(string), Response: \(response.targetText)"
-                            )
-
                         translatedStrings[string] = response.targetText
                         languageParser.add(translation: response)
                     }

@@ -10,6 +10,7 @@
 		2B2C31742D4E6E5E001F4259 /* FilePicker in Frameworks */ = {isa = PBXBuildFile; productRef = 2B2C31732D4E6E5E001F4259 /* FilePicker */; };
 		2B63257F2D4E6E340082D4F2 /* SwiftExtras in Frameworks */ = {isa = PBXBuildFile; productRef = 2B63257E2D4E6E340082D4F2 /* SwiftExtras */; };
 		2B7647CE2D4D4DAD00C22D54 /* FilePicker in Frameworks */ = {isa = PBXBuildFile; productRef = 2B7647CD2D4D4DAD00C22D54 /* FilePicker */; };
+		2B8693812D58D4360022617A /* OSLogViewer in Frameworks */ = {isa = PBXBuildFile; productRef = 2B8693802D58D4360022617A /* OSLogViewer */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,6 +31,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2B1836472D58D1F300AB3767 /* SwiftExtras */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = SwiftExtras; path = /Users/wesley/Developer/Frameworks/SwiftExtras; sourceTree = "<absolute>"; };
 		2B7646FE2D4D12AD00C22D54 /* xcstrings-translator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "xcstrings-translator.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B76470F2D4D12AE00C22D54 /* xcstrings-translatorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "xcstrings-translatorTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B7647192D4D12AE00C22D54 /* xcstrings-translatorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "xcstrings-translatorUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -60,6 +62,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2B2C31742D4E6E5E001F4259 /* FilePicker in Frameworks */,
+				2B8693812D58D4360022617A /* OSLogViewer in Frameworks */,
 				2B7647CE2D4D4DAD00C22D54 /* FilePicker in Frameworks */,
 				2B63257F2D4E6E340082D4F2 /* SwiftExtras in Frameworks */,
 			);
@@ -85,6 +88,7 @@
 		2B7646F52D4D12AD00C22D54 = {
 			isa = PBXGroup;
 			children = (
+				2B1836472D58D1F300AB3767 /* SwiftExtras */,
 				2B7647CB2D4D4DA500C22D54 /* FilePicker */,
 				2B7647002D4D12AD00C22D54 /* xcstrings-translator */,
 				2B7647122D4D12AE00C22D54 /* xcstrings-translatorTests */,
@@ -134,6 +138,7 @@
 				2B7647CD2D4D4DAD00C22D54 /* FilePicker */,
 				2B63257E2D4E6E340082D4F2 /* SwiftExtras */,
 				2B2C31732D4E6E5E001F4259 /* FilePicker */,
+				2B8693802D58D4360022617A /* OSLogViewer */,
 			);
 			productName = "xcstrings-translator";
 			productReference = 2B7646FE2D4D12AD00C22D54 /* xcstrings-translator.app */;
@@ -223,6 +228,7 @@
 			packageReferences = (
 				2B63257D2D4E6E340082D4F2 /* XCRemoteSwiftPackageReference "SwiftExtras" */,
 				2B2C31722D4E6E5E001F4259 /* XCRemoteSwiftPackageReference "FilePicker" */,
+				2B86937F2D58D4360022617A /* XCRemoteSwiftPackageReference "OSLogViewer" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 2B7646FF2D4D12AD00C22D54 /* Products */;
@@ -600,6 +606,14 @@
 				minimumVersion = 0.0.5;
 			};
 		};
+		2B86937F2D58D4360022617A /* XCRemoteSwiftPackageReference "OSLogViewer" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/0xWDG/OSLogViewer.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -616,6 +630,11 @@
 		2B7647CD2D4D4DAD00C22D54 /* FilePicker */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = FilePicker;
+		};
+		2B8693802D58D4360022617A /* OSLogViewer */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2B86937F2D58D4360022617A /* XCRemoteSwiftPackageReference "OSLogViewer" */;
+			productName = OSLogViewer;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

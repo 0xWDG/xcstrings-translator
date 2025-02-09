@@ -10,6 +10,22 @@ import OSLog
 import Translation
 
 class LanguageParser: ObservableObject {
+    public enum LPState: String, CaseIterable, Identifiable {
+        case translated = "translated"
+        case needsReview = "needs_review"
+
+        var id: String { return self.rawValue }
+
+        var humanReadableName: String {
+            switch self {
+            case .translated:
+                return "Translated"
+            case .needsReview:
+                return "Needs review"
+            }
+        }
+    }
+
     private let logger = Logger(
         subsystem: "nl.wesleydegroot.xcstrings-translator",
         category: "LanguageParser"
@@ -20,7 +36,16 @@ class LanguageParser: ObservableObject {
     @Published var shouldTranslate: [Bool] = []
     @Published var sourceLanguage: String = "en"
     @Published var fileURL: URL?
-    private var isTesting = true
+    @Published var state: LPState = .translated {
+        didSet {
+            logger.debug("Updated translations state to \(self.state.humanReadableName)")
+        }
+    }
+    @Published private var isTesting = true {
+        didSet {
+            logger.debug("Updated isTesting to \(self.isTesting ? "Testing" : "Not Testing")")
+        }
+    }
 
     func reset() {
         languageDictionary = [:]
@@ -107,10 +132,10 @@ class LanguageParser: ObservableObject {
             // "localizations" : { "nl" : { "stringUnit" : { "state" : "translated", "value" : "%@"
 
             if var localizations = item["localizations"] as? [String: Any] {
-                print(
-                    "Updated \(forLanguage) with \(original) with \(translation)"
+                logger.debug(
+                    "[\(forLanguage)] Updated \"\(original)\" with translation \"\(translation)\" and state: \(self.state.rawValue)."
                 )
-                localizations[forLanguage] = ["stringUnit": ["state": "needs_review", "value": translation]]
+                localizations[forLanguage] = ["stringUnit": ["state": "\(state.rawValue)", "value": translation]]
 
                 // https://mastodon.social/@zhenyi/113969196950076700
                 item["localizations"] = localizations
@@ -118,10 +143,10 @@ class LanguageParser: ObservableObject {
                 languageDictionary["strings"] = strings
                 return
             } else {
-                print(
-                    "Created localizations: \(forLanguage) for \(original) with \(translation)"
+                logger.debug(
+                    "[\(forLanguage)] Created localizations for \"\(original)\" with translation \"\(translation)\" and state \(self.state.rawValue)."
                 )
-                item["localizations"] = [forLanguage: ["stringUnit": ["state": "needs_review", "value": translation]]]
+                item["localizations"] = [forLanguage: ["stringUnit": ["state": "\(state.rawValue)", "value": translation]]]
 
                 // https://mastodon.social/@zhenyi/113969196950076700
                 strings[original] = item

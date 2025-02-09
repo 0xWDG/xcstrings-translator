@@ -1,6 +1,25 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "%@ version: %@, build: %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ version: %2$@, build: %3$@"
+          }
+        }
+      }
+    },
+    "About" : {
+
+    },
+    "About the developer" : {
+
+    },
+    "Application" : {
+
+    },
     "Arabic" : {
       "localizations" : {
         "nl" : {
@@ -10,6 +29,9 @@
           }
         }
       }
+    },
+    "Bluesky" : {
+
     },
     "Bulgarian" : {
       "localizations" : {
@@ -31,6 +53,9 @@
         }
       }
     },
+    "Changelog" : {
+
+    },
     "Chinese" : {
       "localizations" : {
         "nl" : {
@@ -40,6 +65,9 @@
           }
         }
       }
+    },
+    "Created by [Wesley de Groot](https://wesleydegroot.nl)" : {
+
     },
     "Croatian" : {
       "localizations" : {
@@ -110,6 +138,12 @@
           }
         }
       }
+    },
+    "Feedback" : {
+
+    },
+    "Fetching logs..." : {
+
     },
     "Finnish" : {
       "localizations" : {
@@ -228,6 +262,12 @@
         }
       }
     },
+    "Mastodon" : {
+
+    },
+    "More apps from the developer" : {
+
+    },
     "Norwegian" : {
       "localizations" : {
         "nl" : {
@@ -278,6 +318,12 @@
         }
       }
     },
+    "Privacy Policy" : {
+
+    },
+    "Rate the app" : {
+
+    },
     "Reload" : {
       "localizations" : {
         "nl" : {
@@ -318,6 +364,9 @@
         }
       }
     },
+    "Settings" : {
+
+    },
     "Slovak" : {
       "localizations" : {
         "nl" : {
@@ -357,6 +406,9 @@
           }
         }
       }
+    },
+    "state" : {
+
     },
     "Status: %@." : {
       "localizations" : {
@@ -424,6 +476,9 @@
         }
       }
     },
+    "Translation state" : {
+
+    },
     "Turkish" : {
       "localizations" : {
         "nl" : {
@@ -443,6 +498,9 @@
           }
         }
       }
+    },
+    "𝕏/Twitter" : {
+
     },
     "xcstrings translator" : {
 
