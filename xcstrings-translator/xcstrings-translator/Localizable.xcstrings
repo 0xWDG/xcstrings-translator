@@ -1,80 +1,141 @@
 {
+  "version" : "1.0",
   "sourceLanguage" : "en",
   "strings" : {
-    "Arabic" : {
+    "Settings" : {
       "localizations" : {
-        "de" : {
+        "nl" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "Arabisch"
+            "value" : "Instellingen",
+            "state" : "translated"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Arabe"
+            "value" : "Paramètres"
           }
         },
-        "nl" : {
+        "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Arabisch"
+            "value" : "Einstellungen"
           }
         }
       }
     },
-    "Bulgarian" : {
+    "Slovene" : {
       "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "value" : "Sloveen",
+            "state" : "translated"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bulgare"
+            "value" : "Slowenisch"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bulgare"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bulgaars"
+            "value" : "Slovène"
           }
         }
       }
     },
-    "Catalan" : {
+    "Italian" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Katalanisch"
-          }
-        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Catalan"
+            "value" : "Italien"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Italiener"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Catalaans"
+            "value" : "Italiaans"
+          }
+        }
+      }
+    },
+    "Portuguese (Brazil)" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Portugais (Brésil)"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "value" : "Portugees (Brazilië)",
+            "state" : "translated"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Portugiesisch (Brasilien)"
+          }
+        }
+      }
+    },
+    "Danish" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Danois"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dänisch"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deens"
+          }
+        }
+      }
+    },
+    "Swedish" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "value" : "Zweeds",
+            "state" : "translated"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schwedisch"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suédois"
           }
         }
       }
     },
     "Chinese" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Chinese"
-          }
-        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -86,115 +147,99 @@
             "state" : "translated",
             "value" : "Chinees"
           }
-        }
-      }
-    },
-    "Close" : {
-      "localizations" : {
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ende"
+            "value" : "Chinese"
+          }
+        }
+      }
+    },
+    "Spanish" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spaans"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spanisch"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fermer"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sluiten"
+            "value" : "Espagnol"
           }
         }
       }
     },
-    "Croatian" : {
+    "Japanese" : {
       "localizations" : {
-        "de" : {
+        "nl" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kroatisch"
+            "value" : "Japans",
+            "state" : "translated"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Croate"
+            "value" : "Japonais"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Japaner"
+          }
+        }
+      }
+    },
+    "Save" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Économiser"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sparen"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kroatisch"
+            "value" : "Opslaan"
           }
         }
       }
     },
-    "Czech" : {
+    "Indonesian" : {
       "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "value" : "Indonesisch",
+            "state" : "translated"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tschechisch"
+            "value" : "Indonesier"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tchèque"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tsjech"
-          }
-        }
-      }
-    },
-    "Danish" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dänisch"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Danois"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deens"
-          }
-        }
-      }
-    },
-    "Does not overwrite the original strings file." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Überschreibt nicht die ursprüngliche Zeichenfolgendatei."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "N'écrase pas le fichier de chaînes d'origine."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Overschrijft het originele stringbestand niet."
+            "value" : "Indonésien"
           }
         }
       }
@@ -207,158 +252,26 @@
             "value" : "Niederländer"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Néerlandais"
-          }
-        },
         "nl" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nederlands"
-          }
-        }
-      }
-    },
-    "English" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Englisch"
+            "value" : "Nederlands",
+            "state" : "translated"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Anglais"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Engels"
-          }
-        }
-      }
-    },
-    "English (British)" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Englisch (Britisch)"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Anglais (britannique)"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Engels (Brits)"
-          }
-        }
-      }
-    },
-    "English (US)" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Englisch (US)"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Anglais (États-Unis)"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Engels (VS)"
-          }
-        }
-      }
-    },
-    "Finnish" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Finnisch"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Finnois"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fins"
-          }
-        }
-      }
-    },
-    "French" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Franzose"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Français"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Frans"
-          }
-        }
-      }
-    },
-    "German" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deutsch"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Allemand"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Duits"
+            "value" : "Néerlandais"
           }
         }
       }
     },
     "Greek" : {
       "localizations" : {
-        "de" : {
+        "nl" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "Griechisch"
+            "value" : "Grieks",
+            "state" : "translated"
           }
         },
         "fr" : {
@@ -367,32 +280,54 @@
             "value" : "Grec"
           }
         },
-        "nl" : {
+        "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Grieks"
+            "value" : "Griechisch"
           }
         }
       }
     },
-    "Hindi" : {
+    "Catalan" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hindi"
+            "value" : "Katalanisch"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "value" : "Catalaans",
+            "state" : "translated"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hindi"
+            "value" : "Catalan"
+          }
+        }
+      }
+    },
+    "Russian" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Russe"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Russisch"
           }
         },
         "nl" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hindi"
+            "value" : "Russisch",
+            "state" : "translated"
           }
         }
       }
@@ -413,338 +348,96 @@
         },
         "nl" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hongaars"
+            "value" : "Hongaars",
+            "state" : "translated"
           }
         }
       }
     },
-    "Indonesian" : {
+    "This is the state which is saved in the strings file." : {
       "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dit is de status die is opgeslagen in het strings-bestand."
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Indonesier"
+            "value" : "Dies ist der Zustand, der in der Zeichenfolgendatei gespeichert ist."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Indonésien"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Indonesisch"
+            "value" : "C'est l'état qui est enregistré dans le fichier de chaînes."
           }
         }
       }
     },
-    "Italian" : {
+    "Status: %@." : {
       "localizations" : {
-        "de" : {
+        "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Italiener"
+            "value" : "Status: %@."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Italien"
+            "value" : "Statut : %@."
           }
         },
-        "nl" : {
+        "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Italiaans"
+            "value" : "Status: %@."
           }
         }
       }
     },
-    "Japanese" : {
+    "English" : {
       "localizations" : {
-        "de" : {
+        "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Japaner"
+            "value" : "Engels"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Japonais"
+            "value" : "Anglais"
           }
         },
-        "nl" : {
+        "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Japans"
+            "value" : "Englisch"
           }
         }
       }
     },
-    "Korean" : {
+    "German" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Koreanisch"
-          }
-        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Coréen"
+            "value" : "Allemand"
           }
         },
         "nl" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "Koreaans"
+            "value" : "Duits",
+            "state" : "translated"
           }
-        }
-      }
-    },
-    "Norwegian" : {
-      "localizations" : {
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Norwegisch"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Norvégien"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Noors"
-          }
-        }
-      }
-    },
-    "Open" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Außen"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ouvert"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Open"
-          }
-        }
-      }
-    },
-    "Polish" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hochglanz"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Polir"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Polijsten"
-          }
-        }
-      }
-    },
-    "Portuguese (Brazil)" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Portugiesisch (Brasilien)"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Portugais (Brésil)"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Portugees (Brazilië)"
-          }
-        }
-      }
-    },
-    "Portuguese (Portugal)" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Portugiesisch (Portugal)"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Portugais (Portugal)"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Portugees (Portugal)"
-          }
-        }
-      }
-    },
-    "Romanian" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rumänisch"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Roumain"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Roemeen"
-          }
-        }
-      }
-    },
-    "Russian" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Russisch"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Russe"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Russisch"
-          }
-        }
-      }
-    },
-    "Save" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sparen"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Économiser"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Opslaan"
-          }
-        }
-      }
-    },
-    "Settings" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Einstellungen"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Paramètres"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Instellingen"
-          }
-        }
-      }
-    },
-    "Slovak" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Slowakisch"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Slovaque"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Slowaak"
-          }
-        }
-      }
-    },
-    "Slovene" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Slowenisch"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Slovène"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sloveen"
+            "value" : "Deutsch"
           }
         }
       }
@@ -757,182 +450,22 @@
             "value" : "Ausgangssprache"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Langue source"
-          }
-        },
         "nl" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "Brontaal"
-          }
-        }
-      }
-    },
-    "Spanish" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Spanisch"
+            "value" : "Brontaal",
+            "state" : "translated"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Espagnol"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Spaans"
-          }
-        }
-      }
-    },
-    "Status: %@." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Status: %@."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Statut : %@."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Status: %@."
-          }
-        }
-      }
-    },
-    "Swedish" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Schwedisch"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Suédois"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zweeds"
-          }
-        }
-      }
-    },
-    "Target Language" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Objektsprache"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Langue cible"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Doeltaal"
-          }
-        }
-      }
-    },
-    "Test Mode" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Testmodus"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mode Test"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Testmodus"
-          }
-        }
-      }
-    },
-    "Thai" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Thailänder"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Thaï"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Thai"
-          }
-        }
-      }
-    },
-    "This is the state which is saved in the strings file." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dies ist der Zustand, der in der Zeichenfolgendatei gespeichert ist."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "C'est l'état qui est enregistré dans le fichier de chaînes."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dit is de status die is opgeslagen in het strings-bestand."
+            "value" : "Langue source"
           }
         }
       }
     },
     "Translate" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Übersetzen"
-          }
-        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -941,102 +474,14 @@
         },
         "nl" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vertalen"
+            "value" : "Vertalen",
+            "state" : "translated"
           }
-        }
-      }
-    },
-    "Translated: %lld/%lld" : {
-      "localizations" : {
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Übersetzt: %lld/%lld"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Translated: %1$lld/%2$lld"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Traduit : %lld/%lld"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vertaald: %lld/%lld"
-          }
-        }
-      }
-    },
-    "Translation state" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Übersetzungszustand"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "État de traduction"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vertaalstatus"
-          }
-        }
-      }
-    },
-    "Turkish" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Türkisch"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Turc"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Turks"
-          }
-        }
-      }
-    },
-    "Vietnamese" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vietnamesisch"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vietnamien"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vietnamees"
+            "value" : "Übersetzen"
           }
         }
       }
@@ -1063,6 +508,182 @@
         }
       }
     },
+    "English (US)" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Engels (VS)"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Englisch (US)"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anglais (États-Unis)"
+          }
+        }
+      }
+    },
+    "Czech" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tschechisch"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "value" : "Tsjech",
+            "state" : "translated"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tchèque"
+          }
+        }
+      }
+    },
+    "Polish" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hochglanz"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Polir"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Polijsten"
+          }
+        }
+      }
+    },
+    "Close" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fermer"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sluiten"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ende"
+          }
+        }
+      }
+    },
+    "Translation state" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "État de traduction"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Übersetzungszustand"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "value" : "Vertaalstatus",
+            "state" : "translated"
+          }
+        }
+      }
+    },
+    "Turkish" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Türkisch"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turks"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turc"
+          }
+        }
+      }
+    },
+    "Bulgarian" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bulgare"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "value" : "Bulgaars",
+            "state" : "translated"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bulgare"
+          }
+        }
+      }
+    },
+    "Hindi" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hindi"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "value" : "Hindi",
+            "state" : "translated"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hindi"
+          }
+        }
+      }
+    },
     "xcstrings Translator" : {
       "localizations" : {
         "de" : {
@@ -1084,7 +705,386 @@
           }
         }
       }
+    },
+    "Croatian" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kroatisch"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kroatisch"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Croate"
+          }
+        }
+      }
+    },
+    "Portuguese (Portugal)" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Portugais (Portugal)"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Portugees (Portugal)"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Portugiesisch (Portugal)"
+          }
+        }
+      }
+    },
+    "Thai" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "value" : "Thai",
+            "state" : "translated"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thaï"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thailänder"
+          }
+        }
+      }
+    },
+    "Finnish" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finnisch"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finnois"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fins"
+          }
+        }
+      }
+    },
+    "Arabic" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arabe"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "value" : "Arabisch",
+            "state" : "translated"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arabisch"
+          }
+        }
+      }
+    },
+    "Korean" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coréen"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Koreanisch"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Koreaans"
+          }
+        }
+      }
+    },
+    "Target Language" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "value" : "Doeltaal",
+            "state" : "translated"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Objektsprache"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Langue cible"
+          }
+        }
+      }
+    },
+    "English (British)" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Englisch (Britisch)"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "value" : "Engels (Brits)",
+            "state" : "translated"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anglais (britannique)"
+          }
+        }
+      }
+    },
+    "Test Mode" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Testmodus"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Testmodus"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mode Test"
+          }
+        }
+      }
+    },
+    "Open" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvert"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Außen"
+          }
+        }
+      }
+    },
+    "Vietnamese" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vietnamien"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vietnamesisch"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "value" : "Vietnamees",
+            "state" : "translated"
+          }
+        }
+      }
+    },
+    "Norwegian" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Norwegisch"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Norvégien"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "value" : "Noors",
+            "state" : "translated"
+          }
+        }
+      }
+    },
+    "Romanian" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Roemeen"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rumänisch"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Roumain"
+          }
+        }
+      }
+    },
+    "French" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Français"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Franzose"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Frans"
+          }
+        }
+      }
+    },
+    "Translated: %lld\/%lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Translated: %1$lld\/%2$lld"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Traduit : %lld\/%lld"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Übersetzt: %lld\/%lld"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vertaald: %lld\/%lld"
+          }
+        }
+      }
+    },
+    "Slovak" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Slowaak"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Slovaque"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Slowakisch"
+          }
+        }
+      }
+    },
+    "Does not overwrite the original strings file." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "N'écrase pas le fichier de chaînes d'origine."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "value" : "Overschrijft het originele stringbestand niet.",
+            "state" : "translated"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Überschreibt nicht die ursprüngliche Zeichenfolgendatei."
+          }
+        }
+      }
     }
-  },
-  "version" : "1.0"
+  }
 }

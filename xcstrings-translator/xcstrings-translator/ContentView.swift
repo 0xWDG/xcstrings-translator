@@ -24,8 +24,8 @@ struct ContentView: View {
     @State var supportedLanguages: [Locale.Language] = []
     @State var translationSession: TranslationSession?
     @State var status: String = "Idle"
-
     @State var settingsOpened = false
+    @State var exportFile = false
 
     // MARK: Filepicker
     @State var filePickerOpen = false
@@ -106,7 +106,8 @@ struct ContentView: View {
 //                .disabled(languageParser.stringsToTranslate.isEmpty)
 
                 Button("Save", systemImage: "square.and.arrow.up") {
-                    languageParser.save()
+                    exportFile.toggle()
+//                    languageParser.save()
                 }
                 .keyboardShortcut("s", modifiers: .command)
                 .disabled(
@@ -126,6 +127,12 @@ struct ContentView: View {
         .filePicker(
             isPresented: $filePickerOpen,
             files: $filePickerFiles,
+            types: [.init(filenameExtension: "xcstrings")!] // swiftlint:disable:this force_unwrapping
+        )
+        .filePicker(
+            isPresented: $exportFile,
+            fileName: "Localizable.strings",
+            data: languageParser.data,
             types: [.init(filenameExtension: "xcstrings")!] // swiftlint:disable:this force_unwrapping
         )
         .sheet(isPresented: $settingsOpened) {

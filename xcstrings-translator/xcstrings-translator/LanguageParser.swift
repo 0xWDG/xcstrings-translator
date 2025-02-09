@@ -9,6 +9,7 @@ import Foundation
 import OSLog
 import Translation
 import SwiftUI
+import UniformTypeIdentifiers
 
 class LanguageParser: ObservableObject {
     public enum LPState: String, CaseIterable, Identifiable {
@@ -192,5 +193,13 @@ class LanguageParser: ObservableObject {
                 shouldTranslate.append(value["shouldTranslate"] as? Bool ?? true)
             }
         }
+    }
+
+    var data: Data {
+        try! JSONSerialization.data(
+            // swiftlint:disable:previous force_try
+            withJSONObject: languageDictionary,
+            options: .prettyPrinted
+        )
     }
 }
