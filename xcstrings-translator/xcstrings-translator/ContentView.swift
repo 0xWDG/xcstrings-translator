@@ -59,13 +59,6 @@ struct ContentView: View {
                     }
                 }
                 .frame(maxWidth: 300)
-                Picker("state", selection: $languageParser.state) {
-                    ForEach(LanguageParser.LPState.allCases, id: \.rawValue) { state in
-                        Text(state.humanReadableName)
-                            .tag(state)
-                    }
-                }
-                .frame(maxWidth: 150)
                 Button("Translate", systemImage: "translate") {
                     translate()
                 }
