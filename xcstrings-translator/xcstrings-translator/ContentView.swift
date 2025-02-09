@@ -65,6 +65,7 @@ struct ContentView: View {
                         Text("Translate")
                     }
                 }
+                .keyboardShortcut("t", modifiers: .command)
                 .disabled(
                     translationSession == nil ||
                     languageParser.stringsToTranslate.isEmpty
@@ -93,16 +94,19 @@ struct ContentView: View {
                 Button("Open", systemImage: "square.and.arrow.down") {
                     filePickerOpen.toggle()
                 }
+                .keyboardShortcut("o", modifiers: .command)
 
                 Button("Reload", systemImage: "arrow.clockwise.circle") {
                     status = "Idle"
                     translatedStrings = [:]
                 }
+                .keyboardShortcut("r", modifiers: .command)
                 .disabled(languageParser.stringsToTranslate.isEmpty)
 
                 Button("Save", systemImage: "square.and.arrow.up") {
                     languageParser.save()
                 }
+                .keyboardShortcut("s", modifiers: .command)
                 .disabled(
                     languageParser.stringsToTranslate.isEmpty ||
                     translatedStrings.count != languageParser.stringsToTranslate.count
@@ -114,6 +118,8 @@ struct ContentView: View {
             supportedLanguages = await LanguageAvailability().supportedLanguages
             destinationLanguage = supportedLanguages.first(where: { $0.languageCode == "nl" })
             sourceLanguage = supportedLanguages.first(where: { $0.languageCode == "en" })
+
+            dump(supportedLanguages)
         }
         .filePicker(
             isPresented: $filePickerOpen,

@@ -9,18 +9,6 @@ import Foundation
 import OSLog
 import Translation
 
-struct LanguageItem: Codable {
-    var base: String
-
-    // ISO Languages
-    // swiftlint:disable identifier_name
-    var nl: String
-    var en: String
-    var fr: String
-    var de: String
-    // swiftlint:enable identifier_name
-}
-
 class LanguageParser: ObservableObject {
     private let logger = Logger(
         subsystem: "nl.wesleydegroot.xcstrings-translator",
@@ -34,7 +22,17 @@ class LanguageParser: ObservableObject {
     @Published var fileURL: URL?
     private var isTesting = true
 
+    func reset() {
+        languageDictionary = [:]
+        stringsToTranslate = []
+        shouldTranslate = []
+        sourceLanguage = "en"
+        fileURL = nil
+    }
+
     func load(file url: URL) {
+        reset()
+
         fileURL = url
 
         do {
@@ -102,8 +100,6 @@ class LanguageParser: ObservableObject {
         }
     }
 
-    // TODO: This actually does not mutate the languageDictionary.
-    // Also saving `languageDictionary["strings"] = strings` does not make any difference
     func add(translation: String, forLanguage: String, original: String) {
         if var strings = languageDictionary["strings"] as? [String: Any],
            var item = strings[original] as? [String: Any] {
@@ -115,6 +111,8 @@ class LanguageParser: ObservableObject {
                     "Updated \(forLanguage) with \(original) with \(translation)"
                 )
                 localizations[forLanguage] = ["stringUnit": ["state": "needs_review", "value": translation]]
+
+                // https://mastodon.social/@zhenyi/113969196950076700
                 item["localizations"] = localizations
                 strings[original] = item
                 languageDictionary["strings"] = strings
@@ -124,6 +122,8 @@ class LanguageParser: ObservableObject {
                     "Created localizations: \(forLanguage) for \(original) with \(translation)"
                 )
                 item["localizations"] = [forLanguage: ["stringUnit": ["state": "needs_review", "value": translation]]]
+
+                // https://mastodon.social/@zhenyi/113969196950076700
                 strings[original] = item
                 languageDictionary["strings"] = strings
                 return

@@ -1,182 +1,12 @@
 {
-  "sourceLanguage" : "en",
+  "version" : "1.0",
   "strings" : {
-    "Arabic" : {
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Arabisch"
-          }
-        }
-      }
-    },
-    "Bulgarian" : {
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Bulgaars"
-          }
-        }
-      }
-    },
-    "Catalan" : {
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Catalaans"
-          }
-        }
-      }
-    },
-    "Chinese" : {
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Chinees"
-          }
-        }
-      }
-    },
-    "Croatian" : {
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Kroatisch"
-          }
-        }
-      }
-    },
-    "Czech" : {
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Tsjech"
-          }
-        }
-      }
-    },
-    "Danish" : {
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Deens"
-          }
-        }
-      }
-    },
-    "Dutch" : {
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nederlands"
-          }
-        }
-      }
-    },
-    "English" : {
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Engels"
-          }
-        }
-      }
-    },
     "English (British)" : {
       "localizations" : {
         "nl" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "Engels (Brits)"
-          }
-        }
-      }
-    },
-    "English (US)" : {
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Engels (VS)"
-          }
-        }
-      }
-    },
-    "Finnish" : {
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fins"
-          }
-        }
-      }
-    },
-    "French" : {
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Frans"
-          }
-        }
-      }
-    },
-    "German" : {
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Duits"
-          }
-        }
-      }
-    },
-    "Greek" : {
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Grieks"
-          }
-        }
-      }
-    },
-    "Hindi" : {
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hindi"
-          }
-        }
-      }
-    },
-    "Hungarian" : {
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Hongaars"
-          }
-        }
-      }
-    },
-    "Indonesian" : {
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Indonesisch"
+            "value" : "Engels (Brits)",
+            "state" : "needs_review"
           }
         }
       }
@@ -191,129 +21,22 @@
         }
       }
     },
-    "Japanese" : {
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Japans"
-          }
-        }
-      }
-    },
-    "Key" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Key"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Sleutel"
-          }
-        }
-      }
-    },
-    "Korean" : {
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Koreaans"
-          }
-        }
-      }
-    },
-    "Norwegian" : {
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Noors"
-          }
-        }
-      }
-    },
-    "Open" : {
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Open"
-          }
-        }
-      }
-    },
-    "Polish" : {
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Polijsten"
-          }
-        }
-      }
-    },
     "Portuguese (Brazil)" : {
       "localizations" : {
         "nl" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Portugees (Brazilië)"
           }
         }
       }
     },
-    "Portuguese (Portugal)" : {
+    "Danish" : {
       "localizations" : {
         "nl" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "Portugees (Portugal)"
-          }
-        }
-      }
-    },
-    "Reload" : {
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Opnieuw laden"
-          }
-        }
-      }
-    },
-    "Romanian" : {
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Roemeen"
-          }
-        }
-      }
-    },
-    "Russian" : {
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Russisch"
-          }
-        }
-      }
-    },
-    "Save" : {
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Opslaan"
+            "value" : "Deens",
+            "state" : "needs_review"
           }
         }
       }
@@ -328,108 +51,22 @@
         }
       }
     },
-    "Slovene" : {
+    "Bulgarian" : {
       "localizations" : {
         "nl" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sloveen"
+            "value" : "Bulgaars",
+            "state" : "needs_review"
           }
         }
       }
     },
-    "Source Language" : {
+    "Romanian" : {
       "localizations" : {
         "nl" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Brontaal"
-          }
-        }
-      }
-    },
-    "Spanish" : {
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Spaans"
-          }
-        }
-      }
-    },
-    "Status: %@." : {
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Status: %@."
-          }
-        }
-      }
-    },
-    "Swedish" : {
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Zweeds"
-          }
-        }
-      }
-    },
-    "Target Language" : {
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Doeltaal"
-          }
-        }
-      }
-    },
-    "Thai" : {
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Thai"
-          }
-        }
-      }
-    },
-    "Translate" : {
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Vertalen"
-          }
-        }
-      }
-    },
-    "Translated: %lld/%lld" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Translated: %1$lld/%2$lld"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Vertaald: %lld/%lld"
-          }
-        }
-      }
-    },
-    "Turkish" : {
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Turks"
+            "value" : "Roemeen"
           }
         }
       }
@@ -444,19 +81,379 @@
         }
       }
     },
-    "xcstrings translator" : {
-
-    },
     "xcstrings Translator" : {
       "localizations" : {
         "nl" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Xcstrings Vertaler"
+          }
+        }
+      }
+    },
+    "English" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Engels"
+          }
+        }
+      }
+    },
+    "Swedish" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Zweeds"
+          }
+        }
+      }
+    },
+    "Reload" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Opnieuw laden"
+          }
+        }
+      }
+    },
+    "Czech" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Tsjech"
+          }
+        }
+      }
+    },
+    "Key" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Sleutel"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Key"
+          }
+        }
+      }
+    },
+    "Spanish" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "value" : "Spaans",
+            "state" : "needs_review"
+          }
+        }
+      }
+    },
+    "Translate" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Vertalen"
+          }
+        }
+      }
+    },
+    "Korean" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Koreaans"
+          }
+        }
+      }
+    },
+    "Source Language" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "value" : "Brontaal",
+            "state" : "needs_review"
+          }
+        }
+      }
+    },
+    "Dutch" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Nederlands"
+          }
+        }
+      }
+    },
+    "Thai" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "value" : "Thai",
+            "state" : "needs_review"
+          }
+        }
+      }
+    },
+    "English (US)" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Engels (VS)"
+          }
+        }
+      }
+    },
+    "Hindi" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Hindi"
+          }
+        }
+      }
+    },
+    "French" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "value" : "Frans",
+            "state" : "needs_review"
+          }
+        }
+      }
+    },
+    "Catalan" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Catalaans"
+          }
+        }
+      }
+    },
+    "Greek" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Grieks"
+          }
+        }
+      }
+    },
+    "Translated: %lld\/%lld" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "value" : "Vertaald: %lld\/%lld",
+            "state" : "needs_review"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Translated: %1$lld\/%2$lld"
+          }
+        }
+      }
+    },
+    "Open" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "value" : "Open",
+            "state" : "needs_review"
+          }
+        }
+      }
+    },
+    "Russian" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "value" : "Russisch",
+            "state" : "needs_review"
+          }
+        }
+      }
+    },
+    "Japanese" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "value" : "Japans",
+            "state" : "needs_review"
+          }
+        }
+      }
+    },
+    "Polish" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "value" : "Polijsten",
+            "state" : "needs_review"
+          }
+        }
+      }
+    },
+    "Portuguese (Portugal)" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Portugees (Portugal)"
+          }
+        }
+      }
+    },
+    "Chinese" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "value" : "Chinees",
+            "state" : "needs_review"
+          }
+        }
+      }
+    },
+    "Turkish" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "value" : "Turks",
+            "state" : "needs_review"
+          }
+        }
+      }
+    },
+    "Hungarian" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Hongaars"
+          }
+        }
+      }
+    },
+    "Status: %@." : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Status: %@."
+          }
+        }
+      }
+    },
+    "Finnish" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "value" : "Fins",
+            "state" : "needs_review"
+          }
+        }
+      }
+    },
+    "German" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Duits"
+          }
+        }
+      }
+    },
+    "Target Language" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Doeltaal"
+          }
+        }
+      }
+    },
+    "Save" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Opslaan"
+          }
+        }
+      }
+    },
+    "Croatian" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "value" : "Kroatisch",
+            "state" : "needs_review"
+          }
+        }
+      }
+    },
+    "Arabic" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "value" : "Arabisch",
+            "state" : "needs_review"
+          }
+        }
+      }
+    },
+    "Norwegian" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Noors"
+          }
+        }
+      }
+    },
+    "Slovene" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Sloveen"
+          }
+        }
+      }
+    },
+    "Indonesian" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Indonesisch"
           }
         }
       }
     }
   },
-  "version" : "1.0"
+  "sourceLanguage" : "en"
 }

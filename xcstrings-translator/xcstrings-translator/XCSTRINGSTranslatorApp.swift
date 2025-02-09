@@ -9,10 +9,8 @@ import SwiftUI
 
 @main
 struct XCSTRINGSTranslatorApp: App {
-    @Environment(\.openWindow) private var openWindow
-
     var body: some Scene {
-        WindowGroup {
+        Window("xcstrings translator", id: "main") {
             ContentView()
                 .toolbarBackground(.hidden, for: .windowToolbar)
                 .containerBackground(.ultraThinMaterial, for: .window)
