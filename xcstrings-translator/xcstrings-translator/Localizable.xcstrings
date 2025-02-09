@@ -74,7 +74,7 @@
         }
       }
     },
-    "Does not override the original strings file." : {
+    "Does not overwrite the original strings file." : {
 
     },
     "Dutch" : {

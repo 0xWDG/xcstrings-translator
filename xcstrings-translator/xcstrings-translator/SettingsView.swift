@@ -51,6 +51,8 @@ struct SettingsView: View {
 }
 
 #Preview {
-    SettingsView()
-        .environmentObject(LanguageParser())
+    NavigationStack {
+        SettingsView()
+            .environmentObject(LanguageParser())
+    }
 }
