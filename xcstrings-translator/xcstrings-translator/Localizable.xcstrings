@@ -1,25 +1,6 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "%@ version: %@, build: %@" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "%1$@ version: %2$@, build: %3$@"
-          }
-        }
-      }
-    },
-    "About" : {
-
-    },
-    "About the developer" : {
-
-    },
-    "Application" : {
-
-    },
     "Arabic" : {
       "localizations" : {
         "nl" : {
@@ -29,9 +10,6 @@
           }
         }
       }
-    },
-    "Bluesky" : {
-
     },
     "Bulgarian" : {
       "localizations" : {
@@ -53,9 +31,6 @@
         }
       }
     },
-    "Changelog" : {
-
-    },
     "Chinese" : {
       "localizations" : {
         "nl" : {
@@ -66,7 +41,7 @@
         }
       }
     },
-    "Created by [Wesley de Groot](https://wesleydegroot.nl)" : {
+    "Close" : {
 
     },
     "Croatian" : {
@@ -98,6 +73,9 @@
           }
         }
       }
+    },
+    "Does not override the original strings file." : {
+
     },
     "Dutch" : {
       "localizations" : {
@@ -138,12 +116,6 @@
           }
         }
       }
-    },
-    "Feedback" : {
-
-    },
-    "Fetching logs..." : {
-
     },
     "Finnish" : {
       "localizations" : {
@@ -262,12 +234,6 @@
         }
       }
     },
-    "Mastodon" : {
-
-    },
-    "More apps from the developer" : {
-
-    },
     "Norwegian" : {
       "localizations" : {
         "nl" : {
@@ -317,12 +283,6 @@
           }
         }
       }
-    },
-    "Privacy Policy" : {
-
-    },
-    "Rate the app" : {
-
     },
     "Reload" : {
       "localizations" : {
@@ -440,6 +400,9 @@
         }
       }
     },
+    "Test Mode" : {
+
+    },
     "Thai" : {
       "localizations" : {
         "nl" : {
@@ -449,6 +412,9 @@
           }
         }
       }
+    },
+    "This is the state which is saved in the strings file." : {
+
     },
     "Translate" : {
       "localizations" : {
@@ -498,9 +464,6 @@
           }
         }
       }
-    },
-    "𝕏/Twitter" : {
-
     },
     "xcstrings translator" : {
 

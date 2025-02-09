@@ -8,6 +8,7 @@
 import Foundation
 import OSLog
 import Translation
+import SwiftUI
 
 class LanguageParser: ObservableObject {
     public enum LPState: String, CaseIterable, Identifiable {
@@ -38,13 +39,24 @@ class LanguageParser: ObservableObject {
     @Published var fileURL: URL?
     @Published var state: LPState = .translated {
         didSet {
+            UserDefaults.standard.set(self.state.rawValue, forKey: "state")
             logger.debug("Updated translations state to \(self.state.humanReadableName)")
         }
     }
-    @Published private var isTesting = true {
+
+    @Published public var isTesting: Bool = false {
         didSet {
+            UserDefaults.standard.set(self.isTesting, forKey: "isTesting")
             logger.debug("Updated isTesting to \(self.isTesting ? "Testing" : "Not Testing")")
         }
+    }
+
+    init() {
+        isTesting = UserDefaults.standard.bool(forKey: "isTesting")
+        state = LPState(
+            rawValue: UserDefaults.standard
+                .string(forKey: "state") ?? "translated"
+        ) ?? .translated
     }
 
     func reset() {

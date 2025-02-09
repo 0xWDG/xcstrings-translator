@@ -18,16 +18,35 @@ struct SettingsView: View {
         SESettingsView(_changeLog: [
             .init(version: "0.0.1", text: "Initial release")
         ]) {
-            Section("Settings") {
-                Picker("Translation state", selection: $languageParser.state) {
+            Section {
+                Picker(selection: $languageParser.state, content: {
                     ForEach(LanguageParser.LPState.allCases, id: \.rawValue) { state in
                         Text(state.humanReadableName)
                             .tag(state)
                     }
-                }
+                }, label: {
+                    Text("Translation state")
+                    Text("This is the state which is saved in the strings file.")
+                        .font(.caption)
+                })
                 .pickerStyle(.segmented)
+
+                Toggle(isOn: $languageParser.isTesting) {
+                    Text("Test Mode")
+                    Text("Does not overwrite the original strings file.")
+                        .font(.caption)
+                }
+                .toggleStyle(.switch)
+            } header: {
+                Label("Settings", systemImage: "gear")
             }
         }
+        .toolbar {
+            Button("Close") {
+                dismiss()
+            }
+        }
+        .frame(minWidth: 500, minHeight: 500)
     }
 }
 
