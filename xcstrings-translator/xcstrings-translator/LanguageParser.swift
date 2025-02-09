@@ -115,6 +115,8 @@ class LanguageParser: ObservableObject {
                     "Updated \(forLanguage) with \(original) with \(translation)"
                 )
                 localizations[forLanguage] = ["stringUnit": ["state": "needs_review", "value": translation]]
+                item["localizations"] = localizations
+                strings[original] = item
                 languageDictionary["strings"] = strings
                 return
             } else {
@@ -122,6 +124,7 @@ class LanguageParser: ObservableObject {
                     "Created localizations: \(forLanguage) for \(original) with \(translation)"
                 )
                 item["localizations"] = [forLanguage: ["stringUnit": ["state": "needs_review", "value": translation]]]
+                strings[original] = item
                 languageDictionary["strings"] = strings
                 return
             }
