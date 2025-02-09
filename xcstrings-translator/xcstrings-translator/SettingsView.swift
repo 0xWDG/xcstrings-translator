@@ -10,7 +10,6 @@ import OSLogViewer
 import StoreKit
 import SwiftExtras
 
-
 struct SettingsView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var languageParser: LanguageParser
