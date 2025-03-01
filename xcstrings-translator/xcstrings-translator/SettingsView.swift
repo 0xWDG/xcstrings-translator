@@ -41,7 +41,7 @@ struct SettingsView: View {
                 Label("Settings", systemImage: "gear")
             }
         } bottomContent: {
-            
+
         }
         .toolbar {
             Button("Close") {
