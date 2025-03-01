@@ -185,9 +185,6 @@ class LanguageParser: ObservableObject {
 
         if let strings = languageDictionary["strings"] as? [String: Any] {
             for (key, value) in strings where !key.isEmpty {
-                //                if let stringValue = value as? String {
-                //                    stringsToTranslate[key] = stringValue
-                //                }
                 guard let value = value as? [String: Any] else { continue }
                 stringsToTranslate.append(key)
                 shouldTranslate.append(value["shouldTranslate"] as? Bool ?? true)

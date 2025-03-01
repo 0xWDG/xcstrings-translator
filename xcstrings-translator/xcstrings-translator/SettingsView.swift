@@ -17,7 +17,7 @@ struct SettingsView: View {
     var body: some View {
         SESettingsView(_changeLog: [
             .init(version: "0.0.1", text: "Initial release")
-        ]) {
+        ], _acknowledgements: []) {
             Section {
                 Picker(selection: $languageParser.state, content: {
                     ForEach(LanguageParser.LPState.allCases, id: \.rawValue) { state in
@@ -40,6 +40,8 @@ struct SettingsView: View {
             } header: {
                 Label("Settings", systemImage: "gear")
             }
+        } bottomContent: {
+            
         }
         .toolbar {
             Button("Close") {
