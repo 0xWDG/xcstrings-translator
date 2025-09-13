@@ -17,7 +17,14 @@ struct SettingsView: View {
     var body: some View {
         SESettingsView(_changeLog: [
             .init(version: "0.0.1", text: "Initial release")
-        ], _acknowledgements: []) {
+        ], _acknowledgements: [
+            .init(
+                name: "FilePicker",
+                copyright: "Wesley de Groot",
+                licence: "MIT",
+                url: "https://github.com/0xWDG/FilePicker"
+            )
+        ]) {
             Section {
                 Picker(selection: $languageParser.state, content: {
                     ForEach(LanguageParser.LPState.allCases, id: \.rawValue) { state in
@@ -44,9 +51,9 @@ struct SettingsView: View {
 
         }
         .toolbar {
-            Button("Close") {
-                dismiss()
-            }
+                Button("Close") {
+                    dismiss()
+                }
         }
         .frame(minWidth: 500, minHeight: 500)
     }
