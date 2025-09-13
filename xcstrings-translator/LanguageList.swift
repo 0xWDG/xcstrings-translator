@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import SwiftUICore
+import SwiftUI
 
 class LanguageList {
     struct Language {
@@ -46,6 +46,12 @@ class LanguageList {
             name: NSLocalizedString("Spanish", comment: ""),
             localizedName: "Español",
             flag: "🇪🇸"
+        ),
+        .init(
+            identifier: "pt",
+            name: NSLocalizedString("Portuguese (Portugal)", comment: ""),
+            localizedName: "Português",
+            flag: "🇵🇹"
         ),
         .init(
             identifier: "pt-PT",

@@ -18,7 +18,7 @@ class LanguageParser: ObservableObject {
 
         var id: String { return self.rawValue }
 
-        var humanReadableName: String {
+        var humanReadableName: LocalizedStringKey {
             switch self {
             case .translated:
                 return "Translated"
@@ -41,7 +41,7 @@ class LanguageParser: ObservableObject {
     @Published var state: LPState = .translated {
         didSet {
             UserDefaults.standard.set(self.state.rawValue, forKey: "state")
-            logger.debug("Updated translations state to \(self.state.humanReadableName)")
+            logger.debug("Updated translations state to \(self.state.humanReadableName.stringValue)")
         }
     }
 
