@@ -75,8 +75,6 @@ struct ContentView: View {
                             string,
                             value: translatedStrings[string] ?? ""
                         )
-                        // if !shouldTranslate {
-                        // }
                     }
                 }
             }
@@ -107,7 +105,6 @@ struct ContentView: View {
 
                 Button("Save", systemImage: "square.and.arrow.up") {
                     exportFile.toggle()
-//                    languageParser.save()
                 }
                 .keyboardShortcut("s", modifiers: .command)
                 .disabled(
