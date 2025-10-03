@@ -31,7 +31,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		2B6B08282DB4231700AD14E6 /* SwiftExtras */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = SwiftExtras; path = /Users/wesley/Developer/Frameworks/SwiftExtras; sourceTree = "<absolute>"; };
 		2B7646FE2D4D12AD00C22D54 /* xcstrings-translator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "xcstrings-translator.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B76470F2D4D12AE00C22D54 /* xcstrings-translatorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "xcstrings-translatorTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B7647192D4D12AE00C22D54 /* xcstrings-translatorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "xcstrings-translatorUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -88,7 +87,6 @@
 		2B7646F52D4D12AD00C22D54 = {
 			isa = PBXGroup;
 			children = (
-				2B6B08282DB4231700AD14E6 /* SwiftExtras */,
 				2B7647CB2D4D4DA500C22D54 /* FilePicker */,
 				2B7647002D4D12AD00C22D54 /* xcstrings-translator */,
 				2B7647122D4D12AE00C22D54 /* xcstrings-translatorTests */,
@@ -605,8 +603,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/0xWDG/SwiftExtras.git";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.0.5;
+				kind = revision;
+				revision = 406ea1a1de596c18989b20481f480b76bb0df146;
 			};
 		};
 		2B86937F2D58D4360022617A /* XCRemoteSwiftPackageReference "OSLogViewer" */ = {
