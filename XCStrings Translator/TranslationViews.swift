@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftExtras
 
 struct TranslationHeaderView: View {
     @Binding var sourceLanguage: Locale.Language?
@@ -60,31 +61,15 @@ struct TranslationHeaderView: View {
             .accessibilityLabel("Target language")
             .accessibilityHint("Choose one target language or all languages available on this Mac.")
 
-            HStack(spacing: 4) {
-                Button("Translate", systemImage: "translate") {
-                    translate()
-                }
-                .buttonStyle(.borderedProminent)
-                .keyboardShortcut("t", modifiers: .command)
-                .accessibilityHint("Starts translating the loaded string catalog.")
-                .accessibilityIdentifier("translateButton")
-
-                Menu {
-                    Button("Overwrite All Translations", systemImage: "arrow.triangle.2.circlepath") {
-                        translateOverwritingExisting()
-                    }
-                    .accessibilityHint("Translates every string again and replaces existing target translations.")
-                    .accessibilityIdentifier("overwriteTranslationsButton")
-                } label: {
-                    Image(systemName: "chevron.down")
-                        .accessibilityHidden(true)
-                }
-                .menuStyle(.button)
-                .fixedSize()
-                .accessibilityLabel("More translation options")
-                .accessibilityHint("Shows additional translation actions.")
-                .accessibilityIdentifier("translateOptionsMenu")
-            }
+            SplitActionButton(
+                primaryTitle: "Translate",
+                primarySystemImage: "translate",
+                secondaryTitle: "Overwrite All Translations",
+                secondarySystemImage: "arrow.triangle.2.circlepath",
+                primaryAction: translate,
+                secondaryAction: translateOverwritingExisting
+            )
+            .fixedSize()
             .disabled(!canTranslate)
         }
         .padding(18)
@@ -92,4 +77,21 @@ struct TranslationHeaderView: View {
         .background(.thinMaterial)
         .clipShape(RoundedRectangle(cornerRadius: 8))
     }
+}
+
+#Preview {
+    TranslationHeaderView(
+        sourceLanguage: .constant(.some(.init(identifier: "en"))),
+        destinationSelection: .constant(.some(.allAvailable)),
+        sourceLanguages: [.init(identifier: "en")],
+        targetLanguages: [.init(identifier: "nl")],
+        isTranslating: false,
+        canTranslate: true) { x in
+            return .localizedName(of: .ascii)
+        } translate: {
+            //
+        } translateOverwritingExisting: {
+            //
+        }
+
 }

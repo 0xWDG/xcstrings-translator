@@ -535,7 +535,7 @@
 			repositoryURL = "https://github.com/0xWDG/SwiftExtras.git";
 			requirement = {
 				kind = revision;
-				revision = e718bed9ee3aac4c9563da22b98a1fac48feb8e0;
+				revision = 8453323e40392eed8fbbdb821a2d288fb08ea027;
 			};
 		};
 		2B86937F2D58D4360022617A /* XCRemoteSwiftPackageReference "OSLogViewer" */ = {
