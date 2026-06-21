@@ -11,6 +11,7 @@ import FilePicker
 import OSLog
 import Foundation
 import UniformTypeIdentifiers
+import Combine
 
 enum TranslationTargetSelection: Hashable {
     case language(Locale.Language)

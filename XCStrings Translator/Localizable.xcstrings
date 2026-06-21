@@ -7273,6 +7273,9 @@
     "Make XCStrings translator the default app?" : {
 
     },
+    "More translation options" : {
+
+    },
     "Needs review" : {
       "localizations" : {
         "ar" : {
@@ -8314,6 +8317,9 @@
 
     },
     "Opens translation settings." : {
+
+    },
+    "Overwrite All Translations" : {
 
     },
     "Polish" : {
@@ -10359,6 +10365,9 @@
           }
         }
       }
+    },
+    "Shows additional translation actions." : {
+
     },
     "Shows how much of the current translation run is complete." : {
 
@@ -14361,6 +14370,9 @@
           }
         }
       }
+    },
+    "Translates every string again and replaces existing target translations." : {
+
     },
     "Translation" : {
       "localizations" : {
