@@ -5,13 +5,13 @@ The tool is written in Swift and uses the Apple's Translate framework to transla
 
 ## Limitations/TODO
 
-- Translate in _all_ supported languages with one button.
 - Skip string if it's already translated.
 - Skip strings marked with `shouldTranslate: false`.
 
 ## Finished
 
 - Input language detection.
+- Translate in _all_ supported languages with one button.
 - Translate to a specific language.
 - Save translated strings to the input file.
 - Save translated strings to a new file. (only if _test mode_ is enabled)

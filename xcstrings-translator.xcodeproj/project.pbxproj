@@ -7,9 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2B2C31742D4E6E5E001F4259 /* FilePicker in Frameworks */ = {isa = PBXBuildFile; productRef = 2B2C31732D4E6E5E001F4259 /* FilePicker */; };
+		2B56EDD02F65C55A0019342C /* FilePicker in Frameworks */ = {isa = PBXBuildFile; productRef = 2B56EDCF2F65C55A0019342C /* FilePicker */; };
 		2B63257F2D4E6E340082D4F2 /* SwiftExtras in Frameworks */ = {isa = PBXBuildFile; productRef = 2B63257E2D4E6E340082D4F2 /* SwiftExtras */; };
-		2B7647CE2D4D4DAD00C22D54 /* FilePicker in Frameworks */ = {isa = PBXBuildFile; productRef = 2B7647CD2D4D4DAD00C22D54 /* FilePicker */; };
 		2B8693812D58D4360022617A /* OSLogViewer in Frameworks */ = {isa = PBXBuildFile; productRef = 2B8693802D58D4360022617A /* OSLogViewer */; };
 /* End PBXBuildFile section */
 
@@ -21,36 +20,35 @@
 			remoteGlobalIDString = 2B7646FD2D4D12AD00C22D54;
 			remoteInfo = "xcstrings-translator";
 		};
-		2B76471A2D4D12AE00C22D54 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2B7646F62D4D12AD00C22D54 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 2B7646FD2D4D12AD00C22D54;
-			remoteInfo = "xcstrings-translator";
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		2B7646FE2D4D12AD00C22D54 /* xcstrings-translator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "xcstrings-translator.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B76470F2D4D12AE00C22D54 /* xcstrings-translatorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "xcstrings-translatorTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		2B7647192D4D12AE00C22D54 /* xcstrings-translatorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "xcstrings-translatorUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		2B7647CB2D4D4DA500C22D54 /* FilePicker */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = FilePicker; path = /Users/wesley/Developer/Frameworks/FilePicker; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		2B0ECC282FE810E6000D6525 /* Exceptions for "xcstrings-translator" folder in "xcstrings-translator" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 2B7646FD2D4D12AD00C22D54 /* xcstrings-translator */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		2B7647002D4D12AD00C22D54 /* xcstrings-translator */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				2B0ECC282FE810E6000D6525 /* Exceptions for "xcstrings-translator" folder in "xcstrings-translator" target */,
+			);
 			path = "xcstrings-translator";
 			sourceTree = "<group>";
 		};
 		2B7647122D4D12AE00C22D54 /* xcstrings-translatorTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "xcstrings-translatorTests";
-			sourceTree = "<group>";
-		};
-		2B76471C2D4D12AE00C22D54 /* xcstrings-translatorUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "xcstrings-translatorUITests";
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -60,21 +58,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2B2C31742D4E6E5E001F4259 /* FilePicker in Frameworks */,
+				2B56EDD02F65C55A0019342C /* FilePicker in Frameworks */,
 				2B8693812D58D4360022617A /* OSLogViewer in Frameworks */,
-				2B7647CE2D4D4DAD00C22D54 /* FilePicker in Frameworks */,
 				2B63257F2D4E6E340082D4F2 /* SwiftExtras in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		2B76470C2D4D12AE00C22D54 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		2B7647162D4D12AE00C22D54 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -87,10 +77,8 @@
 		2B7646F52D4D12AD00C22D54 = {
 			isa = PBXGroup;
 			children = (
-				2B7647CB2D4D4DA500C22D54 /* FilePicker */,
 				2B7647002D4D12AD00C22D54 /* xcstrings-translator */,
 				2B7647122D4D12AE00C22D54 /* xcstrings-translatorTests */,
-				2B76471C2D4D12AE00C22D54 /* xcstrings-translatorUITests */,
 				2B7647CC2D4D4DAD00C22D54 /* Frameworks */,
 				2B7646FF2D4D12AD00C22D54 /* Products */,
 			);
@@ -101,7 +89,6 @@
 			children = (
 				2B7646FE2D4D12AD00C22D54 /* xcstrings-translator.app */,
 				2B76470F2D4D12AE00C22D54 /* xcstrings-translatorTests.xctest */,
-				2B7647192D4D12AE00C22D54 /* xcstrings-translatorUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -133,10 +120,9 @@
 			);
 			name = "xcstrings-translator";
 			packageProductDependencies = (
-				2B7647CD2D4D4DAD00C22D54 /* FilePicker */,
 				2B63257E2D4E6E340082D4F2 /* SwiftExtras */,
-				2B2C31732D4E6E5E001F4259 /* FilePicker */,
 				2B8693802D58D4360022617A /* OSLogViewer */,
+				2B56EDCF2F65C55A0019342C /* FilePicker */,
 			);
 			productName = "xcstrings-translator";
 			productReference = 2B7646FE2D4D12AD00C22D54 /* xcstrings-translator.app */;
@@ -165,29 +151,6 @@
 			productReference = 2B76470F2D4D12AE00C22D54 /* xcstrings-translatorTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		2B7647182D4D12AE00C22D54 /* xcstrings-translatorUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 2B7647292D4D12AE00C22D54 /* Build configuration list for PBXNativeTarget "xcstrings-translatorUITests" */;
-			buildPhases = (
-				2B7647152D4D12AE00C22D54 /* Sources */,
-				2B7647162D4D12AE00C22D54 /* Frameworks */,
-				2B7647172D4D12AE00C22D54 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				2B76471B2D4D12AE00C22D54 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				2B76471C2D4D12AE00C22D54 /* xcstrings-translatorUITests */,
-			);
-			name = "xcstrings-translatorUITests";
-			packageProductDependencies = (
-			);
-			productName = "xcstrings-translatorUITests";
-			productReference = 2B7647192D4D12AE00C22D54 /* xcstrings-translatorUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -196,16 +159,12 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1620;
-				LastUpgradeCheck = 1620;
+				LastUpgradeCheck = 2700;
 				TargetAttributes = {
 					2B7646FD2D4D12AD00C22D54 = {
 						CreatedOnToolsVersion = 16.2;
 					};
 					2B76470E2D4D12AE00C22D54 = {
-						CreatedOnToolsVersion = 16.2;
-						TestTargetID = 2B7646FD2D4D12AD00C22D54;
-					};
-					2B7647182D4D12AE00C22D54 = {
 						CreatedOnToolsVersion = 16.2;
 						TestTargetID = 2B7646FD2D4D12AD00C22D54;
 					};
@@ -226,8 +185,8 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				2B63257D2D4E6E340082D4F2 /* XCRemoteSwiftPackageReference "SwiftExtras" */,
-				2B2C31722D4E6E5E001F4259 /* XCRemoteSwiftPackageReference "FilePicker" */,
 				2B86937F2D58D4360022617A /* XCRemoteSwiftPackageReference "OSLogViewer" */,
+				2B56EDCE2F65C55A0019342C /* XCRemoteSwiftPackageReference "FilePicker" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 2B7646FF2D4D12AD00C22D54 /* Products */;
@@ -236,7 +195,6 @@
 			targets = (
 				2B7646FD2D4D12AD00C22D54 /* xcstrings-translator */,
 				2B76470E2D4D12AE00C22D54 /* xcstrings-translatorTests */,
-				2B7647182D4D12AE00C22D54 /* xcstrings-translatorUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -250,13 +208,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		2B76470D2D4D12AE00C22D54 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		2B7647172D4D12AE00C22D54 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -280,13 +231,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		2B7647152D4D12AE00C22D54 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -294,11 +238,6 @@
 			isa = PBXTargetDependency;
 			target = 2B7646FD2D4D12AD00C22D54 /* xcstrings-translator */;
 			targetProxy = 2B7647102D4D12AE00C22D54 /* PBXContainerItemProxy */;
-		};
-		2B76471B2D4D12AE00C22D54 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 2B7646FD2D4D12AD00C22D54 /* xcstrings-translator */;
-			targetProxy = 2B76471A2D4D12AE00C22D54 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -308,6 +247,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -337,7 +277,9 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 4V2D72S45C;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -361,6 +303,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -372,6 +315,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -401,7 +345,9 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 4V2D72S45C;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -418,6 +364,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 			};
@@ -433,12 +380,13 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"xcstrings-translator/Preview Content\"";
-				DEVELOPMENT_TEAM = 4V2D72S45C;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
-				ENABLE_USER_SELECTED_FILES = "";
+				ENABLE_USER_SELECTED_FILES = readwrite;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "xcstrings-translator/Info.plist";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -462,12 +410,13 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"xcstrings-translator/Preview Content\"";
-				DEVELOPMENT_TEAM = 4V2D72S45C;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
-				ENABLE_USER_SELECTED_FILES = "";
+				ENABLE_USER_SELECTED_FILES = readwrite;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "xcstrings-translator/Info.plist";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -487,7 +436,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 4V2D72S45C;
+				DEAD_CODE_STRIPPING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 15.2;
 				MARKETING_VERSION = 1.0;
@@ -505,7 +454,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 4V2D72S45C;
+				DEAD_CODE_STRIPPING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 15.2;
 				MARKETING_VERSION = 1.0;
@@ -514,38 +463,6 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/xcstrings-translator.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/xcstrings-translator";
-			};
-			name = Release;
-		};
-		2B76472A2D4D12AE00C22D54 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 4V2D72S45C;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "nl.wesleydegroot.xcstrings-translatorUITests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TEST_TARGET_NAME = "xcstrings-translator";
-			};
-			name = Debug;
-		};
-		2B76472B2D4D12AE00C22D54 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 4V2D72S45C;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "nl.wesleydegroot.xcstrings-translatorUITests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TEST_TARGET_NAME = "xcstrings-translator";
 			};
 			name = Release;
 		};
@@ -579,24 +496,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2B7647292D4D12AE00C22D54 /* Build configuration list for PBXNativeTarget "xcstrings-translatorUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				2B76472A2D4D12AE00C22D54 /* Debug */,
-				2B76472B2D4D12AE00C22D54 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		2B2C31722D4E6E5E001F4259 /* XCRemoteSwiftPackageReference "FilePicker" */ = {
+		2B56EDCE2F65C55A0019342C /* XCRemoteSwiftPackageReference "FilePicker" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/0xWDG/FilePicker";
+			repositoryURL = "https://github.com/0xWDG/FilePicker.git";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.0.1;
+				branch = main;
+				kind = branch;
 			};
 		};
 		2B63257D2D4E6E340082D4F2 /* XCRemoteSwiftPackageReference "SwiftExtras" */ = {
@@ -604,7 +512,7 @@
 			repositoryURL = "https://github.com/0xWDG/SwiftExtras.git";
 			requirement = {
 				kind = revision;
-				revision = 406ea1a1de596c18989b20481f480b76bb0df146;
+				revision = e718bed9ee3aac4c9563da22b98a1fac48feb8e0;
 			};
 		};
 		2B86937F2D58D4360022617A /* XCRemoteSwiftPackageReference "OSLogViewer" */ = {
@@ -618,19 +526,15 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		2B2C31732D4E6E5E001F4259 /* FilePicker */ = {
+		2B56EDCF2F65C55A0019342C /* FilePicker */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 2B2C31722D4E6E5E001F4259 /* XCRemoteSwiftPackageReference "FilePicker" */;
+			package = 2B56EDCE2F65C55A0019342C /* XCRemoteSwiftPackageReference "FilePicker" */;
 			productName = FilePicker;
 		};
 		2B63257E2D4E6E340082D4F2 /* SwiftExtras */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 2B63257D2D4E6E340082D4F2 /* XCRemoteSwiftPackageReference "SwiftExtras" */;
 			productName = SwiftExtras;
-		};
-		2B7647CD2D4D4DAD00C22D54 /* FilePicker */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = FilePicker;
 		};
 		2B8693802D58D4360022617A /* OSLogViewer */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -234,7 +234,14 @@ class LanguageList {
     }
 
     func language(for identifier: Locale.Language) -> Language? {
-        return languages
-            .first { $0.identifier == identifier.languageCode?.identifier }
+        if let exactLanguage = languages.first(where: {
+            $0.identifier == TranslationTargetsResolver.languageIdentifier(for: identifier)
+        }) {
+            return exactLanguage
+        }
+
+        return languages.first {
+            $0.identifier == identifier.languageCode?.identifier
+        }
     }
 }

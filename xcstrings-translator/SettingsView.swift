@@ -14,6 +14,9 @@ struct SettingsView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var languageParser: LanguageParser
 
+    let supportedLanguages: [Locale.Language]
+    let languageName: (Locale.Language) -> String?
+
     var body: some View {
         SESettingsView(_changeLog: [
             .init(version: "0.0.1", text: "Initial release")
@@ -38,6 +41,36 @@ struct SettingsView: View {
                 })
                 .pickerStyle(.segmented)
 
+                Picker(selection: $languageParser.defaultTargetLanguageIdentifier, content: {
+                    Text("All Available Languages")
+                        .tag(LanguageParser.allLanguagesDefaultTargetIdentifier)
+
+                    ForEach(supportedLanguages, id: \.self) { language in
+                        if let identifier = TranslationTargetsResolver.languageIdentifier(for: language) {
+                            Text(languageName(language) ?? identifier)
+                                .tag(identifier)
+                        }
+                    }
+                }, label: {
+                    Text("Default target language")
+                    Text("Used as the selected target language when the app starts.")
+                        .font(.caption)
+                })
+
+                Toggle(isOn: $languageParser.skipAlreadyTranslated) {
+                    Text("Skip already translated")
+                    Text("Only translate strings that do not already have a value for the target language.")
+                        .font(.caption)
+                }
+                .toggleStyle(.switch)
+
+                Toggle(isOn: $languageParser.autoSaveTranslations) {
+                    Text("Automatically save")
+                    Text("Save translations back to the opened string catalog when translation finishes.")
+                        .font(.caption)
+                }
+                .toggleStyle(.switch)
+
                 Toggle(isOn: $languageParser.isTesting) {
                     Text("Test Mode")
                     Text("Does not overwrite the original strings file.")
@@ -61,7 +94,16 @@ struct SettingsView: View {
 
 #Preview {
     NavigationStack {
-        SettingsView()
+        SettingsView(
+            supportedLanguages: [
+                Locale.Language(identifier: "nl")
+            ],
+            languageName: { language in
+                TranslationTargetsResolver.languageIdentifier(
+                    for: language
+                )
+            }
+        )
             .environmentObject(LanguageParser())
     }
 }

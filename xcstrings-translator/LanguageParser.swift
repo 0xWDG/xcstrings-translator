@@ -12,6 +12,24 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 class LanguageParser: ObservableObject {
+    static let allLanguagesDefaultTargetIdentifier = "all"
+
+    enum SaveResult {
+        case saved
+        case skippedTesting
+    }
+
+    enum SaveError: LocalizedError {
+        case noLoadedFile
+
+        var errorDescription: String? {
+            switch self {
+            case .noLoadedFile:
+                return "No loaded string catalog file is available."
+            }
+        }
+    }
+
     public enum LPState: String, CaseIterable, Identifiable {
         case translated = "translated"
         case needsReview = "needs_review"
@@ -44,6 +62,30 @@ class LanguageParser: ObservableObject {
         }
     }
 
+    @Published var skipAlreadyTranslated: Bool = true {
+        didSet {
+            UserDefaults.standard.set(self.skipAlreadyTranslated, forKey: "skipAlreadyTranslated")
+            logger.debug("Updated skip already translated to \(self.skipAlreadyTranslated)")
+        }
+    }
+
+    @Published var defaultTargetLanguageIdentifier: String = allLanguagesDefaultTargetIdentifier {
+        didSet {
+            UserDefaults.standard.set(
+                self.defaultTargetLanguageIdentifier,
+                forKey: "defaultTargetLanguageIdentifier"
+            )
+            logger.debug("Updated default target language to \(self.defaultTargetLanguageIdentifier)")
+        }
+    }
+
+    @Published var autoSaveTranslations: Bool = true {
+        didSet {
+            UserDefaults.standard.set(self.autoSaveTranslations, forKey: "autoSaveTranslations")
+            logger.debug("Updated auto save translations to \(self.autoSaveTranslations)")
+        }
+    }
+
     @Published public var isTesting: Bool = false {
         didSet {
             UserDefaults.standard.set(self.isTesting, forKey: "isTesting")
@@ -57,6 +99,13 @@ class LanguageParser: ObservableObject {
             rawValue: UserDefaults.standard
                 .string(forKey: "state") ?? "translated"
         ) ?? .translated
+        skipAlreadyTranslated = UserDefaults.standard.object(
+            forKey: "skipAlreadyTranslated"
+        ) as? Bool ?? true
+        defaultTargetLanguageIdentifier = UserDefaults.standard.string(
+            forKey: "defaultTargetLanguageIdentifier"
+        ) ?? Self.allLanguagesDefaultTargetIdentifier
+        autoSaveTranslations = UserDefaults.standard.bool(forKey: "autoSaveTranslations")
     }
 
     func reset() {
@@ -85,8 +134,30 @@ class LanguageParser: ObservableObject {
         }
     }
 
+    func saveToLoadedFile() throws -> SaveResult {
+        guard !isTesting else {
+            return .skippedTesting
+        }
+
+        guard let fileURL else {
+            throw SaveError.noLoadedFile
+        }
+
+        let didStartAccessing = fileURL.startAccessingSecurityScopedResource()
+        defer {
+            if didStartAccessing {
+                fileURL.stopAccessingSecurityScopedResource()
+            }
+        }
+
+        try data.write(to: fileURL, options: .atomic)
+        return .saved
+    }
+
     func add(translation response: TranslationSession.Response) {
-        if let identifier = response.targetLanguage.languageCode?.identifier {
+        if let identifier = TranslationTargetsResolver.languageIdentifier(
+            for: response.targetLanguage
+        ) {
             self.add(
                 translation: response.targetText,
                 forLanguage: identifier,
@@ -152,6 +223,49 @@ class LanguageParser: ObservableObject {
                 }
             }
         }
+    }
+
+    func stringsToTranslate(
+        forLanguage languageIdentifier: String?,
+        skippingTranslated: Bool
+    ) -> [String] {
+        guard skippingTranslated,
+              let languageIdentifier else {
+            return stringsToTranslate.filter { !$0.isEmpty }
+        }
+
+        return stringsToTranslate.filter { string in
+            !string.isEmpty && !hasTranslation(for: string, languageIdentifier: languageIdentifier)
+        }
+    }
+
+    private func hasTranslation(for string: String, languageIdentifier: String) -> Bool {
+        guard let strings = languageDictionary["strings"] as? [String: Any],
+              let item = strings[string] as? [String: Any],
+              let localizations = item["localizations"] as? [String: Any],
+              let localization = localizations[languageIdentifier] as? [String: Any] else {
+            return false
+        }
+
+        let translatedValues = stringUnitValues(in: localization)
+        return !translatedValues.isEmpty && translatedValues.allSatisfy { !$0.isEmpty }
+    }
+
+    private func stringUnitValues(in value: Any) -> [String] {
+        if let dictionary = value as? [String: Any] {
+            if let stringUnit = dictionary["stringUnit"] as? [String: Any],
+               let stringValue = stringUnit["value"] as? String {
+                return [stringValue]
+            }
+
+            return dictionary.values.flatMap { stringUnitValues(in: $0) }
+        }
+
+        if let array = value as? [Any] {
+            return array.flatMap { stringUnitValues(in: $0) }
+        }
+
+        return []
     }
 
     var data: Data {
