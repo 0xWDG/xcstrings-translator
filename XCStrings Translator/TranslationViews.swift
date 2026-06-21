@@ -86,7 +86,8 @@ struct TranslationHeaderView: View {
         sourceLanguages: [.init(identifier: "en")],
         targetLanguages: [.init(identifier: "nl")],
         isTranslating: false,
-        canTranslate: true) { x in
+        canTranslate: true
+    ) { _ in
             return .localizedName(of: .ascii)
         } translate: {
             //
