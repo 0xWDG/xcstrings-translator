@@ -45,7 +45,7 @@ jobs:
           xcrun docc process-archive transform-for-static-hosting \
             "$archive_path" \
             --output-path documentation-html \
-            --hosting-base-path xcstrings-translator
+            --hosting-base-path /xcstrings-translator
 
       - name: Publish documentation
         env:
