@@ -56,6 +56,9 @@ The Settings window includes:
 
 ## Screenshots
 
+<img width="1006" height="913" alt="image" src="https://github.com/user-attachments/assets/6270018a-bd3b-4100-a51e-ea822d121882" />
+
+Before:
 <img width="1012" alt="XCStrings Translator main window" src="https://github.com/user-attachments/assets/f4d1bb94-957c-40a8-a9c0-cb961047454a" />
 
 https://github.com/user-attachments/assets/0aaf99fc-4c60-4775-bd1c-cb977758d65f
