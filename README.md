@@ -82,6 +82,40 @@ swiftlint lint --quiet
 xcodebuild test -project "XCStrings Translator.xcodeproj" -scheme "XCStrings Translator" -destination "platform=macOS"
 ```
 
+## Architecture
+
+XCStrings Translator is a small SwiftUI app with a deliberately narrow model layer:
+
+- `ContentView` is the workflow coordinator. It owns source/target language selection,
+  Translation framework session configuration, progress state, file import/export
+  presentation, and the post-translation default-app prompt.
+- `ContentView+Translation.swift` contains UI action handlers and lifecycle state
+  transitions such as opening a catalog, starting a target language, cancellation,
+  completion, checkpoint saving, and failure handling.
+- `ContentView+TranslationRun.swift` builds an immutable run plan immediately before
+  translation starts, then executes one `TranslationSession` per target language.
+- `ContentView+TranslationTargets.swift` filters candidate languages through Apple's
+  Translation framework so the UI only offers pairs supported by the current Mac.
+- `ContentView+ProgressState.swift` derives progress, elapsed time, ETA, and command
+  enablement from the raw workflow state.
+- `LanguageParser` owns the loaded `.xcstrings` catalog. It keeps the JSON as
+  `[String: Any]` so unknown Xcode metadata and future catalog keys survive a
+  load/translate/save round trip.
+- `LanguageParser+CatalogTraversal.swift` handles nested `stringUnit` traversal for
+  direct values, plurals, and other variation dictionaries.
+- `LanguageParser+FormatSpecifiers.swift` repairs printf-style placeholders that can
+  be modified by natural-language translation, such as `%lld`, `%1$@`, or `%0.2f`.
+- `TranslationViews.swift`, `TranslationProgressView.swift`, and
+  `TranslationStringsListView.swift` are mostly stateless SwiftUI rendering
+  components. They receive bindings, values, and action closures from `ContentView`.
+- `DefaultStringCatalogAppManager` and `DockProgressController` isolate AppKit and
+  Launch Services integration from the SwiftUI workflow.
+
+The app intentionally uses Apple's on-device Translation framework only. A translation
+run never sends catalogs to a third-party service, and each target language is handled
+as a separate framework session because `TranslationSession.Configuration` binds a
+session to one source/target language pair.
+
 ## Notes
 
 XCStrings Translator intentionally uses Apple's Translation framework only. There
