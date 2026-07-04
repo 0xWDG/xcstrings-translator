@@ -64,9 +64,8 @@ struct TranslationTargetsResolver {
             return languageCode
         }
 
-        // if the language is nl-NL or it-IT, return the full identifier,
-        // otherwise return just the language code, so that if we don't
-        // support a regional translation, we can fallback on the OG.
+        // if the language is not nl-NL or it-IT, xx-xx, just the language code,
+        // so that if we don't support a regional translation, we can fallback on the OG.
         if languageCode.lowercased() == language.region?.identifier.lowercased() {
             return languageCode
         }
