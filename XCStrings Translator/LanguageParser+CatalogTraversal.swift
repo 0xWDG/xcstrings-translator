@@ -7,7 +7,21 @@
 
 import Foundation
 
+/// Helpers for traversing and updating nested `.xcstrings` catalog structures.
+///
+/// Xcode String Catalogs can contain direct `stringUnit` values as well as nested
+/// variations for plurals or device traits. These helpers keep that traversal logic
+/// out of the main parser methods.
 extension LanguageParser {
+    /// Builds a localization dictionary that preserves existing metadata.
+    ///
+    /// - Parameters:
+    ///   - existingLocalization: Existing localization value from the catalog, if any.
+    ///   - translation: New translated string value to write.
+    /// - Returns: Localization dictionary containing the replacement `stringUnit`.
+    ///
+    /// Side Effects:
+    /// None. The caller writes the returned dictionary back into the catalog.
     func updatedLocalization(
         existingLocalization: Any?,
         translation: String
@@ -29,6 +43,14 @@ extension LanguageParser {
         return localization
     }
 
+    /// Caches languages that already contain complete non-empty translations for a key.
+    ///
+    /// - Parameters:
+    ///   - item: One entry from the catalog's top-level `strings` dictionary.
+    ///   - key: Source string key represented by `item`.
+    ///
+    /// Side Effects:
+    /// Mutates `translatedStringKeysByLanguage`.
     func cacheTranslatedLanguages(in item: [String: Any], for key: String) {
         guard let localizations = item["localizations"] as? [String: Any] else {
             return
@@ -45,6 +67,15 @@ extension LanguageParser {
         }
     }
 
+    /// Recursively extracts all `stringUnit.value` strings below a catalog value.
+    ///
+    /// - Parameter value: Any JSON value from a localization subtree.
+    /// - Returns: String-unit values found directly or inside nested dictionaries/arrays.
+    ///
+    /// Implementation Notes:
+    /// Returning every nested value lets skip logic treat plurals conservatively: a
+    /// plural localization is considered complete only when all nested string units are
+    /// present and non-empty.
     func stringUnitValues(in value: Any) -> [String] {
         // .xcstrings can store stringUnit directly or nested below variations such as
         // plural/device-width rules. Recursing keeps the skip logic format-agnostic.

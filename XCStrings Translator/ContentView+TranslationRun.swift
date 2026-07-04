@@ -8,13 +8,32 @@
 import Translation
 import SwiftUI
 
+/// Immutable plan for one translation run.
+///
+/// The plan is computed immediately before translation starts so progress totals use
+/// the latest source strings, target language availability, and skip setting.
 struct TranslationRunPlan {
+    /// Target languages that have work to perform.
     let targetLanguages: [Locale.Language]
+    /// Total source-string/target-language units in this run.
     let totalTranslationUnits: Int
+    /// Whether already translated strings were excluded when the plan was built.
     let skippingTranslated: Bool
 }
 
+/// Planning and execution for Translation framework sessions.
+///
+/// A run may include multiple target languages. Each target gets its own
+/// `TranslationSession.Configuration` because the framework binds a session to one
+/// source/target pair.
 extension ContentView {
+    /// Starts a translation run if a valid plan can be built.
+    ///
+    /// - Parameter overwritingExistingTranslations: When `true`, existing target
+    ///   values are translated again instead of being skipped.
+    ///
+    /// Side Effects:
+    /// Mutates run state on the main actor and eventually triggers `.translationTask`.
     func translate(overwritingExistingTranslations: Bool = false) async {
         guard let runPlan = await translationRunPlan(
             overwritingExistingTranslations: overwritingExistingTranslations
@@ -27,6 +46,19 @@ extension ContentView {
         }
     }
 
+    /// Builds the exact set of target languages and units for a run.
+    ///
+    /// - Parameter overwritingExistingTranslations: Whether to ignore the user's
+    ///   "skip already translated" setting for this run.
+    /// - Returns: A plan when at least one compatible target has pending work.
+    ///
+    /// Possible Errors:
+    /// Translation availability checks do not throw; failure to find compatible work
+    /// is reported through `status` and a `nil` return.
+    ///
+    /// Performance:
+    /// This performs availability checks before creating sessions so the run avoids
+    /// starting targets that the framework would reject.
     func translationRunPlan(
         overwritingExistingTranslations: Bool
     ) async -> TranslationRunPlan? {
@@ -85,6 +117,13 @@ extension ContentView {
         )
     }
 
+    /// Applies a run plan to view state and starts the first target language.
+    ///
+    /// - Parameter runPlan: Plan returned by `translationRunPlan(overwritingExistingTranslations:)`.
+    ///
+    /// Side Effects:
+    /// Initializes progress counters, timestamps, the pending-language queue, and the
+    /// first `TranslationSession.Configuration`.
     @MainActor
     func startTranslationRun(_ runPlan: TranslationRunPlan) {
         // Each target language gets its own TranslationSession. `beginTranslation`
@@ -106,6 +145,23 @@ extension ContentView {
         }
     }
 
+    /// Executes translations for the active `TranslationSession`.
+    ///
+    /// - Parameter session: SwiftUI-provided Translation framework session matching
+    ///   `translationConfiguration`.
+    ///
+    /// Possible Errors:
+    /// Individual `session.translate(_:)` calls can throw. Non-cancellation errors are
+    /// routed to `failTranslation(_:)`; cancellation exits quietly because the UI has
+    /// already been updated.
+    ///
+    /// Side Effects:
+    /// Updates the current-row indicator, writes successful responses into
+    /// `LanguageParser`, advances progress, and finishes the active target language.
+    ///
+    /// Thread Safety:
+    /// The loop runs asynchronously, but every read/write of SwiftUI state and the
+    /// parser is performed through `MainActor.run`.
     func translate(using session: TranslationSession) async {
         let stringsToTranslate = await MainActor.run(resultType: [String].self) {
             self.stringsToTranslate(

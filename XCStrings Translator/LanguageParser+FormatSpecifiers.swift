@@ -7,7 +7,26 @@
 
 import Foundation
 
+/// Format-specifier preservation for translated strings.
+///
+/// Apple's Translation framework is optimized for natural language, not printf-style
+/// placeholders. It may translate, duplicate, drop, or partially split tokens such as
+/// `%lld`, `%1$@`, and `%0.2f`. These helpers repair the translated text so runtime
+/// formatting calls still receive the placeholders expected by the source string.
 extension LanguageParser {
+    /// Preserves source printf-style format specifiers in translated text.
+    ///
+    /// - Parameters:
+    ///   - translation: Translation framework output.
+    ///   - original: Original catalog string used as the specifier source of truth.
+    /// - Returns: Translation with compatible placeholder values restored where possible.
+    ///
+    /// Implementation Notes:
+    /// The function first collapses repeated unit placeholders, then checks whether
+    /// the translated and original specifier lists have matching counts and conversion
+    /// categories. If they do, it replaces translated placeholder spelling with the
+    /// exact original spelling. If they do not, it falls back to a repair pass that can
+    /// remove malformed leading clusters and reinsert missing specifiers.
     func preservingFormatSpecifiers(
         in translation: String,
         matching original: String
@@ -51,11 +70,24 @@ extension LanguageParser {
         return preservedTranslation
     }
 
+    /// Repairs translations where placeholder parsing no longer matches the source.
+    ///
+    /// - Parameters:
+    ///   - translation: Candidate translated text.
+    ///   - original: Original source string. Included for symmetry with caller context.
+    ///   - originalSpecifiers: Parsed source specifiers that must survive.
+    /// - Returns: Best-effort repaired translation.
+    ///
+    /// Edge Cases:
+    /// Translation can turn `%lld` into a cluster such as `%I %ll %ld %p%r`. The repair
+    /// pass removes or replaces such clusters before matching remaining conversion
+    /// categories from the end of the string, which tends to preserve sentence order.
     private func repairingMalformedFormatSpecifiers(
         in translation: String,
         matching original: String,
         originalSpecifiers: [FormatSpecifier]
     ) -> String {
+        _ = original
         guard !originalSpecifiers.isEmpty else {
             return translation
         }
@@ -114,6 +146,16 @@ extension LanguageParser {
         return repairedTranslation
     }
 
+    /// Inserts a missing placeholder into a translation using a conservative position.
+    ///
+    /// - Parameters:
+    ///   - specifier: Source placeholder that was dropped by translation.
+    ///   - translation: Translation text to mutate.
+    ///
+    /// Rationale:
+    /// When a comma exists, inserting before it often preserves phrases such as
+    /// "Step %1$lld, %@". Otherwise the placeholder is prepended so runtime formatting
+    /// remains valid even if the exact linguistic position is imperfect.
     private func insertMissingFormatSpecifier(
         _ specifier: String,
         into translation: inout String
@@ -132,6 +174,11 @@ extension LanguageParser {
         }
     }
 
+    /// Finds a malformed or repeated leading cluster of percent fragments.
+    ///
+    /// - Parameter string: Translation text to inspect.
+    /// - Returns: Range from the start of the string through the last leading percent
+    ///   fragment, or `nil` when the string starts with normal text.
     private func leadingPercentClusterRange(in string: String) -> Range<String.Index>? {
         var index = string.startIndex
         var lastFragmentEnd: String.Index?
@@ -157,6 +204,15 @@ extension LanguageParser {
         return string.startIndex..<lastFragmentEnd
     }
 
+    /// Advances over one percent-led fragment.
+    ///
+    /// - Parameters:
+    ///   - string: String containing a percent character at `start`.
+    ///   - start: Index of `%`.
+    /// - Returns: Index just after the parsed fragment.
+    ///
+    /// This accepts valid format specifiers, escaped percent signs, and partial pieces
+    /// such as `%ll` so malformed leading clusters can still be removed safely.
     private func percentFragmentEnd(in string: String, from start: String.Index) -> String.Index {
         let index = string.index(after: start)
 
@@ -183,6 +239,12 @@ extension LanguageParser {
         return string.index(after: index)
     }
 
+    /// Parses the end index of a complete printf-style specifier.
+    ///
+    /// - Parameters:
+    ///   - string: String containing `%` at `start`.
+    ///   - start: Index of `%`.
+    /// - Returns: End index after the conversion character, or `start` when parsing fails.
     private func parsedFormatSpecifierEnd(in string: String, from start: String.Index) -> String.Index {
         var index = string.index(after: start)
 
@@ -205,6 +267,18 @@ extension LanguageParser {
         return string.index(after: index)
     }
 
+    /// Collapses repeated placeholders that translation duplicated next to unit suffixes.
+    ///
+    /// - Parameters:
+    ///   - translation: Candidate translated text.
+    ///   - original: Source text that defines placeholder suffixes.
+    ///   - originalSpecifiers: Parsed source placeholders.
+    /// - Returns: Translation with repeated placeholder runs replaced by one source
+    ///   placeholder plus its original suffix.
+    ///
+    /// Example:
+    /// A source `%lldm` can be translated as `%ldm%ldm%ldm`. Collapsing the run before
+    /// direct replacement keeps the final output at `%lldm`.
     private func collapsingRepeatedFormatSpecifiers(
         in translation: String,
         matching original: String,
@@ -236,6 +310,14 @@ extension LanguageParser {
         return collapsedTranslation
     }
 
+    /// Finds adjacent runs of placeholders with the same conversion and suffix.
+    ///
+    /// - Parameters:
+    ///   - string: String being repaired.
+    ///   - conversion: Placeholder conversion category to match.
+    ///   - suffix: Alphabetic unit suffix that must follow each placeholder.
+    ///   - specifiers: Parsed placeholders in `string`.
+    /// - Returns: Ranges covering repeated runs that should collapse to one placeholder.
     private func repeatedFormatSpecifierRuns(
         in string: String,
         matching conversion: FormatSpecifier.Conversion,
@@ -291,6 +373,13 @@ extension LanguageParser {
         return runs
     }
 
+    /// Returns the end of a placeholder plus its expected suffix.
+    ///
+    /// - Parameters:
+    ///   - string: String containing the placeholder.
+    ///   - specifier: Parsed placeholder.
+    ///   - suffix: Expected alphabetic unit suffix.
+    /// - Returns: End index after the suffix, or `nil` when the suffix is not present.
     private func formatSpecifierEnd(
         in string: String,
         for specifier: FormatSpecifier,
@@ -310,6 +399,12 @@ extension LanguageParser {
         return end
     }
 
+    /// Reads the alphabetic suffix immediately after a source placeholder.
+    ///
+    /// - Parameters:
+    ///   - string: Source string.
+    ///   - index: Index immediately after a parsed placeholder.
+    /// - Returns: Contiguous letters after the placeholder, such as `m` in `%lldm`.
     private func formatSpecifierSuffix(
         in string: String,
         after index: String.Index
@@ -324,6 +419,15 @@ extension LanguageParser {
         return String(string[index..<suffixEnd])
     }
 
+    /// Parses printf-style placeholders from a string.
+    ///
+    /// - Parameter string: Text to scan.
+    /// - Returns: Parsed placeholders with source ranges and conversion categories.
+    ///
+    /// The parser intentionally recognizes the subset used by Apple localized format
+    /// strings rather than implementing a full C formatter. It supports positional
+    /// arguments, flags, width, precision, length modifiers, and common conversion
+    /// characters.
     private func formatSpecifiers(in string: String) -> [FormatSpecifier] {
         var specifiers: [FormatSpecifier] = []
         var index = string.startIndex
@@ -377,6 +481,11 @@ extension LanguageParser {
         return specifiers
     }
 
+    /// Parses an optional positional argument such as `1$`.
+    ///
+    /// - Parameters:
+    ///   - string: String being scanned.
+    ///   - index: In-out cursor advanced only when a complete positional argument exists.
     private func parsePositionalArgument(in string: String, from index: inout String.Index) {
         let initialIndex = index
         parseDigits(in: string, from: &index)
@@ -388,6 +497,12 @@ extension LanguageParser {
         }
     }
 
+    /// Advances a scanner while the current character belongs to a given set.
+    ///
+    /// - Parameters:
+    ///   - string: String being scanned.
+    ///   - index: In-out cursor.
+    ///   - characters: Allowed characters to consume.
     private func parseCharacters(
         in string: String,
         from index: inout String.Index,
@@ -398,6 +513,11 @@ extension LanguageParser {
         }
     }
 
+    /// Parses `*`, `*n$`, or decimal width/precision segments.
+    ///
+    /// - Parameters:
+    ///   - string: String being scanned.
+    ///   - index: In-out cursor.
     private func parseWidthOrPrecision(in string: String, from index: inout String.Index) {
         guard index < string.endIndex else {
             return
@@ -411,6 +531,14 @@ extension LanguageParser {
         }
     }
 
+    /// Parses a printf length modifier.
+    ///
+    /// - Parameters:
+    ///   - string: String being scanned.
+    ///   - index: In-out cursor.
+    ///
+    /// The `q` modifier is accepted because Apple format strings historically use it
+    /// as a synonym for long long in Objective-C contexts.
     private func parseLengthModifier(in string: String, from index: inout String.Index) {
         let twoCharacterModifiers = ["hh", "ll"]
         let oneCharacterModifiers: Set<Character> = ["h", "l", "j", "z", "t", "L", "q"]
@@ -424,6 +552,11 @@ extension LanguageParser {
         }
     }
 
+    /// Advances over a contiguous run of decimal digits.
+    ///
+    /// - Parameters:
+    ///   - string: String being scanned.
+    ///   - index: In-out cursor.
     private func parseDigits(in string: String, from index: inout String.Index) {
         while index < string.endIndex, string[index].isNumber {
             index = string.index(after: index)
@@ -431,7 +564,12 @@ extension LanguageParser {
     }
 }
 
+/// Parsed printf-style placeholder.
 private struct FormatSpecifier {
+    /// Placeholder conversion category.
+    ///
+    /// The exact conversion character may vary (`d`, `i`, `D`), but repair only needs
+    /// categories that are interchangeable from a placeholder-preservation standpoint.
     enum Conversion: Equatable {
         case signedInteger
         case unsignedInteger
@@ -442,6 +580,9 @@ private struct FormatSpecifier {
         case pointer
         case count
 
+        /// Creates a conversion category from a printf conversion character.
+        ///
+        /// - Parameter character: Final conversion character in a format specifier.
         init?(character: Character) {
             switch character {
             case "d", "D", "i":
@@ -466,8 +607,11 @@ private struct FormatSpecifier {
         }
     }
 
+    /// Exact placeholder text, including `%`, flags, width, precision, length, and conversion.
     let value: String
+    /// Range of `value` in the scanned string.
     let range: Range<String.Index>
+    /// Coarse conversion category used for compatibility matching.
     let conversion: Conversion
 }
 // swiftlint:disable:this file_length

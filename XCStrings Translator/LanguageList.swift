@@ -7,7 +7,18 @@
 
 import Foundation
 
+/// Display-name and identifier helpers for Translation framework languages.
+///
+/// These helpers centralize the identifier normalization rules from
+/// `TranslationTargetsResolver` so pickers, settings, and tests show names for the
+/// same catalog keys that are used when writing translations.
 extension Locale.Language {
+    /// Returns the localized display name for this language in a given UI locale.
+    ///
+    /// - Parameter locale: Locale used to localize the language name. Defaults to the
+    ///   user's current locale.
+    /// - Returns: A display name such as `Dutch` or `Portuguese (Brazil)`, or `nil`
+    ///   when Foundation cannot resolve one.
     func localizedDisplayName(in locale: Locale = .current) -> String? {
         let identifier = systemDisplayIdentifier
 
@@ -17,6 +28,10 @@ extension Locale.Language {
             }
     }
 
+    /// Returns the language's name in its own locale.
+    ///
+    /// - Returns: A native display name such as `Nederlands`, or `nil` when Foundation
+    ///   cannot resolve one.
     func nativeDisplayName() -> String? {
         let identifier = systemDisplayIdentifier
         let languageLocale = Locale(identifier: identifier)
@@ -27,65 +42,26 @@ extension Locale.Language {
             }
     }
 
+    /// Identifier used for display-name lookup and catalog matching.
+    ///
+    /// Falls back to `minimalIdentifier` only when the app cannot derive a catalog
+    /// identifier. Keeping this consistent with translation writes avoids displaying
+    /// one regional language while saving another key.
     var systemDisplayIdentifier: String {
         TranslationTargetsResolver.languageIdentifier(for: self) ??
             minimalIdentifier
     }
 
+    /// Tests whether this language matches an identifier from settings or a catalog.
+    ///
+    /// - Parameter identifier: Identifier to compare, case-insensitively.
+    /// - Returns: `true` when the identifier matches the app-normalized, minimal, or
+    ///   maximal language identifier.
     func matchesLanguageIdentifier(_ identifier: String) -> Bool {
         let normalizedIdentifier = identifier.lowercased()
 
         return systemDisplayIdentifier.lowercased() == normalizedIdentifier ||
             minimalIdentifier.lowercased() == normalizedIdentifier ||
             maximalIdentifier.lowercased() == normalizedIdentifier
-    }
-}
-
-@available(*, deprecated, message: "Use Locale.Language.localizedDisplayName(in:) instead.")
-final class LanguageList {
-    struct Language {
-        var identifier: String
-        var name: String
-        var localizedName: String
-        var flag: String?
-    }
-
-    private let locale: Locale
-
-    init(locale: Locale = .current) {
-        self.locale = locale
-    }
-
-    func language(for language: Locale.Language) -> Language? {
-        guard let name = language.localizedDisplayName(in: locale) else {
-            return nil
-        }
-
-        let identifier = language.systemDisplayIdentifier
-
-        return Language(
-            identifier: identifier,
-            name: name,
-            localizedName: language.nativeDisplayName() ?? name,
-            flag: language.region.flatMap { flag(forRegion: $0.identifier) }
-        )
-    }
-
-    private func flag(forRegion region: String) -> String? {
-        let base = UnicodeScalar("🇦").value
-        let scalars = region.uppercased().unicodeScalars
-
-        guard scalars.count == 2,
-              scalars.allSatisfy({ ("A"..."Z").contains(Character($0)) }) else {
-            return nil
-        }
-
-        return String(
-            String.UnicodeScalarView(
-                scalars.compactMap {
-                    UnicodeScalar(base + $0.value - UnicodeScalar("A").value)
-                }
-            )
-        )
     }
 }

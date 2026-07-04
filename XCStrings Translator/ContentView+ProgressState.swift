@@ -7,11 +7,18 @@
 
 import Foundation
 
+/// Derived progress and command-availability state for `ContentView`.
+///
+/// These properties intentionally live outside the main view declaration to keep the
+/// SwiftUI body focused on layout. They do not mutate state; they translate the raw
+/// workflow fields into values that controls and progress indicators can consume.
 extension ContentView {
+    /// Whether a Translation framework session is currently active.
     var isTranslating: Bool {
         translationConfiguration != nil
     }
 
+    /// Concrete target languages represented by the current picker selection.
     var availableTargetLanguages: [Locale.Language] {
         TranslationTargetsResolver.targets(
             for: destinationSelection,
@@ -20,6 +27,7 @@ extension ContentView {
         )
     }
 
+    /// Whether the Translate action has all inputs needed to start a run.
     var canTranslate: Bool {
         !isTranslating &&
         sourceLanguage != nil &&
@@ -27,6 +35,10 @@ extension ContentView {
         !availableTargetLanguages.isEmpty
     }
 
+    /// Whether the current catalog has completed or partial work that can be exported.
+    ///
+    /// Saving is disabled during active translation because the parser is being
+    /// mutated response by response.
     var canSave: Bool {
         !isTranslating &&
         !languageParser.stringsToTranslate.isEmpty &&
@@ -42,6 +54,11 @@ extension ContentView {
         completedUnitsBeforeCurrentTarget + translatedStrings.count
     }
 
+    /// Total work units shown by the progress bar.
+    ///
+    /// Before a run is planned, this uses a simple estimate based on current source
+    /// strings and selected targets. Once a run starts, the exact planned count is
+    /// retained so progress does not jump when translated strings are skipped.
     var totalTranslationUnits: Int {
         if totalTranslationUnitsForRun > 0 {
             return totalTranslationUnitsForRun
@@ -50,6 +67,7 @@ extension ContentView {
         return languageParser.stringsToTranslate.count * max(availableTargetLanguages.count, 1)
     }
 
+    /// Completed work units shown by the progress bar.
     var completedTranslationUnits: Int {
         if isTranslating {
             return completedTranslatedUnitsForRun
@@ -62,6 +80,7 @@ extension ContentView {
         return completedTranslatedUnitsForRun
     }
 
+    /// Fractional progress clamped to SwiftUI `ProgressView`'s expected range.
     var progressValue: Double {
         guard totalTranslationUnits > 0 else {
             return 0
@@ -70,6 +89,7 @@ extension ContentView {
         return min(Double(completedTranslationUnits) / Double(totalTranslationUnits), 1)
     }
 
+    /// Number of target languages selected or planned for the current run.
     var selectedTargetCount: Int {
         if totalTargetLanguages > 0 {
             return totalTargetLanguages
@@ -78,6 +98,7 @@ extension ContentView {
         return availableTargetLanguages.count
     }
 
+    /// Number of strings shown in the per-target "Strings" metric.
     var progressStringsToTranslate: Int {
         if isTranslating || currentTargetTranslationUnits > 0 {
             return currentTargetTranslationUnits
@@ -86,6 +107,7 @@ extension ContentView {
         return languageParser.stringsToTranslate.count
     }
 
+    /// Elapsed time for the active or last completed translation run.
     var elapsedTranslationTime: TimeInterval {
         guard let translationStartedAt else {
             return 0
@@ -94,6 +116,7 @@ extension ContentView {
         return max((translationEndedAt ?? timerDate).timeIntervalSince(translationStartedAt), 0)
     }
 
+    /// User-facing elapsed time text.
     var elapsedTranslationText: String {
         guard translationStartedAt != nil else {
             return "Not started"
@@ -102,6 +125,11 @@ extension ContentView {
         return formattedDuration(elapsedTranslationTime)
     }
 
+    /// User-facing ETA text derived from completed unit throughput.
+    ///
+    /// Performance:
+    /// The calculation is constant time and intentionally uses completed unit count
+    /// rather than current string index so skipped targets do not distort the estimate.
     var estimatedTimeRemainingText: String {
         guard translationStartedAt != nil else {
             return "Not started"

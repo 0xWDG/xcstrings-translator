@@ -8,18 +8,38 @@
 import SwiftUI
 import SwiftExtras
 
+/// Header controls for selecting languages and starting translation.
+///
+/// The view is intentionally stateless beyond its bindings and closures. `ContentView`
+/// owns the actual translation workflow; this component only renders the controls and
+/// forwards user actions.
 struct TranslationHeaderView: View {
+    /// Selected source language binding owned by `ContentView`.
     @Binding var sourceLanguage: Locale.Language?
+    /// Selected target binding owned by `ContentView`.
     @Binding var destinationSelection: TranslationTargetSelection?
 
+    /// Source languages available through the Translation framework.
     let sourceLanguages: [Locale.Language]
+    /// Target languages compatible with the selected source.
     let targetLanguages: [Locale.Language]
+    /// Whether an active translation run should disable editing controls.
     let isTranslating: Bool
+    /// Whether the Translate action has enough input to run.
     let canTranslate: Bool
+    /// Display-name formatter supplied by the coordinator.
     let languageName: (Locale.Language) -> String?
+    /// Starts a normal run that respects the "skip already translated" setting.
     let translate: () -> Void
+    /// Starts a run that intentionally overwrites existing translations.
     let translateOverwritingExisting: () -> Void
 
+    /// Builds the header layout.
+    ///
+    /// Accessibility:
+    /// Pickers include labels and hints so VoiceOver users can distinguish source and
+    /// target language selection. The split action button comes from SwiftExtras and
+    /// receives localized titles for both actions.
     var body: some View {
         HStack(alignment: .center, spacing: 16) {
             VStack(alignment: .leading, spacing: 4) {

@@ -11,19 +11,51 @@ import Translation
 import SwiftUI
 import UniformTypeIdentifiers
 
+/// Loads, mutates, and serializes an Xcode String Catalog.
+///
+/// Purpose:
+/// `LanguageParser` is the app's model object for `.xcstrings` files. It keeps the
+/// original catalog as a loose JSON dictionary so Xcode-owned metadata can round-trip
+/// unchanged while the app updates only the `stringUnit` values it translates.
+///
+/// Responsibilities:
+/// - Read a selected string catalog from disk.
+/// - Track the source strings that are eligible for translation.
+/// - Cache which target languages already contain translated values.
+/// - Insert Translation framework responses back into the catalog.
+/// - Encode the modified catalog for saving or exporting.
+///
+/// Dependencies:
+/// Uses `Foundation.JSONSerialization` for format-preserving JSON access,
+/// `Translation` for response types, `UserDefaults` for settings, and `OSLog` for
+/// diagnostics. The class is `@MainActor` because SwiftUI observes its published
+/// properties and because file operations are initiated from UI actions.
+///
+/// Thread Safety:
+/// All mutable state is isolated to the main actor. Callers should `await` main-actor
+/// access when invoking this type from asynchronous translation tasks.
 @MainActor
 class LanguageParser: ObservableObject {
+    /// Settings sentinel used when the default target should be every compatible language.
     static let allLanguagesDefaultTargetIdentifier = "all"
 
+    /// Outcome of saving the loaded catalog back to its original URL.
+    ///
+    /// `skippedTesting` is not an error. It means Test Mode intentionally suppressed
+    /// disk writes so contributors can exercise translation behavior on real files.
     enum SaveResult {
         case saved
         case skippedTesting
     }
 
+    /// Errors that can occur while saving the currently loaded catalog.
     enum SaveError: LocalizedError {
+        /// No file has been loaded, so there is no original URL to overwrite.
         case noLoadedFile
+        /// The in-memory dictionary cannot be represented as a valid JSON catalog.
         case invalidCatalog
 
+        /// Human-readable description shown in logs and UI status messages.
         var errorDescription: String? {
             switch self {
             case .noLoadedFile:
@@ -34,12 +66,20 @@ class LanguageParser: ObservableObject {
         }
     }
 
+    /// String Catalog state written for newly created or replaced translations.
+    ///
+    /// Xcode uses these raw values in `.xcstrings` files. Keeping the enum raw-value
+    /// backed avoids stringly typed writes in the rest of the parser.
     public enum LPState: String, CaseIterable, Identifiable {
+        /// Translation is considered complete.
         case translated = "translated"
+        /// Translation exists but should be reviewed by a human before shipping.
         case needsReview = "needs_review"
 
+        /// Stable identity for SwiftUI pickers.
         var id: String { return self.rawValue }
 
+        /// Localized display name used in Settings.
         var humanReadableName: LocalizedStringKey {
             switch self {
             case .translated:
@@ -55,16 +95,27 @@ class LanguageParser: ObservableObject {
         category: "LanguageParser"
     )
 
-    // Cache translated keys by language so "skip already translated" does not need to
-    // walk the full JSON tree for every target language during a run.
+    /// Cache of catalog keys that already have non-empty translations, grouped by language identifier.
+    ///
+    /// Performance:
+    /// The translation run asks for pending strings repeatedly, once per target
+    /// language and after every completed response. Caching avoids walking the full
+    /// nested JSON tree for each query.
     var translatedStringKeysByLanguage: [String: Set<String>] = [:]
 
-    // .xcstrings supports nested and evolving JSON structures. Keep this as a loose
-    // dictionary so unknown Xcode metadata survives load, translation, and export.
+    /// Raw JSON dictionary for the loaded `.xcstrings` catalog.
+    ///
+    /// Xcode may add new keys or nested structures over time. Storing the catalog as
+    /// `[String: Any]` is intentional: it lets this app preserve unknown metadata while
+    /// replacing only the values it owns.
     var languageDictionary: [String: Any] = [:]
+    /// Source strings that can be sent to Apple's Translation framework.
     @Published var stringsToTranslate: [String] = []
+    /// Source language identifier read from the catalog or inferred by the UI.
     @Published var sourceLanguage: String = "en"
+    /// Security-scoped URL of the currently loaded catalog.
     @Published var fileURL: URL?
+    /// State written to each translated `stringUnit`.
     @Published var state: LPState = .translated {
         didSet {
             UserDefaults.standard.set(self.state.rawValue, forKey: "state")
@@ -72,6 +123,7 @@ class LanguageParser: ObservableObject {
         }
     }
 
+    /// Whether existing target-language values should be left untouched during normal runs.
     @Published var skipAlreadyTranslated: Bool = true {
         didSet {
             UserDefaults.standard.set(self.skipAlreadyTranslated, forKey: "skipAlreadyTranslated")
@@ -79,6 +131,7 @@ class LanguageParser: ObservableObject {
         }
     }
 
+    /// Identifier selected by default in the target-language picker.
     @Published var defaultTargetLanguageIdentifier: String = allLanguagesDefaultTargetIdentifier {
         didSet {
             UserDefaults.standard.set(
@@ -89,6 +142,7 @@ class LanguageParser: ObservableObject {
         }
     }
 
+    /// Whether the app should save a checkpoint after each completed target language.
     @Published var autoSaveTranslations: Bool = false {
         didSet {
             UserDefaults.standard.set(self.autoSaveTranslations, forKey: "autoSaveTranslations")
@@ -96,6 +150,10 @@ class LanguageParser: ObservableObject {
         }
     }
 
+    /// Prevents writes to the loaded source file while still allowing export.
+    ///
+    /// Side Effects:
+    /// The value is persisted in `UserDefaults` so it survives relaunches.
     @Published public var isTesting: Bool = false {
         didSet {
             UserDefaults.standard.set(self.isTesting, forKey: "isTesting")
@@ -103,6 +161,10 @@ class LanguageParser: ObservableObject {
         }
     }
 
+    /// Creates a parser and restores persisted user preferences.
+    ///
+    /// Side Effects:
+    /// Reads `UserDefaults`. No file IO is performed until `load(file:)`.
     init() {
         isTesting = UserDefaults.standard.bool(forKey: "isTesting")
         state = LPState(
@@ -120,6 +182,10 @@ class LanguageParser: ObservableObject {
         ) as? Bool ?? true
     }
 
+    /// Clears the loaded catalog and all derived translation state.
+    ///
+    /// Side Effects:
+    /// Resets published properties, which invalidates observing SwiftUI views.
     func reset() {
         languageDictionary = [:]
         stringsToTranslate = []
@@ -128,6 +194,18 @@ class LanguageParser: ObservableObject {
         translatedStringKeysByLanguage = [:]
     }
 
+    /// Loads and parses a `.xcstrings` file.
+    ///
+    /// - Parameter url: File URL selected by the user, Finder, or an Open URL event.
+    ///
+    /// Possible Errors:
+    /// Errors are logged instead of thrown because this method is called directly by UI
+    /// event handlers. A failed load leaves the parser in its reset state.
+    ///
+    /// Side Effects:
+    /// Starts and stops security-scoped resource access when needed, updates
+    /// `fileURL`, `languageDictionary`, `stringsToTranslate`, and
+    /// `translatedStringKeysByLanguage`.
     func load(file url: URL) {
         reset()
 
@@ -156,6 +234,15 @@ class LanguageParser: ObservableObject {
         }
     }
 
+    /// Saves the current catalog back to the file it was loaded from.
+    ///
+    /// - Returns: `.saved` when bytes were written, or `.skippedTesting` when Test Mode
+    ///   intentionally prevented mutation of the original file.
+    /// - Throws: `SaveError.noLoadedFile` when no file URL is available, plus any file
+    ///   or JSON encoding error thrown by `encodedData()` or `Data.write`.
+    ///
+    /// Side Effects:
+    /// Writes the catalog atomically to disk unless Test Mode is enabled.
     func saveToLoadedFile() throws -> SaveResult {
         // Test Mode lets contributors verify translation behavior without mutating the
         // user's original catalog on disk.
@@ -178,6 +265,14 @@ class LanguageParser: ObservableObject {
         return .saved
     }
 
+    /// Adds a Translation framework response to the loaded catalog.
+    ///
+    /// - Parameter response: The completed Translation framework response containing
+    ///   source text, target text, and target language.
+    ///
+    /// Side Effects:
+    /// Mutates `languageDictionary` and updates `translatedStringKeysByLanguage` for
+    /// the response target language.
     func add(translation response: TranslationSession.Response) {
         if let identifier = TranslationTargetsResolver.languageIdentifier(
             for: response.targetLanguage
@@ -190,6 +285,21 @@ class LanguageParser: ObservableObject {
         }
     }
 
+    /// Adds or replaces one target-language localization in the loaded catalog.
+    ///
+    /// - Parameters:
+    ///   - rawTranslation: Text returned by the Translation framework.
+    ///   - forLanguage: Catalog language identifier to write, for example `nl` or `pt-BR`.
+    ///   - original: Source string key in the catalog's top-level `strings` dictionary.
+    ///
+    /// Side Effects:
+    /// Mutates the in-memory catalog, preserves existing localization metadata where
+    /// possible, and marks the source key as translated for `forLanguage`.
+    ///
+    /// Implementation Notes:
+    /// Translation can alter printf-style placeholders or lowercase sentence-initial
+    /// words. The parser repairs placeholders first, then applies a conservative
+    /// capitalization adjustment so UI strings keep their original style.
     func add(translation rawTranslation: String, forLanguage: String, original: String) {
         if var strings = languageDictionary["strings"] as? [String: Any],
            var item = strings[original] as? [String: Any] {
@@ -243,6 +353,16 @@ class LanguageParser: ObservableObject {
         logger.error("Failed to get strings")
     }
 
+    /// Mirrors the source string's initial capitalization when the source begins uppercase.
+    ///
+    /// - Parameters:
+    ///   - translation: Candidate translated text.
+    ///   - original: Source catalog key used as the casing reference.
+    /// - Returns: `translation` with its first character uppercased only when the
+    ///   source starts with an uppercase character.
+    ///
+    /// This deliberately avoids lowercasing anything. Some languages and product names
+    /// require uppercase even when English source text does not.
     func capitalizationAdjustedTranslation(
         _ translation: String,
         matchingCapitalizationOf original: String
@@ -255,6 +375,14 @@ class LanguageParser: ObservableObject {
         return firstCharacter.uppercased() + String(translation.dropFirst())
     }
 
+    /// Extracts translatable source strings and caches existing target-language coverage.
+    ///
+    /// Side Effects:
+    /// Rebuilds `stringsToTranslate` and `translatedStringKeysByLanguage`.
+    ///
+    /// Performance:
+    /// This performs one full traversal of the loaded catalog. Subsequent
+    /// target-specific queries use the cache built here.
     func parse() {
         stringsToTranslate = []
         translatedStringKeysByLanguage = [:]
@@ -273,6 +401,14 @@ class LanguageParser: ObservableObject {
         }
     }
 
+    /// Returns source strings that still need work for a target language.
+    ///
+    /// - Parameters:
+    ///   - languageIdentifier: Target catalog identifier, or `nil` when no target is
+    ///     selected yet.
+    ///   - skippingTranslated: Whether existing non-empty target values should be
+    ///     excluded.
+    /// - Returns: Non-empty source strings eligible for translation.
     func stringsToTranslate(
         forLanguage languageIdentifier: String?,
         skippingTranslated: Bool
@@ -290,6 +426,11 @@ class LanguageParser: ObservableObject {
         }
     }
 
+    /// Encoded catalog data suitable for SwiftUI export.
+    ///
+    /// Returns empty data if encoding fails because `FileDocument` expects a
+    /// non-throwing value. The throwing `encodedData()` method is used for save paths
+    /// that can surface an error to the UI.
     var data: Data {
         do {
             return try encodedData()
@@ -299,6 +440,13 @@ class LanguageParser: ObservableObject {
         }
     }
 
+    /// Encodes the current catalog dictionary as pretty-printed JSON.
+    ///
+    /// - Returns: JSON bytes for the modified `.xcstrings` file.
+    /// - Throws: Any `JSONSerialization` error if the dictionary is not valid JSON.
+    ///
+    /// Side Effects:
+    /// None. Callers decide whether to export, save, or discard the resulting data.
     func encodedData() throws -> Data {
         try JSONSerialization.data(
             withJSONObject: languageDictionary,

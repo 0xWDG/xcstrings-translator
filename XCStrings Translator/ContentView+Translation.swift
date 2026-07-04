@@ -9,7 +9,17 @@ import Foundation
 import Translation
 import SwiftUI
 
+/// User actions and lifecycle transitions for the translation workflow.
+///
+/// This extension keeps state mutations together: file opening, language refresh,
+/// run reset, cancellation, finish/failure handling, and duration formatting. The
+/// asynchronous request loop itself lives in `ContentView+TranslationRun`.
 extension ContentView {
+    /// Loads Translation framework language availability and selects initial defaults.
+    ///
+    /// Side Effects:
+    /// Updates `supportedLanguages`, `sourceLanguage`, `targetLanguageOptions`, and
+    /// potentially `destinationSelection`.
     @MainActor
     func configureInitialLanguages() async {
         let languages = await languageAvailability.supportedLanguages
@@ -29,15 +39,30 @@ extension ContentView {
         await refreshAvailableTargetLanguages(selectDefaultTarget: true)
     }
 
+    /// Chooses the preferred source language from the system-supported list.
+    ///
+    /// - Parameter languages: Languages reported by `LanguageAvailability`.
+    /// - Returns: `en-US` when available, otherwise the first English language.
     func preferredDefaultSourceLanguage(in languages: [Locale.Language]) -> Locale.Language? {
         languages.first(where: { $0.matchesLanguageIdentifier("en-US") }) ??
             languages.first(where: { $0.languageCode?.identifier == "en" })
     }
 
+    /// Returns a localized display name for a language.
+    ///
+    /// - Parameter language: Language to display in the UI.
+    /// - Returns: Localized language name, or `nil` when Foundation has no display name.
     func languageName(for language: Locale.Language) -> String? {
         language.localizedDisplayName()
     }
 
+    /// Loads a string catalog and aligns the source picker with the catalog language.
+    ///
+    /// - Parameter url: URL received from the file picker or an Open URL event.
+    ///
+    /// Side Effects:
+    /// Resets the current translation run, mutates `languageParser`, and updates the
+    /// selected source language.
     @MainActor
     func openStringCatalog(_ url: URL) {
         resetTranslationState()
@@ -58,6 +83,10 @@ extension ContentView {
         }
     }
 
+    /// Updates or clears the Dock tile progress overlay.
+    ///
+    /// Side Effects:
+    /// Mutates AppKit's `NSDockTile` through `DockProgressController`.
     @MainActor
     func updateDockProgress() {
         DockProgressController.shared.update(
@@ -66,6 +95,10 @@ extension ContentView {
         )
     }
 
+    /// Resolves the persisted default-target setting into a picker selection.
+    ///
+    /// - Returns: A single matching language or `.allAvailable` when the setting is
+    ///   the sentinel value or no longer matches current system language support.
     func defaultDestinationSelection() -> TranslationTargetSelection {
         let identifier = languageParser.defaultTargetLanguageIdentifier
 
@@ -84,6 +117,13 @@ extension ContentView {
         return .allAvailable
     }
 
+    /// Rebuilds the target-language picker options for the current source language.
+    ///
+    /// - Parameter selectDefaultTarget: Whether to also apply the persisted default
+    ///   target selection after refreshing options.
+    ///
+    /// Side Effects:
+    /// Updates `targetLanguageOptions` and possibly `destinationSelection`.
     @MainActor
     func refreshAvailableTargetLanguages(selectDefaultTarget: Bool) async {
         let availableLanguages = await availableSystemTargetLanguages()
@@ -99,6 +139,9 @@ extension ContentView {
         }
     }
 
+    /// Assigns a destination selection only when it differs from the current value.
+    ///
+    /// Avoiding redundant writes prevents extra `onChange` resets in the root view.
     @MainActor
     func setDestinationSelectionIfNeeded(_ selection: TranslationTargetSelection) {
         guard destinationSelection != selection else {
@@ -108,6 +151,10 @@ extension ContentView {
         destinationSelection = selection
     }
 
+    /// Converts languages to the identifiers used for equality checks.
+    ///
+    /// - Parameter languages: Languages to normalize.
+    /// - Returns: Catalog identifiers with `maximalIdentifier` as the fallback.
     func languageIdentifiers(for languages: [Locale.Language]) -> [String] {
         languages.map {
             TranslationTargetsResolver.languageIdentifier(for: $0) ??
@@ -115,6 +162,11 @@ extension ContentView {
         }
     }
 
+    /// Clears all per-run progress and status state without unloading the catalog.
+    ///
+    /// Side Effects:
+    /// Resets translation UI state and snapshots the current skip setting for the next
+    /// run.
     @MainActor
     func resetTranslationState() {
         translatedStrings = [:]
@@ -136,6 +188,13 @@ extension ContentView {
         status = "Idle"
     }
 
+    /// Starts translating a single target language.
+    ///
+    /// - Parameter targetLanguage: Language for the next `TranslationSession`.
+    ///
+    /// Side Effects:
+    /// Updates active-target progress state and sets `translationConfiguration`, which
+    /// triggers SwiftUI's `.translationTask` modifier.
     @MainActor
     func beginTranslation(for targetLanguage: Locale.Language) {
         activeTargetLanguage = targetLanguage
@@ -159,6 +218,13 @@ extension ContentView {
         )
     }
 
+    /// Builds the status text for the active target language.
+    ///
+    /// - Parameters:
+    ///   - targetLanguage: Language currently being translated.
+    ///   - completedTargets: Count of target languages already completed.
+    ///   - totalTargets: Total target languages in the run.
+    /// - Returns: User-facing progress status.
     func translationStatus(
         for targetLanguage: Locale.Language,
         completedTargets: Int,
@@ -175,6 +241,11 @@ extension ContentView {
         return "Translating \(targetName)"
     }
 
+    /// Requests cancellation of the active translation run.
+    ///
+    /// Side Effects:
+    /// Clears the active session configuration, preserves already inserted parser
+    /// results, and updates status so the user can save partial work.
     @MainActor
     func cancelTranslation() {
         let completedUnits = completedTranslatedUnitsForRun
@@ -198,6 +269,11 @@ extension ContentView {
         }
     }
 
+    /// Marks the active target language complete and starts the next one if queued.
+    ///
+    /// Side Effects:
+    /// Updates progress counters, optionally saves a checkpoint, advances the pending
+    /// language queue, and shows the default-app prompt when the whole run completes.
     @MainActor
     func finishCurrentTarget() {
         guard !cancelTranslationRequested else {
@@ -243,6 +319,12 @@ extension ContentView {
         askToSetDefaultStringCatalogAppIfNeeded()
     }
 
+    /// Saves an auto-save checkpoint after a target language completes.
+    ///
+    /// - Returns: `true` when translation may continue, or `false` when saving failed
+    ///   and the run should stop before starting another target.
+    /// - Throws: This method catches and logs save errors because it is called from UI
+    ///   workflow code that reports failures through `status`.
     @MainActor
     func saveCompletedLanguageCheckpointIfNeeded() -> Bool {
         guard languageParser.autoSaveTranslations else {
@@ -267,6 +349,7 @@ extension ContentView {
         }
     }
 
+    /// Presents the default-app prompt after a successful run when appropriate.
     @MainActor
     func askToSetDefaultStringCatalogAppIfNeeded() {
         guard DefaultStringCatalogAppManager.shouldPromptAfterTranslation else {
@@ -276,6 +359,11 @@ extension ContentView {
         defaultAppPromptPresented = true
     }
 
+    /// Requests Launch Services registration for `.xcstrings` files.
+    ///
+    /// Side Effects:
+    /// Calls into `DefaultStringCatalogAppManager` and updates the status label with
+    /// the result.
     @MainActor
     func setDefaultStringCatalogApp() {
         DefaultStringCatalogAppManager.setAsDefault { result in
@@ -291,6 +379,13 @@ extension ContentView {
         }
     }
 
+    /// Handles a Translation framework failure.
+    ///
+    /// - Parameter error: Error thrown by `TranslationSession`.
+    ///
+    /// Side Effects:
+    /// Logs the error, clears active translation state, preserves completed parser
+    /// results, and marks the run as failed in the status label.
     @MainActor
     func failTranslation(_ error: Error) {
         logger.error(
@@ -307,6 +402,10 @@ extension ContentView {
         status = "Translation failed"
     }
 
+    /// Formats a duration for compact progress UI.
+    ///
+    /// - Parameter duration: Time interval in seconds.
+    /// - Returns: `1h 2m`, `2m 3s`, or `3s` depending on magnitude.
     func formattedDuration(_ duration: TimeInterval) -> String {
         let totalSeconds = max(Int(duration.rounded()), 0)
         let hours = totalSeconds / 3_600

@@ -7,21 +7,40 @@
 
 import SwiftUI
 
+/// Progress panel for the active or most recent translation run.
+///
+/// `ContentView` computes the metrics so this view can remain a pure rendering
+/// component. It shows a linear progress bar, compact run metrics, and a Stop button
+/// while translation is active.
 struct TranslationProgressView: View {
+    /// Human-readable workflow state, such as `Idle` or the active target language.
     let status: String
+    /// Normalized progress value between `0` and `1`.
     let progressValue: Double
+    /// Completed source-string/target-language units.
     let completedUnits: Int
+    /// Total planned source-string/target-language units.
     let totalUnits: Int
+    /// Completed strings for the active target language.
     let translatedStrings: Int
+    /// Strings planned for the active target language.
     let stringsToTranslate: Int
+    /// Completed target languages in the run.
     let completedLanguages: Int
+    /// Total target languages in the run.
     let totalLanguages: Int
+    /// Formatted elapsed time.
     let elapsedTime: String
+    /// Formatted ETA or terminal state text.
     let estimatedTimeRemaining: String
+    /// Whether a translation session is active.
     let isTranslating: Bool
+    /// Whether the last run completed successfully.
     let didFinishTranslation: Bool
+    /// Cancels the active translation run.
     let cancelTranslation: () -> Void
 
+    /// Compact percentage text shown beside the progress bar.
     private var progressText: String {
         guard totalUnits > 0 else {
             return "Ready"
@@ -30,6 +49,7 @@ struct TranslationProgressView: View {
         return "\(Int((progressValue * 100).rounded()))%"
     }
 
+    /// Active-language string count text.
     private var stringsText: String {
         guard stringsToTranslate > 0 else {
             return "No file"
@@ -38,6 +58,7 @@ struct TranslationProgressView: View {
         return "\(translatedStrings)/\(stringsToTranslate)"
     }
 
+    /// Target-language count text.
     private var languagesText: String {
         guard totalLanguages > 0 else {
             return "No target"
@@ -46,6 +67,7 @@ struct TranslationProgressView: View {
         return "\(completedLanguages)/\(totalLanguages)"
     }
 
+    /// Total unit count text.
     private var totalText: String {
         guard totalUnits > 0 else {
             return "No work"
@@ -54,6 +76,7 @@ struct TranslationProgressView: View {
         return "\(completedUnits)/\(totalUnits)"
     }
 
+    /// Color that communicates idle, active, and complete states.
     private var progressTint: Color {
         if didFinishTranslation {
             return .green
@@ -62,6 +85,10 @@ struct TranslationProgressView: View {
         return isTranslating ? .accentColor : .secondary
     }
 
+    /// Fixed metric grid definition.
+    ///
+    /// The minimum column width keeps the metric labels legible on smaller windows
+    /// without allowing dynamic values to resize the whole panel.
     private var metricColumns: [GridItem] {
         Array(
             repeating: GridItem(.flexible(minimum: 110), spacing: 10),
@@ -69,6 +96,12 @@ struct TranslationProgressView: View {
         )
     }
 
+    /// Builds the progress panel.
+    ///
+    /// Accessibility:
+    /// The progress bar exposes a synthesized value that includes percentage, unit
+    /// count, and ETA so assistive technologies receive the same context sighted users
+    /// get from the panel.
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             progressHeader
@@ -101,6 +134,7 @@ struct TranslationProgressView: View {
         .accessibilityLabel("Translation progress section")
     }
 
+    /// Header containing title, status, optional Stop action, and percentage.
     private var progressHeader: some View {
         HStack(alignment: .firstTextBaseline) {
             VStack(alignment: .leading, spacing: 4) {
@@ -133,6 +167,7 @@ struct TranslationProgressView: View {
         }
     }
 
+    /// Grid of compact run metrics.
     private var metricsGrid: some View {
         LazyVGrid(
             columns: metricColumns,
@@ -171,21 +206,31 @@ struct TranslationProgressView: View {
         .frame(maxWidth: .infinity)
     }
 
+    /// VoiceOver value for the progress bar.
     private var progressAccessibilityValue: String {
         "\(progressText), \(completedUnits) of \(totalUnits) units complete. ETA \(estimatedTimeRemaining)."
     }
 }
 
+/// Decorative animated border used to indicate active translation.
+///
+/// The glow is accessibility-hidden because it conveys state already represented by
+/// text, progress, and the Stop button.
 struct SiriProgressGlowView: View {
+    /// Whether the active animation should use the stronger glow state.
     let isActive: Bool
 
+    /// Rotation animation toggle for the angular gradient.
     @State private var rotateGlow = false
+    /// Pulse animation toggle for the border scale.
     @State private var pulseGlow = false
 
+    /// Opacity for idle and active states.
     private var glowOpacity: Double {
         isActive ? 0.9 : 0.28
     }
 
+    /// Scale used by the active pulse animation.
     private var glowScale: CGFloat {
         if !isActive {
             return 1
@@ -194,6 +239,7 @@ struct SiriProgressGlowView: View {
         return pulseGlow ? 1.035 : 0.98
     }
 
+    /// Builds the animated glow.
     var body: some View {
         RoundedRectangle(cornerRadius: 8)
             .stroke(
@@ -227,11 +273,16 @@ struct SiriProgressGlowView: View {
     }
 }
 
+/// Single compact metric in the progress panel.
 struct ProgressMetricView: View {
+    /// Metric title, kept as `LocalizedStringKey` for SwiftUI localization extraction.
     let title: LocalizedStringKey
+    /// Metric value rendered with monospaced digits.
     let value: String
+    /// SF Symbol name displayed beside the metric.
     let systemImage: String
 
+    /// Builds the metric row.
     var body: some View {
         HStack(spacing: 8) {
             Image(systemName: systemImage)

@@ -7,9 +7,12 @@
 
 import UniformTypeIdentifiers
 
+/// Uniform Type Identifier declarations used by file import and export flows.
 extension UTType {
-    // Xcode string catalogs are JSON files with a custom UTI. Declaring the type lets
-    // file pickers/exporters advertise `.xcstrings` instead of generic JSON.
+    /// Xcode String Catalog file type.
+    ///
+    /// Declaring the type lets file pickers/exporters advertise `.xcstrings` instead
+    /// of generic JSON while still allowing standard JSON tooling to read the file.
     static let xcstrings = UTType(
         importedAs: "com.apple.xcode.xcstrings",
         conformingTo: .json

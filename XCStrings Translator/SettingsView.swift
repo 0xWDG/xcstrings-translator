@@ -10,14 +10,30 @@ import OSLogViewer
 import StoreKit
 import SwiftExtras
 
+/// Settings sheet for translation preferences and project metadata.
+///
+/// This view edits `LanguageParser`'s persisted preferences directly through an
+/// environment object. The main workflow observes those published values and resets
+/// run state when settings such as "skip already translated" or the default target
+/// language change.
 struct SettingsView: View {
+    /// Dismiss action supplied by SwiftUI for the sheet.
     @Environment(\.dismiss) var dismiss
+    /// Shared parser model that owns persisted settings.
     @EnvironmentObject var languageParser: LanguageParser
+    /// Result text for the "Make Default App" action.
     @State private var defaultAppStatus: String?
 
+    /// Languages that can be selected as the default target.
     let supportedLanguages: [Locale.Language]
+    /// Display-name formatter supplied by `ContentView`.
     let languageName: (Locale.Language) -> String?
 
+    /// Builds the settings form.
+    ///
+    /// Side Effects:
+    /// Bindings write directly to `LanguageParser` properties, whose `didSet`
+    /// observers persist values in `UserDefaults`.
     var body: some View {
         SESettingsView(_changeLog: [
             .init(version: "0.0.1", text: "Initial release")
@@ -123,6 +139,11 @@ struct SettingsView: View {
         .frame(minWidth: 500, minHeight: 500)
     }
 
+    /// Registers this app as the default opener for `.xcstrings` files.
+    ///
+    /// Side Effects:
+    /// Calls Launch Services through `DefaultStringCatalogAppManager` and updates
+    /// `defaultAppStatus` with the result.
     private func makeDefaultAppForStringCatalogs() {
         DefaultStringCatalogAppManager.setAsDefault { result in
             switch result {
