@@ -7,6 +7,10 @@ It is built for developers who want to quickly fill or refresh localization
 entries without sending their string catalogs to a third-party translation
 service.
 
+## Documentation
+
+The documentation can be found here: https://0xwdg.github.io/xcstrings-translator
+
 ## Features
 
 - Open `.xcstrings` files from the app, Finder, or the macOS Open With menu.
