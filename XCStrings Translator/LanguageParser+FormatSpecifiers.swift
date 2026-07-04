@@ -13,13 +13,17 @@ extension LanguageParser {
         matching original: String
     ) -> String {
         let originalSpecifiers = formatSpecifiers(in: original)
-        let translationSpecifiers = formatSpecifiers(in: translation)
+        var preservedTranslation = collapsingRepeatedFormatSpecifiers(
+            in: translation,
+            matching: original,
+            originalSpecifiers: originalSpecifiers
+        )
+        let translationSpecifiers = formatSpecifiers(in: preservedTranslation)
 
         guard originalSpecifiers.count == translationSpecifiers.count else {
-            return translation
+            return preservedTranslation
         }
 
-        var preservedTranslation = translation
         for (originalSpecifier, translationSpecifier) in zip(
             originalSpecifiers,
             translationSpecifiers
@@ -32,6 +36,125 @@ extension LanguageParser {
         }
 
         return preservedTranslation
+    }
+
+    private func collapsingRepeatedFormatSpecifiers(
+        in translation: String,
+        matching original: String,
+        originalSpecifiers: [FormatSpecifier]
+    ) -> String {
+        var collapsedTranslation = translation
+
+        for originalSpecifier in originalSpecifiers.reversed() {
+            let originalSuffix = formatSpecifierSuffix(
+                in: original,
+                after: originalSpecifier.range.upperBound
+            )
+            let translationSpecifiers = formatSpecifiers(in: collapsedTranslation)
+            let runs = repeatedFormatSpecifierRuns(
+                in: collapsedTranslation,
+                matching: originalSpecifier.conversion,
+                suffix: originalSuffix,
+                specifiers: translationSpecifiers
+            )
+
+            for run in runs.reversed() {
+                collapsedTranslation.replaceSubrange(
+                    run,
+                    with: originalSpecifier.value + originalSuffix
+                )
+            }
+        }
+
+        return collapsedTranslation
+    }
+
+    private func repeatedFormatSpecifierRuns(
+        in string: String,
+        matching conversion: FormatSpecifier.Conversion,
+        suffix: String,
+        specifiers: [FormatSpecifier]
+    ) -> [Range<String.Index>] {
+        var runs: [Range<String.Index>] = []
+        var currentRunStart: String.Index?
+        var previousEnd: String.Index?
+        var currentRunCount = 0
+
+        for specifier in specifiers where specifier.conversion == conversion {
+            let end = formatSpecifierEnd(
+                in: string,
+                for: specifier,
+                suffix: suffix
+            )
+
+            guard let end else {
+                if currentRunCount > 1,
+                   let currentRunStart,
+                   let previousEnd {
+                    runs.append(currentRunStart..<previousEnd)
+                }
+                currentRunStart = nil
+                previousEnd = nil
+                currentRunCount = 0
+                continue
+            }
+
+            if previousEnd == specifier.range.lowerBound {
+                currentRunCount += 1
+                previousEnd = end
+            } else {
+                if currentRunCount > 1,
+                   let currentRunStart,
+                   let previousEnd {
+                    runs.append(currentRunStart..<previousEnd)
+                }
+
+                currentRunStart = specifier.range.lowerBound
+                previousEnd = end
+                currentRunCount = 1
+            }
+        }
+
+        if currentRunCount > 1,
+           let currentRunStart,
+           let previousEnd {
+            runs.append(currentRunStart..<previousEnd)
+        }
+
+        return runs
+    }
+
+    private func formatSpecifierEnd(
+        in string: String,
+        for specifier: FormatSpecifier,
+        suffix: String
+    ) -> String.Index? {
+        let end = string.index(
+            specifier.range.upperBound,
+            offsetBy: suffix.count,
+            limitedBy: string.endIndex
+        )
+
+        guard let end,
+              String(string[specifier.range.upperBound..<end]) == suffix else {
+            return nil
+        }
+
+        return end
+    }
+
+    private func formatSpecifierSuffix(
+        in string: String,
+        after index: String.Index
+    ) -> String {
+        var suffixEnd = index
+
+        while suffixEnd < string.endIndex,
+              string[suffixEnd].isLetter {
+            suffixEnd = string.index(after: suffixEnd)
+        }
+
+        return String(string[index..<suffixEnd])
     }
 
     private func formatSpecifiers(in string: String) -> [FormatSpecifier] {

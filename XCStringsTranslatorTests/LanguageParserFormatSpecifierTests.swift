@@ -37,6 +37,30 @@ struct LanguageParserFormatSpecifierTests {
         )
     }
 
+    @Test func addingTranslationCollapsesRepeatedUnitFormatSpecifier() async throws {
+        let parser = parserWithString("%lldm")
+
+        parser.add(
+            translation: "%ldm%ldm%ldm%ldm",
+            forLanguage: "nl",
+            original: "%lldm"
+        )
+
+        #expect(try translatedValue(in: parser, for: "%lldm") == "%lldm")
+    }
+
+    @Test func addingTranslationCollapsesRepeatedUnitFormatSpecifiersBySuffix() async throws {
+        let parser = parserWithString("%lldh %lldm")
+
+        parser.add(
+            translation: "%ldh%ldh %ldm%ldm%ldm%ldm",
+            forLanguage: "nl",
+            original: "%lldh %lldm"
+        )
+
+        #expect(try translatedValue(in: parser, for: "%lldh %lldm") == "%lldh %lldm")
+    }
+
     private func parserWithString(_ string: String) -> LanguageParser {
         let parser = LanguageParser()
         parser.languageDictionary = [

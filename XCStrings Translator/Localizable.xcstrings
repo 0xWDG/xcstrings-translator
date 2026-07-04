@@ -132,6 +132,7 @@
       }
     },
     "Arabic" : {
+      "extractionState" : "stale",
       "localizations" : {
         "da-DK" : {
           "stringUnit" : {
@@ -392,6 +393,7 @@
       }
     },
     "Bulgarian" : {
+      "extractionState" : "stale",
       "localizations" : {
         "da-DK" : {
           "stringUnit" : {
@@ -652,6 +654,7 @@
       }
     },
     "Catalan" : {
+      "extractionState" : "stale",
       "localizations" : {
         "da-DK" : {
           "stringUnit" : {
@@ -782,6 +785,7 @@
       }
     },
     "Chinese" : {
+      "extractionState" : "stale",
       "localizations" : {
         "da-DK" : {
           "stringUnit" : {
@@ -1952,6 +1956,7 @@
       }
     },
     "Croatian" : {
+      "extractionState" : "stale",
       "localizations" : {
         "da-DK" : {
           "stringUnit" : {
@@ -2082,6 +2087,7 @@
       }
     },
     "Czech" : {
+      "extractionState" : "stale",
       "localizations" : {
         "da-DK" : {
           "stringUnit" : {
@@ -2212,6 +2218,7 @@
       }
     },
     "Danish" : {
+      "extractionState" : "stale",
       "localizations" : {
         "da-DK" : {
           "stringUnit" : {
@@ -2862,6 +2869,7 @@
       }
     },
     "Dutch" : {
+      "extractionState" : "stale",
       "localizations" : {
         "da-DK" : {
           "stringUnit" : {
@@ -3122,6 +3130,7 @@
       }
     },
     "English" : {
+      "extractionState" : "stale",
       "localizations" : {
         "da-DK" : {
           "stringUnit" : {
@@ -3252,6 +3261,7 @@
       }
     },
     "English (British)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "da-DK" : {
           "stringUnit" : {
@@ -3382,6 +3392,7 @@
       }
     },
     "English (US)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "da-DK" : {
           "stringUnit" : {
@@ -3772,6 +3783,7 @@
       }
     },
     "Finnish" : {
+      "extractionState" : "stale",
       "localizations" : {
         "da-DK" : {
           "stringUnit" : {
@@ -3902,6 +3914,7 @@
       }
     },
     "French" : {
+      "extractionState" : "stale",
       "localizations" : {
         "da-DK" : {
           "stringUnit" : {
@@ -4032,6 +4045,7 @@
       }
     },
     "German" : {
+      "extractionState" : "stale",
       "localizations" : {
         "da-DK" : {
           "stringUnit" : {
@@ -4162,6 +4176,7 @@
       }
     },
     "Greek" : {
+      "extractionState" : "stale",
       "localizations" : {
         "da-DK" : {
           "stringUnit" : {
@@ -4292,6 +4307,7 @@
       }
     },
     "Hindi" : {
+      "extractionState" : "stale",
       "localizations" : {
         "da-DK" : {
           "stringUnit" : {
@@ -4422,6 +4438,7 @@
       }
     },
     "Hungarian" : {
+      "extractionState" : "stale",
       "localizations" : {
         "da-DK" : {
           "stringUnit" : {
@@ -4552,6 +4569,7 @@
       }
     },
     "Indonesian" : {
+      "extractionState" : "stale",
       "localizations" : {
         "da-DK" : {
           "stringUnit" : {
@@ -4812,6 +4830,7 @@
       }
     },
     "Italian" : {
+      "extractionState" : "stale",
       "localizations" : {
         "da-DK" : {
           "stringUnit" : {
@@ -4942,6 +4961,7 @@
       }
     },
     "Japanese" : {
+      "extractionState" : "stale",
       "localizations" : {
         "da-DK" : {
           "stringUnit" : {
@@ -5072,6 +5092,7 @@
       }
     },
     "Korean" : {
+      "extractionState" : "stale",
       "localizations" : {
         "da-DK" : {
           "stringUnit" : {
@@ -5853,6 +5874,7 @@
       }
     },
     "Norwegian" : {
+      "extractionState" : "stale",
       "localizations" : {
         "da-DK" : {
           "stringUnit" : {
@@ -7153,6 +7175,7 @@
       }
     },
     "Polish" : {
+      "extractionState" : "stale",
       "localizations" : {
         "da-DK" : {
           "stringUnit" : {
@@ -7283,6 +7306,7 @@
       }
     },
     "Portuguese (Brazil)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "da-DK" : {
           "stringUnit" : {
@@ -7413,6 +7437,7 @@
       }
     },
     "Portuguese (Portugal)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "da-DK" : {
           "stringUnit" : {
@@ -7803,6 +7828,7 @@
       }
     },
     "Romanian" : {
+      "extractionState" : "stale",
       "localizations" : {
         "da-DK" : {
           "stringUnit" : {
@@ -7933,6 +7959,7 @@
       }
     },
     "Russian" : {
+      "extractionState" : "stale",
       "localizations" : {
         "da-DK" : {
           "stringUnit" : {
@@ -9234,6 +9261,7 @@
       }
     },
     "Slovak" : {
+      "extractionState" : "stale",
       "localizations" : {
         "da-DK" : {
           "stringUnit" : {
@@ -9364,6 +9392,7 @@
       }
     },
     "Slovene" : {
+      "extractionState" : "stale",
       "localizations" : {
         "da-DK" : {
           "stringUnit" : {
@@ -9754,6 +9783,7 @@
       }
     },
     "Spanish" : {
+      "extractionState" : "stale",
       "localizations" : {
         "da-DK" : {
           "stringUnit" : {
@@ -10535,6 +10565,7 @@
       }
     },
     "Swedish" : {
+      "extractionState" : "stale",
       "localizations" : {
         "da-DK" : {
           "stringUnit" : {
@@ -11185,6 +11216,7 @@
       }
     },
     "Thai" : {
+      "extractionState" : "stale",
       "localizations" : {
         "da-DK" : {
           "stringUnit" : {
@@ -12486,6 +12518,7 @@
       }
     },
     "Turkish" : {
+      "extractionState" : "stale",
       "localizations" : {
         "da-DK" : {
           "stringUnit" : {
@@ -12746,6 +12779,7 @@
       }
     },
     "Vietnamese" : {
+      "extractionState" : "stale",
       "localizations" : {
         "da-DK" : {
           "stringUnit" : {

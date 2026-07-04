@@ -89,7 +89,6 @@ struct ContentView: View {
         subsystem: "nl.wesleydegroot.xcstrings-translator",
         category: "User Interface"
     )
-    let languageList = LanguageList()
     let languageAvailability = LanguageAvailability()
     private let progressTimer = Timer.publish(
         every: 1,

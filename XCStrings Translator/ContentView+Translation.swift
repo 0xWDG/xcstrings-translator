@@ -13,7 +13,7 @@ extension ContentView {
     @MainActor
     func configureInitialLanguages() async {
         let languages = await languageAvailability.supportedLanguages
-        let defaultSourceLanguage = languages.first(where: { $0.languageCode == "en" })
+        let defaultSourceLanguage = preferredDefaultSourceLanguage(in: languages)
 
         // Avoid reassigning equivalent arrays. SwiftUI treats every assignment as a
         // dependency update, and redundant updates can contribute to AttributeGraph
@@ -29,8 +29,13 @@ extension ContentView {
         await refreshAvailableTargetLanguages(selectDefaultTarget: true)
     }
 
+    func preferredDefaultSourceLanguage(in languages: [Locale.Language]) -> Locale.Language? {
+        languages.first(where: { $0.matchesLanguageIdentifier("en-US") }) ??
+            languages.first(where: { $0.languageCode?.identifier == "en" })
+    }
+
     func languageName(for language: Locale.Language) -> String? {
-        languageList.language(for: language)?.name
+        language.localizedDisplayName()
     }
 
     @MainActor
@@ -41,11 +46,16 @@ extension ContentView {
         // The catalog source language is stored as a string identifier. Match by
         // language code so region-specific catalog values still select the available
         // system source language.
-        sourceLanguage = supportedLanguages.first(where: {
-            $0.languageCode == Locale.Language(
-                identifier: languageParser.sourceLanguage
-            ).languageCode
-        })
+        let catalogSourceLanguage = Locale.Language(identifier: languageParser.sourceLanguage)
+        let matchingLanguages = supportedLanguages.filter {
+            $0.languageCode == catalogSourceLanguage.languageCode
+        }
+
+        sourceLanguage = if catalogSourceLanguage.languageCode?.identifier == "en" {
+            preferredDefaultSourceLanguage(in: matchingLanguages)
+        } else {
+            matchingLanguages.first
+        }
     }
 
     @MainActor

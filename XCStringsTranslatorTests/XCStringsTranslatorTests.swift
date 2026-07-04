@@ -99,12 +99,34 @@ struct XCStringsTranslatorTests {
         )
     }
 
-    @Test func languageListPrefersExactIdentifierMatches() async throws {
-        let language = LanguageList().language(
-            for: Locale.Language(identifier: "pt-BR")
+    @Test func systemLanguageDisplayPreservesExactIdentifier() async throws {
+        let language = Locale.Language(identifier: "pt-BR")
+
+        #expect(language.systemDisplayIdentifier == "pt-BR")
+        #expect(language.localizedDisplayName(in: Locale(identifier: "en")) == "Portuguese (Brazil)")
+    }
+
+    @Test func defaultSourceLanguagePrefersEnglishUnitedStates() async throws {
+        let defaultSourceLanguage = ContentView().preferredDefaultSourceLanguage(
+            in: [
+                Locale.Language(identifier: "en"),
+                Locale.Language(identifier: "nl"),
+                Locale.Language(identifier: "en-US")
+            ]
         )
 
-        #expect(language?.identifier == "pt-BR")
+        #expect(defaultSourceLanguage?.matchesLanguageIdentifier("en-US") == true)
+    }
+
+    @Test func defaultSourceLanguageFallsBackToGenericEnglish() async throws {
+        let defaultSourceLanguage = ContentView().preferredDefaultSourceLanguage(
+            in: [
+                Locale.Language(identifier: "nl"),
+                Locale.Language(identifier: "en")
+            ]
+        )
+
+        #expect(defaultSourceLanguage?.languageCode?.identifier == "en")
     }
 }
 
