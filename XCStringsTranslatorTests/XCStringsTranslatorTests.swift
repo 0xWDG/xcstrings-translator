@@ -402,3 +402,4 @@ struct LanguageParserTests {
         )
     }
 }
+// swiftlint:disable:this file_length
