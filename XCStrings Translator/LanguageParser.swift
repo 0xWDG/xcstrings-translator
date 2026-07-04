@@ -454,3 +454,4 @@ class LanguageParser: ObservableObject {
         )
     }
 }
+// swiftlint:disable:this file_length
