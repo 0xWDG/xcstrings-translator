@@ -11,10 +11,52 @@ on:
   # Dispatch if triggered using Github (website)
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   Build-documentation:
     if: github.repository_owner == '0xWDG'
     runs-on: macos-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Build documentation
-        uses: 0xWDG/build-documentation@main
+        run: |
+          xcodebuild docbuild \
+            -project "XCStrings Translator.xcodeproj" \
+            -scheme "XCStrings Translator" \
+            -configuration Release \
+            -destination "platform=macOS" \
+            -derivedDataPath build/DocC \
+            CODE_SIGNING_ALLOWED=NO
+
+      - name: Export documentation HTML
+        run: |
+          archive_path="$(find build/DocC -type d -name "XCStrings Translator.doccarchive" | head -n 1)"
+
+          if [[ -z "$archive_path" ]]; then
+            echo "XCStrings Translator.doccarchive was not generated."
+            exit 1
+          fi
+
+          rm -rf documentation-html
+          xcrun docc process-archive transform-for-static-hosting \
+            "$archive_path" \
+            --output-path documentation-html \
+            --hosting-base-path xcstrings-translator
+
+      - name: Publish documentation
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          cd documentation-html
+          git init
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "Update documentation"
+          git branch -M documentation
+          git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git push --force origin documentation
