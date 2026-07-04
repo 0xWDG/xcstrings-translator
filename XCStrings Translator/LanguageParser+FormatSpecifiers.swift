@@ -21,14 +21,27 @@ extension LanguageParser {
         let translationSpecifiers = formatSpecifiers(in: preservedTranslation)
 
         guard originalSpecifiers.count == translationSpecifiers.count else {
-            return preservedTranslation
+            return repairingMalformedFormatSpecifiers(
+                in: preservedTranslation,
+                matching: original,
+                originalSpecifiers: originalSpecifiers
+            )
+        }
+
+        guard zip(originalSpecifiers, translationSpecifiers).allSatisfy({
+            $0.conversion == $1.conversion
+        }) else {
+            return repairingMalformedFormatSpecifiers(
+                in: preservedTranslation,
+                matching: original,
+                originalSpecifiers: originalSpecifiers
+            )
         }
 
         for (originalSpecifier, translationSpecifier) in zip(
             originalSpecifiers,
             translationSpecifiers
-        ).reversed() where originalSpecifier.conversion == translationSpecifier.conversion
-            && originalSpecifier.value != translationSpecifier.value {
+        ).reversed() where originalSpecifier.value != translationSpecifier.value {
             preservedTranslation.replaceSubrange(
                 translationSpecifier.range,
                 with: originalSpecifier.value
@@ -36,6 +49,160 @@ extension LanguageParser {
         }
 
         return preservedTranslation
+    }
+
+    private func repairingMalformedFormatSpecifiers(
+        in translation: String,
+        matching original: String,
+        originalSpecifiers: [FormatSpecifier]
+    ) -> String {
+        guard !originalSpecifiers.isEmpty else {
+            return translation
+        }
+
+        var repairedTranslation = translation
+
+        if let leadingClusterRange = leadingPercentClusterRange(in: repairedTranslation) {
+            if originalSpecifiers.count == 1 {
+                repairedTranslation.replaceSubrange(
+                    leadingClusterRange,
+                    with: originalSpecifiers[0].value
+                )
+            } else if formatSpecifiers(in: String(repairedTranslation[leadingClusterRange])).isEmpty {
+                repairedTranslation.removeSubrange(leadingClusterRange)
+            }
+        }
+
+        var matchedOriginalIndexes = Set<Int>()
+        var matchedTranslationIndexes = Set<Int>()
+        let translationSpecifiers = formatSpecifiers(in: repairedTranslation)
+        var replacements: [(range: Range<String.Index>, value: String)] = []
+
+        for originalIndex in originalSpecifiers.indices.reversed() {
+            guard let translationIndex = translationSpecifiers.indices.reversed().first(where: {
+                !matchedTranslationIndexes.contains($0) &&
+                    translationSpecifiers[$0].conversion == originalSpecifiers[originalIndex].conversion
+            }) else {
+                continue
+            }
+
+            matchedOriginalIndexes.insert(originalIndex)
+            matchedTranslationIndexes.insert(translationIndex)
+
+            if translationSpecifiers[translationIndex].value != originalSpecifiers[originalIndex].value {
+                replacements.append(
+                    (
+                        range: translationSpecifiers[translationIndex].range,
+                        value: originalSpecifiers[originalIndex].value
+                    )
+                )
+            }
+        }
+
+        for replacement in replacements.sorted(by: { $0.range.lowerBound > $1.range.lowerBound }) {
+            repairedTranslation.replaceSubrange(replacement.range, with: replacement.value)
+        }
+
+        let missingSpecifiers = originalSpecifiers.indices
+            .filter { !matchedOriginalIndexes.contains($0) }
+            .map { originalSpecifiers[$0].value }
+
+        for missingSpecifier in missingSpecifiers.reversed() {
+            insertMissingFormatSpecifier(missingSpecifier, into: &repairedTranslation)
+        }
+
+        return repairedTranslation
+    }
+
+    private func insertMissingFormatSpecifier(
+        _ specifier: String,
+        into translation: inout String
+    ) {
+        if let commaIndex = translation.firstIndex(of: ",") {
+            let needsLeadingSpace = commaIndex > translation.startIndex &&
+                translation[translation.index(before: commaIndex)].isWhitespace == false
+            translation.insert(contentsOf: "\(needsLeadingSpace ? " " : "")\(specifier)", at: commaIndex)
+            return
+        }
+
+        if translation.isEmpty {
+            translation = specifier
+        } else {
+            translation = "\(specifier) \(translation)"
+        }
+    }
+
+    private func leadingPercentClusterRange(in string: String) -> Range<String.Index>? {
+        var index = string.startIndex
+        var lastFragmentEnd: String.Index?
+
+        while index < string.endIndex {
+            if string[index].isWhitespace {
+                index = string.index(after: index)
+                continue
+            }
+
+            guard string[index] == "%" else {
+                break
+            }
+
+            index = percentFragmentEnd(in: string, from: index)
+            lastFragmentEnd = index
+        }
+
+        guard let lastFragmentEnd else {
+            return nil
+        }
+
+        return string.startIndex..<lastFragmentEnd
+    }
+
+    private func percentFragmentEnd(in string: String, from start: String.Index) -> String.Index {
+        let index = string.index(after: start)
+
+        guard index < string.endIndex else {
+            return index
+        }
+
+        if string[index] == "%" {
+            return string.index(after: index)
+        }
+
+        let parsedEnd = parsedFormatSpecifierEnd(in: string, from: start)
+        if parsedEnd > start {
+            return parsedEnd
+        }
+
+        if string[index] == "l" {
+            let nextIndex = string.index(after: index)
+            if nextIndex < string.endIndex, string[nextIndex] == "l" {
+                return string.index(after: nextIndex)
+            }
+        }
+
+        return string.index(after: index)
+    }
+
+    private func parsedFormatSpecifierEnd(in string: String, from start: String.Index) -> String.Index {
+        var index = string.index(after: start)
+
+        parsePositionalArgument(in: string, from: &index)
+        parseCharacters(in: string, from: &index, matching: "-+ #0'")
+        parseWidthOrPrecision(in: string, from: &index)
+
+        if index < string.endIndex, string[index] == "." {
+            index = string.index(after: index)
+            parseWidthOrPrecision(in: string, from: &index)
+        }
+
+        parseLengthModifier(in: string, from: &index)
+
+        guard index < string.endIndex,
+              FormatSpecifier.Conversion(character: string[index]) != nil else {
+            return start
+        }
+
+        return string.index(after: index)
     }
 
     private func collapsingRepeatedFormatSpecifiers(

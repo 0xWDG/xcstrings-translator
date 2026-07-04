@@ -61,6 +61,48 @@ struct LanguageParserFormatSpecifierTests {
         #expect(try translatedValue(in: parser, for: "%lldh %lldm") == "%lldh %lldm")
     }
 
+    @Test func addingTranslationRepairsExplodedLongLongSpecifier() async throws {
+        let parser = parserWithString("%lld")
+
+        parser.add(
+            translation: "%ld%n%r%n%j",
+            forLanguage: "nl",
+            original: "%lld"
+        )
+
+        #expect(try translatedValue(in: parser, for: "%lld") == "%lld")
+    }
+
+    @Test func addingTranslationRepairsMalformedLeadingSpecifierCluster() async throws {
+        let parser = parserWithString("%lld percent")
+
+        parser.add(
+            translation: "%I %ll %ld %p%r ciento",
+            forLanguage: "es",
+            original: "%lld percent"
+        )
+
+        #expect(try translatedValue(in: parser, for: "%lld percent", language: "es") == "%lld ciento")
+    }
+
+    @Test func addingTranslationRestoresDroppedPositionalSpecifier() async throws {
+        let parser = parserWithString("Step %1$lld, %2$@")
+
+        parser.add(
+            translation: "%IÉtape, %@",
+            forLanguage: "fr",
+            original: "Step %1$lld, %2$@"
+        )
+
+        #expect(
+            try translatedValue(
+                in: parser,
+                for: "Step %1$lld, %2$@",
+                language: "fr"
+            ) == "Étape %1$lld, %2$@"
+        )
+    }
+
     private func parserWithString(_ string: String) -> LanguageParser {
         let parser = LanguageParser()
         parser.languageDictionary = [
@@ -75,12 +117,13 @@ struct LanguageParserFormatSpecifierTests {
 
     private func translatedValue(
         in parser: LanguageParser,
-        for string: String
+        for string: String,
+        language: String = "nl"
     ) throws -> String? {
         let strings = try #require(parser.languageDictionary["strings"] as? [String: Any])
         let item = try #require(strings[string] as? [String: Any])
         let localizations = try #require(item["localizations"] as? [String: Any])
-        let localization = try #require(localizations["nl"] as? [String: Any])
+        let localization = try #require(localizations[language] as? [String: Any])
         let stringUnit = try #require(localization["stringUnit"] as? [String: Any])
         return stringUnit["value"] as? String
     }
