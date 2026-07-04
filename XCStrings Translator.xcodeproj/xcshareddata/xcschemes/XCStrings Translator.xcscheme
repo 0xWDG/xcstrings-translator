@@ -6,6 +6,24 @@
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES"
       buildArchitectures = "Automatic">
+      <PostActions>
+         <ExecutionAction
+            ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
+            <ActionContent
+               title = "Copy Release App to Applications"
+               scriptText = "if [ &quot;${CONFIGURATION}&quot; = &quot;Release&quot; ]; then&#10;  /usr/bin/ditto &quot;${BUILT_PRODUCTS_DIR}/${FULL_PRODUCT_NAME}&quot; &quot;/Applications/${FULL_PRODUCT_NAME}&quot;&#10;fi">
+               <EnvironmentBuildable>
+                  <BuildableReference
+                     BuildableIdentifier = "primary"
+                     BlueprintIdentifier = "2B7646FD2D4D12AD00C22D54"
+                     BuildableName = "XCStrings Translator.app"
+                     BlueprintName = "XCStrings Translator"
+                     ReferencedContainer = "container:XCStrings Translator.xcodeproj">
+                  </BuildableReference>
+               </EnvironmentBuildable>
+            </ActionContent>
+         </ExecutionAction>
+      </PostActions>
       <BuildActionEntries>
          <BuildActionEntry
             buildForTesting = "YES"

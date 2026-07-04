@@ -57,6 +57,10 @@ struct TranslationTargetsResolver {
             return "\(languageCode)-\(script)"
         }
 
+        if ["it", "nl"].contains(languageCode) {
+            return languageCode
+        }
+
         // Most .xcstrings files use BCP-47 language keys. Preserve the region for
         // languages where region-specific translations are distinct catalog entries.
         if let region = language.region?.identifier {
@@ -130,11 +134,13 @@ struct ContentView: View {
                 languageName: languageName(for:),
                 translate: {
                     Task {
+                        print("Translate - do not overwrite")
                         await translate()
                     }
                 },
                 translateOverwritingExisting: {
                     Task {
+                        print("Translate - do overwrite")
                         await translate(overwritingExistingTranslations: true)
                     }
                 }

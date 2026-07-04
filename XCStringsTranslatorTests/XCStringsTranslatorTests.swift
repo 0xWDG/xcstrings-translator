@@ -63,6 +63,29 @@ struct XCStringsTranslatorTests {
         )
     }
 
+    @Test func languageIdentifierPrefersLanguageOnlyForDutchAndItalian() async throws {
+        #expect(
+            TranslationTargetsResolver.languageIdentifier(
+                for: Locale.Language(identifier: "nl-NL")
+            ) == "nl"
+        )
+        #expect(
+            TranslationTargetsResolver.languageIdentifier(
+                for: Locale.Language(identifier: "nl-nl")
+            ) == "nl"
+        )
+        #expect(
+            TranslationTargetsResolver.languageIdentifier(
+                for: Locale.Language(identifier: "it-IT")
+            ) == "it"
+        )
+        #expect(
+            TranslationTargetsResolver.languageIdentifier(
+                for: Locale.Language(identifier: "it-it")
+            ) == "it"
+        )
+    }
+
     @Test func languageIdentifierPreservesChineseScriptIdentifiers() async throws {
         #expect(
             TranslationTargetsResolver.languageIdentifier(

@@ -12,6 +12,7 @@
 		2B8693812D58D4360022617A /* OSLogViewer in Frameworks */ = {isa = PBXBuildFile; productRef = 2B8693802D58D4360022617A /* OSLogViewer */; };
 		2BDFBA562FE864DA00E1ED62 /* XCStringsTranslatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDFBA542FE864DA00E1ED62 /* XCStringsTranslatorTests.swift */; };
 		2BF27C112FE8F50200E1ED62 /* LanguageParserCapitalizationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF27C102FE8F50200E1ED62 /* LanguageParserCapitalizationTests.swift */; };
+		2BF27C132FEF095000E1ED62 /* LanguageParserFormatSpecifierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF27C122FEF095000E1ED62 /* LanguageParserFormatSpecifierTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +30,7 @@
 		2B76470F2D4D12AE00C22D54 /* XCStrings Translator Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "XCStrings Translator Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BDFBA542FE864DA00E1ED62 /* XCStringsTranslatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCStringsTranslatorTests.swift; sourceTree = "<group>"; };
 		2BF27C102FE8F50200E1ED62 /* LanguageParserCapitalizationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageParserCapitalizationTests.swift; sourceTree = "<group>"; };
+		2BF27C122FEF095000E1ED62 /* LanguageParserFormatSpecifierTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageParserFormatSpecifierTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -103,6 +105,7 @@
 			isa = PBXGroup;
 			children = (
 				2BF27C102FE8F50200E1ED62 /* LanguageParserCapitalizationTests.swift */,
+				2BF27C122FEF095000E1ED62 /* LanguageParserFormatSpecifierTests.swift */,
 				2BDFBA542FE864DA00E1ED62 /* XCStringsTranslatorTests.swift */,
 			);
 			path = XCStringsTranslatorTests;
@@ -234,6 +237,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2BF27C112FE8F50200E1ED62 /* LanguageParserCapitalizationTests.swift in Sources */,
+				2BF27C132FEF095000E1ED62 /* LanguageParserFormatSpecifierTests.swift in Sources */,
 				2BDFBA562FE864DA00E1ED62 /* XCStringsTranslatorTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

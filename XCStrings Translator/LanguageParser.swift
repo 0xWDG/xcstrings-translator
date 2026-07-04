@@ -193,8 +193,10 @@ class LanguageParser: ObservableObject {
     func add(translation rawTranslation: String, forLanguage: String, original: String) {
         if var strings = languageDictionary["strings"] as? [String: Any],
            var item = strings[original] as? [String: Any] {
-            let normalizedTranslation = rawTranslation
-                .replacingOccurrences(of: "%Lld", with: "%lld")
+            let normalizedTranslation = preservingFormatSpecifiers(
+                in: rawTranslation.replacingOccurrences(of: "%Lld", with: "%lld"),
+                matching: original
+            )
             let translation = capitalizationAdjustedTranslation(
                 normalizedTranslation,
                 matchingCapitalizationOf: original
