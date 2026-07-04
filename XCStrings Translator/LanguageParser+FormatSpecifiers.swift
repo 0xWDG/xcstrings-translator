@@ -470,3 +470,4 @@ private struct FormatSpecifier {
     let range: Range<String.Index>
     let conversion: Conversion
 }
+// swiftlint:disable:this file_length
