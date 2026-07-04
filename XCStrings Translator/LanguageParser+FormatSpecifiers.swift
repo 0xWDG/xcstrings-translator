@@ -87,7 +87,6 @@ extension LanguageParser {
         matching original: String,
         originalSpecifiers: [FormatSpecifier]
     ) -> String {
-        _ = original
         guard !originalSpecifiers.isEmpty else {
             return translation
         }
