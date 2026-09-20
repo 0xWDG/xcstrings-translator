@@ -142,57 +142,61 @@ struct ContentView: View {
         in: .common
     ).autoconnect()
 
+    // swiftlint:disable private_swiftui_state
+    // These properties are internal only so ContentView extensions in companion files
+    // can coordinate one translation workflow. Swift's `private` is file-scoped.
     /// Shared catalog model observed by all workflow and settings views.
-    @StateObject private var languageParser = LanguageParser()
+    @StateObject var languageParser = LanguageParser()
 
     /// Translations completed for the currently active target language.
-    @State private var translatedStrings: [String: String] = [:]
+    @State var translatedStrings: [String: String] = [:]
     /// Source language selected in the header picker.
-    @State private var sourceLanguage: Locale.Language?
+    @State var sourceLanguage: Locale.Language?
     /// Target picker value before it is resolved into concrete languages.
-    @State private var destinationSelection: TranslationTargetSelection?
+    @State var destinationSelection: TranslationTargetSelection?
     /// System-supported languages reported by the Translation framework.
-    @State private var supportedLanguages: [Locale.Language] = []
+    @State var supportedLanguages: [Locale.Language] = []
     /// Target languages compatible with the selected source language.
-    @State private var targetLanguageOptions: [Locale.Language] = []
+    @State var targetLanguageOptions: [Locale.Language] = []
     /// Non-nil configuration drives SwiftUI's `translationTask` modifier.
-    @State private var translationConfiguration: TranslationSession.Configuration?
+    @State var translationConfiguration: TranslationSession.Configuration?
     /// Human-readable status shown in the progress panel.
-    @State private var status: String = "Idle"
+    @State var status: String = "Idle"
     /// Controls presentation of the Settings sheet.
     @State private var settingsOpened = false
     /// Controls presentation of SwiftUI's export panel.
     @State private var exportFile = false
     /// Target language currently being translated.
-    @State private var activeTargetLanguage: Locale.Language?
+    @State var activeTargetLanguage: Locale.Language?
     /// Remaining target languages queued after the active target finishes.
-    @State private var pendingTargetLanguages: [Locale.Language] = []
+    @State var pendingTargetLanguages: [Locale.Language] = []
     /// Total target languages in the current run.
-    @State private var totalTargetLanguages = 0
+    @State var totalTargetLanguages = 0
     /// Target languages fully completed in the current run.
-    @State private var completedTargetLanguages = 0
+    @State var completedTargetLanguages = 0
     /// Total string-language units planned for the current run.
-    @State private var totalTranslationUnitsForRun = 0
+    @State var totalTranslationUnitsForRun = 0
     /// Completed units from previous target languages in the current run.
-    @State private var completedUnitsBeforeCurrentTarget = 0
+    @State var completedUnitsBeforeCurrentTarget = 0
     /// Units planned for the active target language.
-    @State private var currentTargetTranslationUnits = 0
+    @State var currentTargetTranslationUnits = 0
     /// Snapshot of the skip setting for the current run.
-    @State private var skipAlreadyTranslatedForCurrentRun = true
+    @State var skipAlreadyTranslatedForCurrentRun = true
     /// Whether the latest run completed without cancellation or failure.
-    @State private var didFinishTranslation = false
+    @State var didFinishTranslation = false
     /// Cooperative cancellation flag checked before and after each translation request.
-    @State private var cancelTranslationRequested = false
+    @State var cancelTranslationRequested = false
     /// Source string currently being translated, used to scroll the list.
-    @State private var currentTranslation: String?
+    @State var currentTranslation: String?
     /// Start time for elapsed-time and ETA calculation.
-    @State private var translationStartedAt: Date?
+    @State var translationStartedAt: Date?
     /// End time for completed, cancelled, or failed runs.
-    @State private var translationEndedAt: Date?
+    @State var translationEndedAt: Date?
     /// Timer-driven clock value used while a run is active.
-    @State private var timerDate = Date()
+    @State var timerDate = Date()
     /// Controls the post-translation default-app prompt.
-    @State private var defaultAppPromptPresented = false
+    @State var defaultAppPromptPresented = false
+    // swiftlint:enable private_swiftui_state
 
     // MARK: File Picker
 
