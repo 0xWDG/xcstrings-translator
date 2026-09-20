@@ -6,8 +6,8 @@
 //
 
 import Foundation
-import Translation
 import SwiftUI
+import Translation
 
 /// User actions and lifecycle transitions for the translation workflow.
 ///

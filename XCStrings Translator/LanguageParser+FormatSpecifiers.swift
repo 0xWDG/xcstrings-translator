@@ -93,16 +93,10 @@ extension LanguageParser {
 
         var repairedTranslation = translation
 
-        if let leadingClusterRange = leadingPercentClusterRange(in: repairedTranslation) {
-            if originalSpecifiers.count == 1 {
-                repairedTranslation.replaceSubrange(
-                    leadingClusterRange,
-                    with: originalSpecifiers[0].value
-                )
-            } else if formatSpecifiers(in: String(repairedTranslation[leadingClusterRange])).isEmpty {
-                repairedTranslation.removeSubrange(leadingClusterRange)
-            }
-        }
+        repairLeadingPercentCluster(
+            in: &repairedTranslation,
+            matching: originalSpecifiers
+        )
 
         var matchedOriginalIndexes = Set<Int>()
         var matchedTranslationIndexes = Set<Int>()
@@ -130,19 +124,104 @@ extension LanguageParser {
             }
         }
 
+        appendUnexpectedSpecifierRemovals(
+            to: &replacements,
+            from: translationSpecifiers,
+            excluding: matchedTranslationIndexes,
+            in: repairedTranslation
+        )
+
         for replacement in replacements.sorted(by: { $0.range.lowerBound > $1.range.lowerBound }) {
             repairedTranslation.replaceSubrange(replacement.range, with: replacement.value)
         }
 
+        insertMissingFormatSpecifiers(
+            from: originalSpecifiers,
+            excluding: matchedOriginalIndexes,
+            into: &repairedTranslation
+        )
+
+        return repairedTranslation
+    }
+
+    /// Replaces or removes an invalid leading percent cluster.
+    private func repairLeadingPercentCluster(
+        in translation: inout String,
+        matching originalSpecifiers: [FormatSpecifier]
+    ) {
+        guard let range = leadingPercentClusterRange(in: translation) else {
+            return
+        }
+
+        if originalSpecifiers.count == 1 {
+            translation.replaceSubrange(range, with: originalSpecifiers[0].value)
+        } else if formatSpecifiers(in: String(translation[range])).isEmpty {
+            translation.removeSubrange(range)
+        }
+    }
+
+    /// Inserts original placeholders that were not found in the translated text.
+    private func insertMissingFormatSpecifiers(
+        from originalSpecifiers: [FormatSpecifier],
+        excluding matchedOriginalIndexes: Set<Int>,
+        into translation: inout String
+    ) {
         let missingSpecifiers = originalSpecifiers.indices
             .filter { !matchedOriginalIndexes.contains($0) }
             .map { originalSpecifiers[$0].value }
 
-        for missingSpecifier in missingSpecifiers.reversed() {
-            insertMissingFormatSpecifier(missingSpecifier, into: &repairedTranslation)
+        for specifier in missingSpecifiers.reversed() {
+            insertMissingFormatSpecifier(specifier, into: &translation)
+        }
+    }
+
+    /// Adds removals for translated placeholders with no source equivalent.
+    private func appendUnexpectedSpecifierRemovals(
+        to replacements: inout [(range: Range<String.Index>, value: String)],
+        from translationSpecifiers: [FormatSpecifier],
+        excluding matchedTranslationIndexes: Set<Int>,
+        in translation: String
+    ) {
+        for index in translationSpecifiers.indices
+            where !matchedTranslationIndexes.contains(index) {
+            replacements.append(
+                (
+                    range: rangeRemovingFormatSpecifier(
+                        translationSpecifiers[index],
+                        from: translation
+                    ),
+                    value: ""
+                )
+            )
+        }
+    }
+
+    /// Returns a range that removes an unexpected placeholder and one adjacent gap.
+    ///
+    /// - Parameters:
+    ///   - specifier: Placeholder that has no matching source placeholder.
+    ///   - string: Translation containing `specifier`.
+    /// - Returns: The placeholder range, extended through adjacent whitespace when possible.
+    ///
+    /// Removing the adjacent gap avoids leaving a leading or doubled space when the
+    /// translation framework adds a placeholder before an otherwise valid sequence.
+    private func rangeRemovingFormatSpecifier(
+        _ specifier: FormatSpecifier,
+        from string: String
+    ) -> Range<String.Index> {
+        if specifier.range.upperBound < string.endIndex,
+           string[specifier.range.upperBound].isWhitespace {
+            return specifier.range.lowerBound..<string.index(after: specifier.range.upperBound)
         }
 
-        return repairedTranslation
+        if specifier.range.lowerBound > string.startIndex {
+            let precedingIndex = string.index(before: specifier.range.lowerBound)
+            if string[precedingIndex].isWhitespace {
+                return precedingIndex..<specifier.range.upperBound
+            }
+        }
+
+        return specifier.range
     }
 
     /// Inserts a missing placeholder into a translation using a conservative position.

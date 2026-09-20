@@ -5,10 +5,10 @@
 //  Created by Wesley de Groot on 09/02/2025.
 //
 
-import SwiftUI
 import OSLogViewer
 import StoreKit
 import SwiftExtras
+import SwiftUI
 
 /// Settings sheet for translation preferences and project metadata.
 ///

@@ -7,8 +7,8 @@
 
 import Foundation
 import OSLog
-import Translation
 import SwiftUI
+import Translation
 import UniformTypeIdentifiers
 
 /// Loads, mutates, and serializes an Xcode String Catalog.

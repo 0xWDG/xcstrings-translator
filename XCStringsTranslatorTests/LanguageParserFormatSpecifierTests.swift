@@ -37,6 +37,24 @@ struct LanguageParserFormatSpecifierTests {
         )
     }
 
+    @Test func addingTranslationRemovesUnexpectedFormatSpecifier() async throws {
+        let parser = parserWithString("%1$@, %2$lld items")
+
+        parser.add(
+            translation: "%A %@, %lld-elementer",
+            forLanguage: "da",
+            original: "%1$@, %2$lld items"
+        )
+
+        #expect(
+            try translatedValue(
+                in: parser,
+                for: "%1$@, %2$lld items",
+                language: "da"
+            ) == "%1$@, %2$lld-elementer"
+        )
+    }
+
     @Test func addingTranslationCollapsesRepeatedUnitFormatSpecifier() async throws {
         let parser = parserWithString("%lldm")
 

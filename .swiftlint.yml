@@ -3,14 +3,15 @@ excluded:
   - ".build/*"
 
 opt_in_rules:
-   - missing_docs
-   - empty_count
-   - empty_string
-   - toggle_bool
-   - unused_optional_binding
-   - valid_ibinspectable
-   - modifier_order
-   - first_where
-   - fatal_error_message
-   - force_unwrapping
-
+  - missing_docs
+  - empty_count
+  - empty_string
+  - toggle_bool
+  - unused_optional_binding
+  - valid_ibinspectable
+  - modifier_order
+  - first_where
+  - fatal_error_message
+  - force_unwrapping
+  - sorted_imports
+  - private_swiftui_state

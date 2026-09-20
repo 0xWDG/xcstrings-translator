@@ -5,8 +5,8 @@
 //  Created by Wesley de Groot on 21/06/2026.
 //
 
-import Translation
 import SwiftUI
+import Translation
 
 /// Immutable plan for one translation run.
 ///

@@ -5,13 +5,13 @@
 //  Created by Wesley de Groot on 31/01/2025.
 //
 
+import Combine
+import FilePicker
+import Foundation
+import OSLog
 import SwiftUI
 import Translation
-import FilePicker
-import OSLog
-import Foundation
 import UniformTypeIdentifiers
-import Combine
 
 /// User-facing target-language selection from the header picker.
 ///
@@ -143,67 +143,67 @@ struct ContentView: View {
     ).autoconnect()
 
     /// Shared catalog model observed by all workflow and settings views.
-    @StateObject var languageParser = LanguageParser()
+    @StateObject private var languageParser = LanguageParser()
 
     /// Translations completed for the currently active target language.
-    @State var translatedStrings: [String: String] = [:]
+    @State private var translatedStrings: [String: String] = [:]
     /// Source language selected in the header picker.
-    @State var sourceLanguage: Locale.Language?
+    @State private var sourceLanguage: Locale.Language?
     /// Target picker value before it is resolved into concrete languages.
-    @State var destinationSelection: TranslationTargetSelection?
+    @State private var destinationSelection: TranslationTargetSelection?
     /// System-supported languages reported by the Translation framework.
-    @State var supportedLanguages: [Locale.Language] = []
+    @State private var supportedLanguages: [Locale.Language] = []
     /// Target languages compatible with the selected source language.
-    @State var targetLanguageOptions: [Locale.Language] = []
+    @State private var targetLanguageOptions: [Locale.Language] = []
     /// Non-nil configuration drives SwiftUI's `translationTask` modifier.
-    @State var translationConfiguration: TranslationSession.Configuration?
+    @State private var translationConfiguration: TranslationSession.Configuration?
     /// Human-readable status shown in the progress panel.
-    @State var status: String = "Idle"
+    @State private var status: String = "Idle"
     /// Controls presentation of the Settings sheet.
-    @State var settingsOpened = false
+    @State private var settingsOpened = false
     /// Controls presentation of SwiftUI's export panel.
-    @State var exportFile = false
+    @State private var exportFile = false
     /// Target language currently being translated.
-    @State var activeTargetLanguage: Locale.Language?
+    @State private var activeTargetLanguage: Locale.Language?
     /// Remaining target languages queued after the active target finishes.
-    @State var pendingTargetLanguages: [Locale.Language] = []
+    @State private var pendingTargetLanguages: [Locale.Language] = []
     /// Total target languages in the current run.
-    @State var totalTargetLanguages = 0
+    @State private var totalTargetLanguages = 0
     /// Target languages fully completed in the current run.
-    @State var completedTargetLanguages = 0
+    @State private var completedTargetLanguages = 0
     /// Total string-language units planned for the current run.
-    @State var totalTranslationUnitsForRun = 0
+    @State private var totalTranslationUnitsForRun = 0
     /// Completed units from previous target languages in the current run.
-    @State var completedUnitsBeforeCurrentTarget = 0
+    @State private var completedUnitsBeforeCurrentTarget = 0
     /// Units planned for the active target language.
-    @State var currentTargetTranslationUnits = 0
+    @State private var currentTargetTranslationUnits = 0
     /// Snapshot of the skip setting for the current run.
-    @State var skipAlreadyTranslatedForCurrentRun = true
+    @State private var skipAlreadyTranslatedForCurrentRun = true
     /// Whether the latest run completed without cancellation or failure.
-    @State var didFinishTranslation = false
+    @State private var didFinishTranslation = false
     /// Cooperative cancellation flag checked before and after each translation request.
-    @State var cancelTranslationRequested = false
+    @State private var cancelTranslationRequested = false
     /// Source string currently being translated, used to scroll the list.
-    @State var currentTranslation: String?
+    @State private var currentTranslation: String?
     /// Start time for elapsed-time and ETA calculation.
-    @State var translationStartedAt: Date?
+    @State private var translationStartedAt: Date?
     /// End time for completed, cancelled, or failed runs.
-    @State var translationEndedAt: Date?
+    @State private var translationEndedAt: Date?
     /// Timer-driven clock value used while a run is active.
-    @State var timerDate = Date()
+    @State private var timerDate = Date()
     /// Controls the post-translation default-app prompt.
-    @State var defaultAppPromptPresented = false
+    @State private var defaultAppPromptPresented = false
 
     // MARK: File Picker
 
     /// Controls presentation of the FilePicker package's open panel.
-    @State var filePickerOpen = false
+    @State private var filePickerOpen = false
     /// URLs selected by FilePicker.
     ///
     /// FilePicker writes its selected URLs into this binding. The `.onChange` handler
     /// performs the actual load so the same `openStringCatalog(_:)` flow can be reused
     /// by Finder/Open URL events.
-    @State var filePickerFiles: [URL] = []
+    @State private var filePickerFiles: [URL] = []
 
     /// Builds the main translation window.
     ///

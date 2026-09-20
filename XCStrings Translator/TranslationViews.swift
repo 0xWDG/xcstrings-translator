@@ -5,8 +5,8 @@
 //  Created by Wesley de Groot on 21/06/2026.
 //
 
-import SwiftUI
 import SwiftExtras
+import SwiftUI
 
 /// Header controls for selecting languages and starting translation.
 ///
