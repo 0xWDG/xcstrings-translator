@@ -36,6 +36,7 @@ import UniformTypeIdentifiers
 /// access when invoking this type from asynchronous translation tasks.
 @MainActor
 class LanguageParser: ObservableObject {
+    // swiftlint:disable:previous type_body_length
     /// Settings sentinel used when the default target should be every compatible language.
     static let allLanguagesDefaultTargetIdentifier = "all"
 
@@ -150,6 +151,14 @@ class LanguageParser: ObservableObject {
         }
     }
 
+    /// Whether target-language variants should be translated once per language code.
+    @Published var mainLanguagesOnly: Bool = false {
+        didSet {
+            UserDefaults.standard.set(self.mainLanguagesOnly, forKey: "mainLanguagesOnly")
+            logger.debug("Updated main languages only to \(self.mainLanguagesOnly)")
+        }
+    }
+
     /// Prevents writes to the loaded source file while still allowing export.
     ///
     /// Side Effects:
@@ -180,6 +189,9 @@ class LanguageParser: ObservableObject {
         autoSaveTranslations = UserDefaults.standard.object(
             forKey: "autoSaveTranslations"
         ) as? Bool ?? true
+        mainLanguagesOnly = UserDefaults.standard.object(
+            forKey: "mainLanguagesOnly"
+        ) as? Bool ?? false
     }
 
     /// Clears the loaded catalog and all derived translation state.
@@ -291,6 +303,8 @@ class LanguageParser: ObservableObject {
     ///   - rawTranslation: Text returned by the Translation framework.
     ///   - forLanguage: Catalog language identifier to write, for example `nl` or `pt-BR`.
     ///   - original: Source string key in the catalog's top-level `strings` dictionary.
+    ///   - source: Source-language text sent to Translation. When omitted, the key is
+    ///     used for catalogs where keys are themselves source text.
     ///
     /// Side Effects:
     /// Mutates the in-memory catalog, preserves existing localization metadata where
@@ -300,16 +314,22 @@ class LanguageParser: ObservableObject {
     /// Translation can alter printf-style placeholders or lowercase sentence-initial
     /// words. The parser repairs placeholders first, then applies a conservative
     /// capitalization adjustment so UI strings keep their original style.
-    func add(translation rawTranslation: String, forLanguage: String, original: String) {
+    func add(
+        translation rawTranslation: String,
+        forLanguage: String,
+        original: String,
+        source: String? = nil
+    ) {
         if var strings = languageDictionary["strings"] as? [String: Any],
            var item = strings[original] as? [String: Any] {
+            let sourceText = source ?? original
             let normalizedTranslation = preservingFormatSpecifiers(
                 in: rawTranslation.replacingOccurrences(of: "%Lld", with: "%lld"),
-                matching: original
+                matching: sourceText
             )
             let translation = capitalizationAdjustedTranslation(
                 normalizedTranslation,
-                matchingCapitalizationOf: original
+                matchingCapitalizationOf: sourceText
             )
 
             if var localizations = item["localizations"] as? [String: Any] {
@@ -386,6 +406,7 @@ class LanguageParser: ObservableObject {
     func parse() {
         stringsToTranslate = []
         translatedStringKeysByLanguage = [:]
+        sourceLanguage = languageDictionary["sourceLanguage"] as? String ?? "en"
 
         if let strings = languageDictionary["strings"] as? [String: Any] {
             for (key, value) in strings where !key.isEmpty {
@@ -411,7 +432,8 @@ class LanguageParser: ObservableObject {
     /// - Returns: Non-empty source strings eligible for translation.
     func stringsToTranslate(
         forLanguage languageIdentifier: String?,
-        skippingTranslated: Bool
+        skippingTranslated: Bool,
+        treatingVariantsAsSameLanguage: Bool = false
     ) -> [String] {
         // If no target language is known yet, return the raw translatable source list.
         // The target-specific skip pass runs once the user starts translating.
@@ -420,10 +442,56 @@ class LanguageParser: ObservableObject {
             return stringsToTranslate.filter { !$0.isEmpty }
         }
 
-        let translatedStringKeys = translatedStringKeysByLanguage[languageIdentifier, default: []]
+        let translatedStringKeys: Set<String>
+
+        if treatingVariantsAsSameLanguage,
+           let languageCode = Locale.Language(identifier: languageIdentifier).languageCode?.identifier {
+            translatedStringKeys = translatedStringKeysByLanguage.reduce(into: Set<String>()) { result, localization in
+                guard Locale.Language(identifier: localization.key).languageCode?.identifier == languageCode else {
+                    return
+                }
+
+                result.formUnion(localization.value)
+            }
+        } else {
+            translatedStringKeys = translatedStringKeysByLanguage[languageIdentifier, default: []]
+        }
+
         return stringsToTranslate.filter { string in
             !string.isEmpty && !translatedStringKeys.contains(string)
         }
+    }
+
+    /// Returns the text to send to Translation for a catalog key.
+    ///
+    /// String Catalog keys are often semantic identifiers (for example `button.ok`)
+    /// rather than user-facing text. In that case the value in the catalog's declared
+    /// source language is the only suitable input for translation. Catalogs that use
+    /// source text as their keys commonly omit a source localization, so the key
+    /// remains the backwards-compatible fallback.
+    ///
+    /// - Parameter key: Entry key in the catalog's top-level `strings` dictionary.
+    /// - Returns: A non-empty source-language value, or `key` if there is none.
+    func sourceText(for key: String) -> String {
+        guard let strings = languageDictionary["strings"] as? [String: Any],
+              let item = strings[key] as? [String: Any],
+              let localizations = item["localizations"] as? [String: Any] else {
+            return key
+        }
+
+        let sourceLocalization = localizations[sourceLanguage] ??
+            localizations.first { identifier, _ in
+                Locale.Language(identifier: identifier).languageCode?.identifier ==
+                    Locale.Language(identifier: sourceLanguage).languageCode?.identifier
+            }?.value
+
+        guard let sourceLocalization,
+              let sourceText = stringUnitValues(in: sourceLocalization).first,
+              !sourceText.isEmpty else {
+            return key
+        }
+
+        return sourceText
     }
 
     /// Encoded catalog data suitable for SwiftUI export.

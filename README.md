@@ -17,6 +17,7 @@ The documentation can be found here: https://0xwdg.github.io/xcstrings-translato
 - Translate to one target language or all system-supported target languages.
 - Only shows language pairs that are available through Apple's Translation framework.
 - Skips existing translations by default.
+- Optionally translates only one primary language for all regional or script variants.
 - Skips entries marked with `"shouldTranslate": false`.
 - Translate dropdown option to overwrite all existing translations with fresh translations.
 - Preserves regional language identifiers such as `pt-BR` and script identifiers such as `zh-Hant`.
@@ -54,6 +55,7 @@ The Settings window includes:
 - Default target language.
 - Translation state saved into the catalog: `translated` or `needs_review`.
 - Skip already translated entries.
+- Only main languages, which collapses every target-language variant into one primary language.
 - Automatically save completed-language checkpoints.
 - Test Mode, which prevents overwriting the original catalog.
 - Make XCStrings Translator the default app for `.xcstrings` files.

@@ -162,21 +162,23 @@ extension ContentView {
     /// Thread Safety:
     /// The loop runs asynchronously, but every read/write of SwiftUI state and the
     /// parser is performed through `MainActor.run`.
-    func translate(using session: TranslationSession) async {
-        let stringsToTranslate = await MainActor.run(resultType: [String].self) {
+    func translate(using session: TranslationSession) async { // swiftlint:disable:this function_body_length
+        let stringKeysToTranslate = await MainActor.run(resultType: [String].self) {
             self.stringsToTranslate(
                 for: activeTargetLanguage,
                 skippingTranslated: skipAlreadyTranslatedForCurrentRun
             )
         }
-        let targetLanguage = await MainActor.run { activeTargetLanguage }
+        let targetLanguageIdentifier = await MainActor.run {
+            targetLanguageIdentifier(for: activeTargetLanguage)
+        }
 
-        guard targetLanguage != nil else {
+        guard let targetLanguageIdentifier else {
             return
         }
 
         do {
-            for string in stringsToTranslate {
+            for key in stringKeysToTranslate {
                 // Cancellation is cooperative: check before starting each request and
                 // again before writing the response back into the catalog.
                 if await MainActor.run(resultType: Bool.self, body: {
@@ -186,18 +188,26 @@ extension ContentView {
                 }
 
                 await MainActor.run {
-                    currentTranslation = string
+                    currentTranslation = key
                 }
 
-                let response = try await session.translate(string)
+                let sourceText = await MainActor.run {
+                    languageParser.sourceText(for: key)
+                }
+                let response = try await session.translate(sourceText)
 
                 await MainActor.run {
                     guard !cancelTranslationRequested else {
                         return
                     }
 
-                    translatedStrings[response.sourceText] = response.targetText
-                    languageParser.add(translation: response)
+                    translatedStrings[key] = response.targetText
+                    languageParser.add(
+                        translation: response.targetText,
+                        forLanguage: targetLanguageIdentifier,
+                        original: key,
+                        source: sourceText
+                    )
                 }
             }
 

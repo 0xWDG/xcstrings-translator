@@ -37,8 +37,9 @@ extension ContentView {
         skippingTranslated: Bool
     ) -> [String] {
         languageParser.stringsToTranslate(
-            forLanguage: TranslationTargetsResolver.languageIdentifier(for: targetLanguage),
-            skippingTranslated: skippingTranslated
+            forLanguage: targetLanguageIdentifier(for: targetLanguage),
+            skippingTranslated: skippingTranslated,
+            treatingVariantsAsSameLanguage: languageParser.mainLanguagesOnly
         )
     }
 
@@ -126,7 +127,17 @@ extension ContentView {
             availableLanguages.append(targetLanguage)
         }
 
-        return availableLanguages
+        return languageParser.mainLanguagesOnly
+            ? TranslationTargetsResolver.mainLanguages(from: availableLanguages)
+            : availableLanguages
+    }
+
+    /// Returns the catalog key used for a target at the selected granularity.
+    func targetLanguageIdentifier(for language: Locale.Language?) -> String? {
+        TranslationTargetsResolver.languageIdentifier(
+            for: language,
+            mainLanguagesOnly: languageParser.mainLanguagesOnly
+        )
     }
 
     /// Filters a candidate target list to pairs compatible with the current source.

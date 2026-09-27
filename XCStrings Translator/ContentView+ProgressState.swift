@@ -23,7 +23,8 @@ extension ContentView {
         TranslationTargetsResolver.targets(
             for: destinationSelection,
             sourceLanguage: sourceLanguage,
-            supportedLanguages: targetLanguageOptions
+            supportedLanguages: targetLanguageOptions,
+            mainLanguagesOnly: languageParser.mainLanguagesOnly
         )
     }
 

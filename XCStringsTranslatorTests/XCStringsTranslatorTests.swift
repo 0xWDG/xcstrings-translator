@@ -47,6 +47,26 @@ struct XCStringsTranslatorTests {
         )
     }
 
+    @Test func mainLanguageTargetsCollapseAllVariants() async throws {
+        let targets = TranslationTargetsResolver.targets(
+            for: .allAvailable,
+            sourceLanguage: Locale.Language(identifier: "en"),
+            supportedLanguages: [
+                Locale.Language(identifier: "nl-NL"),
+                Locale.Language(identifier: "nl-BE"),
+                Locale.Language(identifier: "fr-FR"),
+                Locale.Language(identifier: "zh-Hans"),
+                Locale.Language(identifier: "zh-Hant")
+            ],
+            mainLanguagesOnly: true
+        )
+
+        #expect(targets.count == 3)
+        #expect(
+            targets.map { TranslationTargetsResolver.mainLanguageIdentifier(for: $0) } == ["nl", "fr", "zh"]
+        )
+    }
+
     @Test func singleTargetSelectionPreservesChosenLanguage() async throws {
         let target = Locale.Language(identifier: "pt-BR")
         let targets = TranslationTargetsResolver.targets(
@@ -132,6 +152,7 @@ struct XCStringsTranslatorTests {
 
 @MainActor
 struct LanguageParserTests {
+    // swiftlint:disable:previous type_body_length
     @Test func addingTranslationPreservesRegionalLanguageIdentifier() async throws {
         let parser = LanguageParser()
         let regionalIdentifier = try #require(
@@ -219,6 +240,43 @@ struct LanguageParserTests {
         #expect(Set(parser.stringsToTranslate) == Set(["Translate me"]))
     }
 
+    @Test func parserUsesSourceLanguageValueForSemanticCatalogKeys() async throws {
+        let parser = LanguageParser()
+        parser.languageDictionary = [
+            "sourceLanguage": "en",
+            "strings": [
+                "button.ok": [
+                    "localizations": [
+                        "en": [
+                            "stringUnit": [
+                                "state": "translated",
+                                "value": "Ok"
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ]
+        parser.parse()
+
+        #expect(parser.sourceText(for: "button.ok") == "Ok")
+
+        parser.add(
+            translation: "D'accord",
+            forLanguage: "fr",
+            original: "button.ok",
+            source: parser.sourceText(for: "button.ok")
+        )
+
+        let strings = try #require(parser.languageDictionary["strings"] as? [String: Any])
+        let item = try #require(strings["button.ok"] as? [String: Any])
+        let localizations = try #require(item["localizations"] as? [String: Any])
+        let frenchLocalization = try #require(localizations["fr"] as? [String: Any])
+        let stringUnit = try #require(frenchLocalization["stringUnit"] as? [String: Any])
+
+        #expect(stringUnit["value"] as? String == "D'accord")
+    }
+
     @Test func stringsToTranslateSkipsExistingTargetTranslations() async throws {
         let parser = LanguageParser()
         parser.languageDictionary = [
@@ -255,6 +313,33 @@ struct LanguageParserTests {
                     skippingTranslated: false
                 )
             ) == Set(["Hello", "Goodbye"])
+        )
+    }
+
+    @Test func stringsToTranslateTreatsRegionalVariantsAsOneMainLanguage() async throws {
+        let parser = LanguageParser()
+        parser.languageDictionary = [
+            "strings": [
+                "Hello": [
+                    "localizations": [
+                        "nl-BE": [
+                            "stringUnit": [
+                                "state": "translated",
+                                "value": "Hallo"
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ]
+        parser.parse()
+
+        #expect(
+            parser.stringsToTranslate(
+                forLanguage: "nl",
+                skippingTranslated: true,
+                treatingVariantsAsSameLanguage: true
+            ).isEmpty
         )
     }
 

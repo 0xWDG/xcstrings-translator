@@ -42,7 +42,8 @@ struct TranslationTargetsResolver {
     static func targets(
         for selection: TranslationTargetSelection?,
         sourceLanguage: Locale.Language?,
-        supportedLanguages: [Locale.Language]
+        supportedLanguages: [Locale.Language],
+        mainLanguagesOnly: Bool = false
     ) -> [Locale.Language] {
         guard let selection else {
             return []
@@ -52,13 +53,52 @@ struct TranslationTargetsResolver {
         case .allAvailable:
             let sourceIdentifier = languageIdentifier(for: sourceLanguage)
             let sourceLanguageCode = sourceLanguage?.languageCode?.identifier
-            return supportedLanguages.filter {
+            let targets = supportedLanguages.filter {
                 languageIdentifier(for: $0) != sourceIdentifier &&
                 $0.languageCode?.identifier != sourceLanguageCode
             }
+            return mainLanguagesOnly ? mainLanguages(from: targets) : targets
         case let .language(language):
             return [language]
         }
+    }
+
+    /// Keeps one system-supported representative for each language code.
+    ///
+    /// The representative retains its regional identifier for Translation framework
+    /// compatibility, while its catalog output uses `mainLanguageIdentifier(for:)`.
+    static func mainLanguages(from languages: [Locale.Language]) -> [Locale.Language] {
+        var representatives: [String: Locale.Language] = [:]
+
+        for language in languages {
+            guard let identifier = mainLanguageIdentifier(for: language),
+                  representatives[identifier] == nil else {
+                continue
+            }
+
+            representatives[identifier] = language
+        }
+
+        return languages.filter { language in
+            guard let identifier = mainLanguageIdentifier(for: language) else {
+                return false
+            }
+
+            return representatives[identifier] == language
+        }
+    }
+
+    /// Returns the language-code identifier shared by all regional and script variants.
+    static func mainLanguageIdentifier(for language: Locale.Language?) -> String? {
+        language?.languageCode?.identifier
+    }
+
+    /// Returns the catalog identifier for a target at the chosen language granularity.
+    static func languageIdentifier(
+        for language: Locale.Language?,
+        mainLanguagesOnly: Bool
+    ) -> String? {
+        mainLanguagesOnly ? mainLanguageIdentifier(for: language) : languageIdentifier(for: language)
     }
 
     /// Returns the catalog identifier this app uses for a Translation framework language.
@@ -296,7 +336,8 @@ struct ContentView: View {
         .sheet(isPresented: $settingsOpened) {
             SettingsView(
                 supportedLanguages: targetLanguageOptions,
-                languageName: languageName(for:)
+                languageName: languageName(for:),
+                languageIdentifier: targetLanguageIdentifier(for:)
             )
                 .environmentObject(languageParser)
         }
@@ -345,6 +386,12 @@ struct ContentView: View {
         .onChange(of: languageParser.skipAlreadyTranslated) {
             resetTranslationState()
         }
+        .onChange(of: languageParser.mainLanguagesOnly) {
+            resetTranslationState()
+            Task {
+                await refreshAvailableTargetLanguages(selectDefaultTarget: true)
+            }
+        }
         .onChange(of: languageParser.defaultTargetLanguageIdentifier) {
             setDestinationSelectionIfNeeded(defaultDestinationSelection())
             resetTranslationState()
@@ -376,3 +423,4 @@ struct ContentView: View {
 #Preview {
     ContentView()
 }
+// swiftlint:disable:this file_length

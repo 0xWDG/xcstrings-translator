@@ -107,7 +107,7 @@ extension ContentView {
         }
 
         if let language = targetLanguageOptions.first(where: {
-            TranslationTargetsResolver.languageIdentifier(for: $0) == identifier ||
+            targetLanguageIdentifier(for: $0) == identifier ||
             $0.minimalIdentifier == identifier ||
             $0.maximalIdentifier == identifier
         }) {

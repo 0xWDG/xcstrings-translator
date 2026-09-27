@@ -28,6 +28,8 @@ struct SettingsView: View {
     let supportedLanguages: [Locale.Language]
     /// Display-name formatter supplied by `ContentView`.
     let languageName: (Locale.Language) -> String?
+    /// Catalog-identifier formatter matching the selected target granularity.
+    let languageIdentifier: (Locale.Language) -> String?
 
     /// Builds the settings form.
     ///
@@ -66,7 +68,7 @@ struct SettingsView: View {
                         .tag(LanguageParser.allLanguagesDefaultTargetIdentifier)
 
                     ForEach(supportedLanguages, id: \.self) { language in
-                        if let identifier = TranslationTargetsResolver.languageIdentifier(for: language) {
+                        if let identifier = languageIdentifier(language) {
                             Text(languageName(language) ?? identifier)
                                 .tag(identifier)
                         }
@@ -79,6 +81,16 @@ struct SettingsView: View {
                 .accessibilityLabel("Default target language")
                 .accessibilityHint("Choose the target language selected when the app opens.")
                 .accessibilityIdentifier("defaultTargetLanguagePicker")
+
+                Toggle(isOn: $languageParser.mainLanguagesOnly) {
+                    Text("Only main languages")
+                    Text("Translate each language once instead of every regional or script variant.")
+                        .font(.caption)
+                }
+                .toggleStyle(.switch)
+                .accessibilityLabel("Only main languages")
+                .accessibilityHint("Collapses language variants such as nl-NL, nl-BE, and fr-FR.")
+                .accessibilityIdentifier("mainLanguagesOnlyToggle")
 
                 Toggle(isOn: $languageParser.skipAlreadyTranslated) {
                     Text("Skip already translated")
@@ -166,6 +178,9 @@ struct SettingsView: View {
                 TranslationTargetsResolver.languageIdentifier(
                     for: language
                 )
+            },
+            languageIdentifier: { language in
+                TranslationTargetsResolver.languageIdentifier(for: language)
             }
         )
             .environmentObject(LanguageParser())
