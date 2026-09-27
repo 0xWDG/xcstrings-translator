@@ -159,6 +159,17 @@ class LanguageParser: ObservableObject {
         }
     }
 
+    /// Whether entries Xcode marks as stale should be removed when a catalog is opened.
+    @Published var removeStaleTranslations: Bool = false {
+        didSet {
+            UserDefaults.standard.set(self.removeStaleTranslations, forKey: "removeStaleTranslations")
+            logger.debug("Updated remove stale translations to \(self.removeStaleTranslations)")
+        }
+    }
+
+    /// Number of stale entries removed from the currently loaded catalog.
+    @Published private(set) var removedStaleTranslationsCount = 0
+
     /// Prevents writes to the loaded source file while still allowing export.
     ///
     /// Side Effects:
@@ -192,6 +203,9 @@ class LanguageParser: ObservableObject {
         mainLanguagesOnly = UserDefaults.standard.object(
             forKey: "mainLanguagesOnly"
         ) as? Bool ?? false
+        removeStaleTranslations = UserDefaults.standard.object(
+            forKey: "removeStaleTranslations"
+        ) as? Bool ?? false
     }
 
     /// Clears the loaded catalog and all derived translation state.
@@ -204,6 +218,7 @@ class LanguageParser: ObservableObject {
         sourceLanguage = "en"
         fileURL = nil
         translatedStringKeysByLanguage = [:]
+        removedStaleTranslationsCount = 0
     }
 
     /// Loads and parses a `.xcstrings` file.
@@ -241,6 +256,10 @@ class LanguageParser: ObservableObject {
             languageDictionary = dict
             logger.debug("Loaded string catalog with \(data.count) bytes")
             parse()
+
+            if removeStaleTranslations {
+                removeStaleEntries()
+            }
         } catch {
             logger.error("Serialization error: \(error.localizedDescription, privacy: .public)")
         }
@@ -420,6 +439,43 @@ class LanguageParser: ObservableObject {
                 }
             }
         }
+    }
+
+    /// Removes catalog entries that Xcode marks with `extractionState: stale`.
+    ///
+    /// - Returns: The number of complete string entries removed.
+    ///
+    /// Xcode marks a whole catalog entry as stale once its source has disappeared
+    /// from code. Removing the full entry also removes its obsolete localizations;
+    /// active entries and all of their metadata remain untouched.
+    @discardableResult
+    func removeStaleEntries() -> Int {
+        guard var strings = languageDictionary["strings"] as? [String: Any] else {
+            return 0
+        }
+
+        let staleKeys = strings.compactMap { key, value -> String? in
+            guard let item = value as? [String: Any],
+                  item["extractionState"] as? String == "stale" else {
+                return nil
+            }
+
+            return key
+        }
+
+        guard !staleKeys.isEmpty else {
+            return 0
+        }
+
+        for key in staleKeys {
+            strings.removeValue(forKey: key)
+        }
+
+        languageDictionary["strings"] = strings
+        removedStaleTranslationsCount += staleKeys.count
+        parse()
+        logger.debug("Removed \(staleKeys.count) stale string catalog entries")
+        return staleKeys.count
     }
 
     /// Returns source strings that still need work for a target language.

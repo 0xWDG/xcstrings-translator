@@ -42,8 +42,9 @@ extension ContentView {
     /// mutated response by response.
     var canSave: Bool {
         !isTranslating &&
-        !languageParser.stringsToTranslate.isEmpty &&
-        (didFinishTranslation || completedTranslatedUnitsForRun > 0)
+        (didFinishTranslation ||
+            completedTranslatedUnitsForRun > 0 ||
+            languageParser.removedStaleTranslationsCount > 0)
     }
 
     /// Completed work that is already written into `LanguageParser.languageDictionary`.

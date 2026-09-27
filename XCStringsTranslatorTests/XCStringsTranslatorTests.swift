@@ -240,6 +240,30 @@ struct LanguageParserTests {
         #expect(Set(parser.stringsToTranslate) == Set(["Translate me"]))
     }
 
+    @Test func parserRemovesOnlyEntriesMarkedStale() async throws {
+        let parser = LanguageParser()
+        parser.languageDictionary = [
+            "strings": [
+                "Old key": [
+                    "extractionState": "stale",
+                    "localizations": ["nl": ["stringUnit": ["value": "Oud"]]]
+                ],
+                "Active key": [
+                    "localizations": ["nl": ["stringUnit": ["value": "Actief"]]]
+                ]
+            ]
+        ]
+        parser.parse()
+
+        #expect(parser.removeStaleEntries() == 1)
+        #expect(parser.removedStaleTranslationsCount == 1)
+
+        let strings = try #require(parser.languageDictionary["strings"] as? [String: Any])
+        #expect(strings["Old key"] == nil)
+        #expect(strings["Active key"] != nil)
+        #expect(parser.stringsToTranslate == ["Active key"])
+    }
+
     @Test func parserUsesSourceLanguageValueForSemanticCatalogKeys() async throws {
         let parser = LanguageParser()
         parser.languageDictionary = [

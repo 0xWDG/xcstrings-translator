@@ -392,6 +392,15 @@ struct ContentView: View {
                 await refreshAvailableTargetLanguages(selectDefaultTarget: true)
             }
         }
+        .onChange(of: languageParser.removeStaleTranslations) { _, shouldRemove in
+            guard shouldRemove else {
+                return
+            }
+
+            if languageParser.removeStaleEntries() > 0 {
+                resetTranslationState()
+            }
+        }
         .onChange(of: languageParser.defaultTargetLanguageIdentifier) {
             setDestinationSelectionIfNeeded(defaultDestinationSelection())
             resetTranslationState()

@@ -56,6 +56,7 @@ The Settings window includes:
 - Translation state saved into the catalog: `translated` or `needs_review`.
 - Skip already translated entries.
 - Only main languages, which collapses every target-language variant into one primary language.
+- Remove stale translations, which deletes entries marked `extractionState: stale` by Xcode.
 - Automatically save completed-language checkpoints.
 - Test Mode, which prevents overwriting the original catalog.
 - Make XCStrings Translator the default app for `.xcstrings` files.

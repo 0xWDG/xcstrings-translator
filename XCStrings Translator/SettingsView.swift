@@ -92,6 +92,16 @@ struct SettingsView: View {
                 .accessibilityHint("Collapses language variants such as nl-NL, nl-BE, and fr-FR.")
                 .accessibilityIdentifier("mainLanguagesOnlyToggle")
 
+                Toggle(isOn: $languageParser.removeStaleTranslations) {
+                    Text("Remove stale translations")
+                    Text("Remove entries Xcode has marked as stale when opening a string catalog.")
+                        .font(.caption)
+                }
+                .toggleStyle(.switch)
+                .accessibilityLabel("Remove stale translations")
+                .accessibilityHint("Removes obsolete string catalog entries marked as stale by Xcode.")
+                .accessibilityIdentifier("removeStaleTranslationsToggle")
+
                 Toggle(isOn: $languageParser.skipAlreadyTranslated) {
                     Text("Skip already translated")
                     Text("Only translate strings that do not already have a value for the target language.")
