@@ -63,20 +63,29 @@ struct TranslationTargetsResolver {
         }
     }
 
-    /// Keeps one system-supported representative for each language code.
+    /// Keeps one system-supported canonical representative for each language code.
     ///
     /// The representative retains its regional identifier for Translation framework
     /// compatibility, while its catalog output uses `mainLanguageIdentifier(for:)`.
+    /// When the canonical variant is available, it is preferred over another regional
+    /// variant: for example, `fr-FR` over `fr-CA` and `nl-NL` over `nl-BE`.
     static func mainLanguages(from languages: [Locale.Language]) -> [Locale.Language] {
         var representatives: [String: Locale.Language] = [:]
 
         for language in languages {
-            guard let identifier = mainLanguageIdentifier(for: language),
-                  representatives[identifier] == nil else {
+            guard let identifier = mainLanguageIdentifier(for: language) else {
                 continue
             }
 
-            representatives[identifier] = language
+            guard let existingRepresentative = representatives[identifier] else {
+                representatives[identifier] = language
+                continue
+            }
+
+            if isCanonicalMainLanguageVariant(language),
+               !isCanonicalMainLanguageVariant(existingRepresentative) {
+                representatives[identifier] = language
+            }
         }
 
         return languages.filter { language in
@@ -86,6 +95,21 @@ struct TranslationTargetsResolver {
 
             return representatives[identifier] == language
         }
+    }
+
+    /// Identifies the Unicode CLDR maximal locale variant for a language code.
+    ///
+    /// - Parameter language: A system-supported language variant.
+    /// - Returns: `true` when `language` matches the canonical maximal variant for
+    ///   its base language, such as `fr-Latn-FR` for French.
+    private static func isCanonicalMainLanguageVariant(_ language: Locale.Language) -> Bool {
+        guard let languageCode = language.languageCode?.identifier else {
+            return false
+        }
+
+        return language.maximalIdentifier == Locale.Language(
+            identifier: languageCode
+        ).maximalIdentifier
     }
 
     /// Returns the language-code identifier shared by all regional and script variants.

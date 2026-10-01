@@ -38,6 +38,13 @@ struct SettingsView: View {
     /// observers persist values in `UserDefaults`.
     var body: some View {
         SESettingsView(_changeLog: [
+            .init(
+                version: "0.0.2",
+                text: """
+- Prefer canonical language variants when translating main languages.
+- Automatic translation of all languages.
+"""
+            ),
             .init(version: "0.0.1", text: "Initial release")
         ], _acknowledgements: [
             .init(

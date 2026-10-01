@@ -52,18 +52,28 @@ struct XCStringsTranslatorTests {
             for: .allAvailable,
             sourceLanguage: Locale.Language(identifier: "en"),
             supportedLanguages: [
-                Locale.Language(identifier: "nl-NL"),
                 Locale.Language(identifier: "nl-BE"),
+                Locale.Language(identifier: "nl-NL"),
+                Locale.Language(identifier: "fr-CA"),
                 Locale.Language(identifier: "fr-FR"),
-                Locale.Language(identifier: "zh-Hans"),
-                Locale.Language(identifier: "zh-Hant")
+                Locale.Language(identifier: "zh-Hant"),
+                Locale.Language(identifier: "zh-Hans")
             ],
             mainLanguagesOnly: true
         )
 
         #expect(targets.count == 3)
         #expect(
-            targets.map { TranslationTargetsResolver.mainLanguageIdentifier(for: $0) } == ["nl", "fr", "zh"]
+            targets.map(\.maximalIdentifier) == [
+                "nl-Latn-NL",
+                "fr-Latn-FR",
+                "zh-Hans-CN"
+            ]
+        )
+        #expect(
+            targets.map {
+                TranslationTargetsResolver.mainLanguageIdentifier(for: $0)
+            } == ["nl", "fr", "zh"]
         )
     }
 
