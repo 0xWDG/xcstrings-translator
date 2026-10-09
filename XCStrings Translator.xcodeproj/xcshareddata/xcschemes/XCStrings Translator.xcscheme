@@ -87,7 +87,7 @@
       allowLocationSimulation = "YES">
       <PathRunnable
          runnableDebuggingMode = "0"
-         FilePath = "/Applications/XCStrings Translator.app">
+         FilePath = "XCStrings Translator.app">
       </PathRunnable>
    </LaunchAction>
    <ProfileAction
@@ -98,7 +98,7 @@
       debugDocumentVersioning = "YES">
       <PathRunnable
          runnableDebuggingMode = "0"
-         FilePath = "/Applications/XCStrings Translator.app">
+         FilePath = "XCStrings Translator.app">
       </PathRunnable>
    </ProfileAction>
    <AnalyzeAction
