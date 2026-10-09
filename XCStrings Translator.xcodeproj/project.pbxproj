@@ -408,6 +408,7 @@
 				INFOPLIST_FILE = "XCStrings Translator/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "XCStrings Translator";
 				INFOPLIST_KEY_CFBundleName = "XCStrings translator";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -442,6 +443,7 @@
 				INFOPLIST_FILE = "XCStrings Translator/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "XCStrings Translator";
 				INFOPLIST_KEY_CFBundleName = "XCStrings translator";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
