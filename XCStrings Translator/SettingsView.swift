@@ -38,6 +38,7 @@ struct SettingsView: View {
     /// observers persist values in `UserDefaults`.
     var body: some View {
         SESettingsView(_changeLog: [
+            .init(version: "1.0", text: "Initial App Store release."),
             .init(
                 version: "0.0.3",
                 text: """

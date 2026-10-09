@@ -7,9 +7,9 @@ It is built for developers who want to quickly fill or refresh localization
 entries without sending their string catalogs to a third-party translation
 service.
 
-## Documentation
+## AppStore
 
-The documentation can be found here: https://0xwdg.github.io/xcstrings-translator
+You can find this app on the [AppStore](https://apps.apple.com/us/app/xcstrings-translator/id6820941258?utm_source=github_readme).
 
 ## Features
 

@@ -416,10 +416,10 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "XCStrings Translator/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "XCStrings Translator";
-				INFOPLIST_KEY_CFBundleName = "XCStrings translator";
+				INFOPLIST_KEY_CFBundleName = "XCStrings Translator";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "\u00a9 2026 Wesley de Groot";
 				INSTALL_PATH = "$(LOCAL_APPS_DIR)";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -464,10 +464,10 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "XCStrings Translator/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "XCStrings Translator";
-				INFOPLIST_KEY_CFBundleName = "XCStrings translator";
+				INFOPLIST_KEY_CFBundleName = "XCStrings Translator";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "\u00a9 2026 Wesley de Groot";
 				INSTALL_PATH = "$(LOCAL_APPS_DIR)";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
