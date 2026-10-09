@@ -1,0 +1,9 @@
+{
+  "id" : "0237f62b-4994-4136-af69-99c9bdbbffa4",
+  "targets" : [
+    {
+      "id" : "7e8bd06c-c33b-47c7-8813-c7b4af5525d5",
+      "name" : "XCStrings Translator"
+    }
+  ]
+}

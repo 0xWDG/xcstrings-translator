@@ -1,0 +1,32 @@
+{
+  "originHash" : "a5544bdfa0fd5be84777d60dc1c5faac1583de5a54382ae89dab87113e39ba2f",
+  "pins" : [
+    {
+      "identity" : "filepicker",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/0xWDG/FilePicker.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "319c846d9ea1ee65e7eaec843b036bf66379bbe3"
+      }
+    },
+    {
+      "identity" : "oslogviewer",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/0xWDG/OSLogViewer.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "d1170a311c2a8e6a643bf0b5f5d5849d602e72be"
+      }
+    },
+    {
+      "identity" : "swiftextras",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/0xWDG/SwiftExtras.git",
+      "state" : {
+        "revision" : "8453323e40392eed8fbbdb821a2d288fb08ea027"
+      }
+    }
+  ],
+  "version" : 3
+}
