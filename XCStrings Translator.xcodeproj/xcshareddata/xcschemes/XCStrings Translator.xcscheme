@@ -11,7 +11,7 @@
             ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
             <ActionContent
                title = "Copy App to Applications"
-               scriptText = "/usr/bin/ditto &quot;${BUILT_PRODUCTS_DIR}/${FULL_PRODUCT_NAME}&quot; &quot;/Applications/${FULL_PRODUCT_NAME}&quot;">
+               scriptText = "if [[ &quot;${CI:-}&quot; != &quot;TRUE&quot; ]]; then&#10;    /usr/bin/ditto &quot;${BUILT_PRODUCTS_DIR}/${FULL_PRODUCT_NAME}&quot; &quot;/Applications/${FULL_PRODUCT_NAME}&quot;&#10;fi&#10;">
                <EnvironmentBuildable>
                   <BuildableReference
                      BuildableIdentifier = "primary"
@@ -87,7 +87,7 @@
       allowLocationSimulation = "YES">
       <PathRunnable
          runnableDebuggingMode = "0"
-         FilePath = "XCStrings Translator.app">
+         FilePath = "/XCStrings Translator.app">
       </PathRunnable>
    </LaunchAction>
    <ProfileAction
@@ -98,7 +98,7 @@
       debugDocumentVersioning = "YES">
       <PathRunnable
          runnableDebuggingMode = "0"
-         FilePath = "XCStrings Translator.app">
+         FilePath = "/XCStrings Translator.app">
       </PathRunnable>
    </ProfileAction>
    <AnalyzeAction
