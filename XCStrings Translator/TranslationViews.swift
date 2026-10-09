@@ -5,7 +5,6 @@
 //  Created by Wesley de Groot on 21/06/2026.
 //
 
-import SwiftExtras
 import SwiftUI
 
 /// Header controls for selecting languages and starting translation.
@@ -33,13 +32,16 @@ struct TranslationHeaderView: View {
     let translate: () -> Void
     /// Starts a run that intentionally overwrites existing translations.
     let translateOverwritingExisting: () -> Void
+    /// Starts a run that is limited to languages already present in the catalog.
+    let translateOnlyExistingLanguages: () -> Void
+    /// Starts a run that includes every compatible regional and script variant.
+    let translateAllLanguageVariants: () -> Void
 
     /// Builds the header layout.
     ///
     /// Accessibility:
-    /// Pickers include labels and hints so VoiceOver users can distinguish source and
-    /// target language selection. The split action button comes from SwiftExtras and
-    /// receives localized titles for both actions.
+    /// Pickers and translation-menu controls include labels and hints so VoiceOver
+    /// users can distinguish language selection, actions, and run options.
     var body: some View {
         HStack(alignment: .center, spacing: 16) {
             VStack(alignment: .leading, spacing: 4) {
@@ -81,14 +83,38 @@ struct TranslationHeaderView: View {
             .accessibilityLabel("Target language")
             .accessibilityHint("Choose one target language or all languages available on this Mac.")
 
-            SplitActionButton(
-                primaryTitle: "Translate",
-                primarySystemImage: "translate",
-                secondaryTitle: "Overwrite All Translations",
-                secondarySystemImage: "arrow.triangle.2.circlepath",
-                primaryAction: translate,
-                secondaryAction: translateOverwritingExisting
-            )
+            Menu {
+                Button("Translate", systemImage: "translate", action: translate)
+                Button(
+                    "Overwrite All Translations",
+                    systemImage: "arrow.triangle.2.circlepath",
+                    action: translateOverwritingExisting
+                )
+                Button(
+                    "Only Update Existing Languages",
+                    systemImage: "arrow.triangle.2.circlepath"
+                ) {
+                    translateOnlyExistingLanguages()
+                }
+                .accessibilityLabel("Only update existing languages")
+                .accessibilityHint("Translates only languages already present in the string catalog.")
+                .accessibilityIdentifier("onlyUpdateExistingLanguagesButton")
+                Button(
+                    "Translate All Regional Variants",
+                    systemImage: "globe"
+                ) {
+                    translateAllLanguageVariants()
+                }
+                .accessibilityLabel("Translate all regional variants")
+                .accessibilityHint(
+                    "Includes every compatible regional and script variant for the selected language."
+                )
+                .accessibilityIdentifier("translateAllLanguageVariantsButton")
+            } label: {
+                Label("Translate", systemImage: "translate")
+            } primaryAction: {
+                translate()
+            }
             .fixedSize()
             .disabled(!canTranslate)
         }
@@ -108,11 +134,15 @@ struct TranslationHeaderView: View {
         isTranslating: false,
         canTranslate: true
     ) { _ in
-            return .localizedName(of: .ascii)
-        } translate: {
-            //
-        } translateOverwritingExisting: {
-            //
-        }
+        return .localizedName(of: .ascii)
+    } translate: {
+        //
+    } translateOverwritingExisting: {
+        //
+    } translateOnlyExistingLanguages: {
+        //
+    } translateAllLanguageVariants: {
+        //
+    }
 
 }

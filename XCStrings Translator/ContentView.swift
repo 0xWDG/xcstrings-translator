@@ -63,17 +63,18 @@ struct TranslationTargetsResolver {
         }
     }
 
-    /// Keeps one system-supported canonical representative for each language code.
+    /// Keeps one system-supported canonical representative for each variant group.
     ///
     /// The representative retains its regional identifier for Translation framework
-    /// compatibility, while its catalog output uses `mainLanguageIdentifier(for:)`.
+    /// compatibility, while its catalog output uses `mainLanguageIdentifier(for:)`
+    /// only when that group contains multiple available variants.
     /// When the canonical variant is available, it is preferred over another regional
     /// variant: for example, `fr-FR` over `fr-CA` and `nl-NL` over `nl-BE`.
     static func mainLanguages(from languages: [Locale.Language]) -> [Locale.Language] {
         var representatives: [String: Locale.Language] = [:]
 
         for language in languages {
-            guard let identifier = mainLanguageIdentifier(for: language) else {
+            guard let identifier = variantGroupIdentifier(for: language) else {
                 continue
             }
 
@@ -82,14 +83,14 @@ struct TranslationTargetsResolver {
                 continue
             }
 
-            if isCanonicalMainLanguageVariant(language),
-               !isCanonicalMainLanguageVariant(existingRepresentative) {
+            if isCanonicalMainLanguageVariant(language, in: identifier),
+               !isCanonicalMainLanguageVariant(existingRepresentative, in: identifier) {
                 representatives[identifier] = language
             }
         }
 
         return languages.filter { language in
-            guard let identifier = mainLanguageIdentifier(for: language) else {
+            guard let identifier = variantGroupIdentifier(for: language) else {
                 return false
             }
 
@@ -97,32 +98,81 @@ struct TranslationTargetsResolver {
         }
     }
 
-    /// Identifies the Unicode CLDR maximal locale variant for a language code.
+    /// Returns whether an available target has multiple interchangeable variants.
+    ///
+    /// Chinese script variants deliberately form separate groups, so Simplified and
+    /// Traditional Chinese remain independent targets even when main-language mode is
+    /// enabled.
+    static func shouldCollapseToMainLanguage(
+        _ language: Locale.Language?,
+        among availableLanguages: [Locale.Language]
+    ) -> Bool {
+        guard let groupIdentifier = variantGroupIdentifier(for: language) else {
+            return false
+        }
+
+        return availableLanguages.filter {
+            variantGroupIdentifier(for: $0) == groupIdentifier
+        }.count > 1
+    }
+
+    /// Returns the catalog key for a target under the selected granularity.
+    ///
+    /// A lone regional target, such as `uk-UA`, retains its regional identifier so it
+    /// remains available. Only groups with multiple choices use a base-language key.
+    static func targetLanguageIdentifier(
+        for language: Locale.Language?,
+        mainLanguagesOnly: Bool,
+        availableLanguages: [Locale.Language]
+    ) -> String? {
+        guard mainLanguagesOnly,
+              shouldCollapseToMainLanguage(language, among: availableLanguages) else {
+            return languageIdentifier(for: language)
+        }
+
+        return mainLanguageIdentifier(for: language)
+    }
+
+    /// Identifies the Unicode CLDR maximal locale variant for a variant group.
     ///
     /// - Parameter language: A system-supported language variant.
     /// - Returns: `true` when `language` matches the canonical maximal variant for
-    ///   its base language, such as `fr-Latn-FR` for French.
-    private static func isCanonicalMainLanguageVariant(_ language: Locale.Language) -> Bool {
-        guard let languageCode = language.languageCode?.identifier else {
+    ///   its group, such as `fr-Latn-FR` for French or `zh-Hant-TW` for
+    ///   Traditional Chinese.
+    private static func isCanonicalMainLanguageVariant(
+        _ language: Locale.Language,
+        in groupIdentifier: String
+    ) -> Bool {
+        guard !groupIdentifier.isEmpty else {
             return false
         }
 
         return language.maximalIdentifier == Locale.Language(
-            identifier: languageCode
+            identifier: groupIdentifier
         ).maximalIdentifier
+    }
+
+    /// Returns a grouping key for main-language selection.
+    ///
+    /// Chinese includes its script because `zh-Hans` and `zh-Hant` represent distinct
+    /// written languages. All other languages group by their base language code.
+    private static func variantGroupIdentifier(for language: Locale.Language?) -> String? {
+        guard let language,
+              let languageCode = language.languageCode?.identifier else {
+            return nil
+        }
+
+        if languageCode == "zh",
+           let script = language.script?.identifier {
+            return "\(languageCode)-\(script)"
+        }
+
+        return languageCode
     }
 
     /// Returns the language-code identifier shared by all regional and script variants.
     static func mainLanguageIdentifier(for language: Locale.Language?) -> String? {
         language?.languageCode?.identifier
-    }
-
-    /// Returns the catalog identifier for a target at the chosen language granularity.
-    static func languageIdentifier(
-        for language: Locale.Language?,
-        mainLanguagesOnly: Bool
-    ) -> String? {
-        mainLanguagesOnly ? mainLanguageIdentifier(for: language) : languageIdentifier(for: language)
     }
 
     /// Returns the catalog identifier this app uses for a Translation framework language.
@@ -246,6 +296,8 @@ struct ContentView: View {
     @State var currentTargetTranslationUnits = 0
     /// Snapshot of the skip setting for the current run.
     @State var skipAlreadyTranslatedForCurrentRun = true
+    /// Snapshot of target-language granularity for the current run.
+    @State var mainLanguagesOnlyForCurrentRun = true
     /// Whether the latest run completed without cancellation or failure.
     @State var didFinishTranslation = false
     /// Cooperative cancellation flag checked before and after each translation request.
@@ -296,6 +348,16 @@ struct ContentView: View {
                 translateOverwritingExisting: {
                     Task {
                         await translate(overwritingExistingTranslations: true)
+                    }
+                },
+                translateOnlyExistingLanguages: {
+                    Task {
+                        await translate(onlyUpdatingExistingLanguages: true)
+                    }
+                },
+                translateAllLanguageVariants: {
+                    Task {
+                        await translate(includingAllLanguageVariants: true)
                     }
                 }
             )
@@ -361,7 +423,9 @@ struct ContentView: View {
             SettingsView(
                 supportedLanguages: targetLanguageOptions,
                 languageName: languageName(for:),
-                languageIdentifier: targetLanguageIdentifier(for:)
+                languageIdentifier: { language in
+                    targetLanguageIdentifier(for: language)
+                }
             )
                 .environmentObject(languageParser)
         }

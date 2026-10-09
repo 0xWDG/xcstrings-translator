@@ -39,9 +39,16 @@ struct SettingsView: View {
     var body: some View {
         SESettingsView(_changeLog: [
             .init(
+                version: "0.0.3",
+                text: """
+- Translate main languages by default, with menu actions for existing languages and regional variants.
+"""
+            ),
+            .init(
                 version: "0.0.2",
                 text: """
 - Prefer canonical language variants when translating main languages.
+- Preserve standalone regional targets and Simplified/Traditional Chinese.
 - Automatic translation of all languages.
 """
             ),

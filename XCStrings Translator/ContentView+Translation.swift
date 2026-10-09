@@ -179,6 +179,7 @@ extension ContentView {
         completedUnitsBeforeCurrentTarget = 0
         currentTargetTranslationUnits = 0
         skipAlreadyTranslatedForCurrentRun = languageParser.skipAlreadyTranslated
+        mainLanguagesOnlyForCurrentRun = languageParser.mainLanguagesOnly
         didFinishTranslation = false
         cancelTranslationRequested = false
         currentTranslation = nil
@@ -205,7 +206,8 @@ extension ContentView {
         currentTranslation = nil
         currentTargetTranslationUnits = stringsToTranslate(
             for: targetLanguage,
-            skippingTranslated: skipAlreadyTranslatedForCurrentRun
+            skippingTranslated: skipAlreadyTranslatedForCurrentRun,
+            mainLanguagesOnly: mainLanguagesOnlyForCurrentRun
         ).count
         status = translationStatus(
             for: targetLanguage,

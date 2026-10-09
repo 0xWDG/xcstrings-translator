@@ -104,6 +104,13 @@ class LanguageParser: ObservableObject {
     /// nested JSON tree for each query.
     var translatedStringKeysByLanguage: [String: Set<String>] = [:]
 
+    /// Language identifiers already represented by at least one localization in the catalog.
+    ///
+    /// Unlike `translatedStringKeysByLanguage`, this includes languages with empty or
+    /// partial values. It supports limiting a run to languages the catalog already
+    /// contains without accidentally creating a new localization key.
+    var existingLocalizationLanguageIdentifiers: Set<String> = []
+
     /// Raw JSON dictionary for the loaded `.xcstrings` catalog.
     ///
     /// Xcode may add new keys or nested structures over time. Storing the catalog as
@@ -152,7 +159,7 @@ class LanguageParser: ObservableObject {
     }
 
     /// Whether target-language variants should be translated once per language code.
-    @Published var mainLanguagesOnly: Bool = false {
+    @Published var mainLanguagesOnly: Bool = true {
         didSet {
             UserDefaults.standard.set(self.mainLanguagesOnly, forKey: "mainLanguagesOnly")
             logger.debug("Updated main languages only to \(self.mainLanguagesOnly)")
@@ -202,7 +209,7 @@ class LanguageParser: ObservableObject {
         ) as? Bool ?? true
         mainLanguagesOnly = UserDefaults.standard.object(
             forKey: "mainLanguagesOnly"
-        ) as? Bool ?? false
+        ) as? Bool ?? true
         removeStaleTranslations = UserDefaults.standard.object(
             forKey: "removeStaleTranslations"
         ) as? Bool ?? false
@@ -218,6 +225,7 @@ class LanguageParser: ObservableObject {
         sourceLanguage = "en"
         fileURL = nil
         translatedStringKeysByLanguage = [:]
+        existingLocalizationLanguageIdentifiers = []
         removedStaleTranslationsCount = 0
     }
 
@@ -366,6 +374,7 @@ class LanguageParser: ObservableObject {
                 strings[original] = item
                 languageDictionary["strings"] = strings
                 translatedStringKeysByLanguage[forLanguage, default: []].insert(original)
+                existingLocalizationLanguageIdentifiers.insert(forLanguage)
                 return
             } else {
                 logger.debug(
@@ -385,6 +394,7 @@ class LanguageParser: ObservableObject {
                 strings[original] = item
                 languageDictionary["strings"] = strings
                 translatedStringKeysByLanguage[forLanguage, default: []].insert(original)
+                existingLocalizationLanguageIdentifiers.insert(forLanguage)
                 return
             }
         }
@@ -430,6 +440,10 @@ class LanguageParser: ObservableObject {
         if let strings = languageDictionary["strings"] as? [String: Any] {
             for (key, value) in strings where !key.isEmpty {
                 guard let value = value as? [String: Any] else { continue }
+
+                // A language can be present only on an entry that Xcode no longer
+                // translates. It still counts as an existing catalog language.
+                cacheExistingLocalizationLanguages(in: value)
 
                 // Xcode can mark catalog entries as not translatable. Keep those out
                 // of the source list entirely so they never reach Translation.
@@ -515,6 +529,22 @@ class LanguageParser: ObservableObject {
 
         return stringsToTranslate.filter { string in
             !string.isEmpty && !translatedStringKeys.contains(string)
+        }
+    }
+
+    /// Reports whether a catalog localization already exists for a target language.
+    ///
+    /// - Parameter languageIdentifier: The identifier that would be written for a
+    ///   Translation framework target.
+    /// - Returns: `true` when an existing catalog localization matches the target,
+    ///   including equivalent normalized locale identifiers such as `nl` and `nl-NL`.
+    func hasExistingLocalization(forLanguage languageIdentifier: String?) -> Bool {
+        guard let languageIdentifier else {
+            return false
+        }
+
+        return existingLocalizationLanguageIdentifiers.contains { identifier in
+            Locale.Language(identifier: identifier).matchesLanguageIdentifier(languageIdentifier)
         }
     }
 

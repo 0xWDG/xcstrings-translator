@@ -13,6 +13,23 @@ import Foundation
 /// variations for plurals or device traits. These helpers keep that traversal logic
 /// out of the main parser methods.
 extension LanguageParser {
+    /// Caches every target language that has a localization entry in the catalog.
+    ///
+    /// Empty and partially translated entries count because the language itself
+    /// already exists and can therefore be updated without adding a new catalog key.
+    ///
+    /// - Parameter item: One entry from the catalog's top-level `strings` dictionary.
+    ///
+    /// Side Effects:
+    /// Mutates `existingLocalizationLanguageIdentifiers`.
+    func cacheExistingLocalizationLanguages(in item: [String: Any]) {
+        guard let localizations = item["localizations"] as? [String: Any] else {
+            return
+        }
+
+        existingLocalizationLanguageIdentifiers.formUnion(localizations.keys)
+    }
+
     /// Builds a localization dictionary that preserves existing metadata.
     ///
     /// - Parameters:

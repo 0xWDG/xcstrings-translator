@@ -19,6 +19,8 @@ struct TranslationRunPlan {
     let totalTranslationUnits: Int
     /// Whether already translated strings were excluded when the plan was built.
     let skippingTranslated: Bool
+    /// Whether target variants collapse to their main language catalog key.
+    let mainLanguagesOnly: Bool
 }
 
 /// Planning and execution for Translation framework sessions.
@@ -29,14 +31,25 @@ struct TranslationRunPlan {
 extension ContentView {
     /// Starts a translation run if a valid plan can be built.
     ///
-    /// - Parameter overwritingExistingTranslations: When `true`, existing target
-    ///   values are translated again instead of being skipped.
+    /// - Parameters:
+    ///   - overwritingExistingTranslations: When `true`, existing target values are
+    ///     translated again instead of being skipped.
+    ///   - onlyUpdatingExistingLanguages: When `true`, the run excludes targets not
+    ///     already represented in the catalog.
+    ///   - includingAllLanguageVariants: When `true`, the run expands the selected
+    ///     target to every compatible regional and script variant.
     ///
     /// Side Effects:
     /// Mutates run state on the main actor and eventually triggers `.translationTask`.
-    func translate(overwritingExistingTranslations: Bool = false) async {
+    func translate(
+        overwritingExistingTranslations: Bool = false,
+        onlyUpdatingExistingLanguages: Bool = false,
+        includingAllLanguageVariants: Bool = false
+    ) async {
         guard let runPlan = await translationRunPlan(
-            overwritingExistingTranslations: overwritingExistingTranslations
+            overwritingExistingTranslations: overwritingExistingTranslations,
+            onlyUpdatingExistingLanguages: onlyUpdatingExistingLanguages,
+            includingAllLanguageVariants: includingAllLanguageVariants
         ) else {
             return
         }
@@ -48,9 +61,15 @@ extension ContentView {
 
     /// Builds the exact set of target languages and units for a run.
     ///
-    /// - Parameter overwritingExistingTranslations: Whether to ignore the user's
-    ///   "skip already translated" setting for this run.
-    /// - Returns: A plan when at least one compatible target has pending work.
+    /// - Parameters:
+    ///   - overwritingExistingTranslations: Whether to ignore the user's "skip
+    ///     already translated" setting for this run.
+    ///   - onlyUpdatingExistingLanguages: Whether to exclude targets not already
+    ///     represented in the catalog.
+    ///   - includingAllLanguageVariants: Whether to expand the selection to every
+    ///     compatible regional and script variant.
+    /// - Returns: A plan when at least one compatible target has pending work and,
+    ///   for existing-language-only runs, is already represented in the catalog.
     ///
     /// Possible Errors:
     /// Translation availability checks do not throw; failure to find compatible work
@@ -60,32 +79,43 @@ extension ContentView {
     /// This performs availability checks before creating sessions so the run avoids
     /// starting targets that the framework would reject.
     func translationRunPlan(
-        overwritingExistingTranslations: Bool
+        overwritingExistingTranslations: Bool,
+        onlyUpdatingExistingLanguages: Bool,
+        includingAllLanguageVariants: Bool
     ) async -> TranslationRunPlan? {
         // Re-check pair availability immediately before translating. Supported system
         // languages can include pairs the Translation framework still cannot serve.
-        let targetLanguages = await compatibleTargetLanguages(from: availableTargetLanguages)
+        let mainLanguagesOnly = !includingAllLanguageVariants && languageParser.mainLanguagesOnly
+        let selectedTargetLanguages = await targetLanguagesForRun(
+            includingAllLanguageVariants: includingAllLanguageVariants
+        )
+        let targetLanguages = await compatibleTargetLanguages(from: selectedTargetLanguages)
+        let eligibleTargetLanguages = onlyUpdatingExistingLanguages
+            ? targetLanguagesEligibleForUpdate(
+                from: targetLanguages,
+                mainLanguagesOnly: mainLanguagesOnly
+            )
+            : targetLanguages
         let skippingTranslated = await MainActor.run {
             !overwritingExistingTranslations && languageParser.skipAlreadyTranslated
         }
 
-        guard !targetLanguages.isEmpty else {
+        guard !eligibleTargetLanguages.isEmpty else {
             await MainActor.run {
-                status = "No compatible translation languages available"
+                status = onlyUpdatingExistingLanguages
+                    ? "No existing target languages available"
+                    : "No compatible translation languages available"
             }
             return nil
         }
 
         // With "skip already translated" enabled, some selected targets may have no
         // remaining strings. Removing them up front keeps progress totals accurate.
-        let targetLanguagesWithWork = await MainActor.run {
-            targetLanguages.filter { targetLanguage in
-                !stringsToTranslate(
-                    for: targetLanguage,
-                    skippingTranslated: skippingTranslated
-                ).isEmpty
-            }
-        }
+        let targetLanguagesWithWork = targetLanguagesWithPendingWork(
+            from: eligibleTargetLanguages,
+            skippingTranslated: skippingTranslated,
+            mainLanguagesOnly: mainLanguagesOnly
+        )
 
         guard !targetLanguagesWithWork.isEmpty else {
             await MainActor.run {
@@ -98,28 +128,90 @@ extension ContentView {
         let totalTranslationUnits = await MainActor.run(resultType: Int.self) {
             self.totalTranslationUnits(
                 for: targetLanguagesWithWork,
-                skippingTranslated: skippingTranslated
+                skippingTranslated: skippingTranslated,
+                mainLanguagesOnly: mainLanguagesOnly
             )
-        }
-
-        guard totalTranslationUnits > 0 else {
-            await MainActor.run {
-                resetTranslationState()
-                status = "No untranslated strings available"
-            }
-            return nil
         }
 
         return TranslationRunPlan(
             targetLanguages: targetLanguagesWithWork,
             totalTranslationUnits: totalTranslationUnits,
-            skippingTranslated: skippingTranslated
+            skippingTranslated: skippingTranslated,
+            mainLanguagesOnly: mainLanguagesOnly
         )
+    }
+
+    /// Resolves the current picker selection into targets for a translation run.
+    ///
+    /// - Parameter includingAllLanguageVariants: Whether a run should include every
+    ///   compatible regional and script variant of the selected target.
+    /// - Returns: Targets appropriate for the requested run granularity.
+    func targetLanguagesForRun(
+        includingAllLanguageVariants: Bool
+    ) async -> [Locale.Language] {
+        guard includingAllLanguageVariants else {
+            return availableTargetLanguages
+        }
+
+        let allLanguageVariants = await availableSystemTargetLanguages(
+            mainLanguagesOnly: false
+        )
+
+        guard case let .language(selectedLanguage) = destinationSelection else {
+            return allLanguageVariants
+        }
+
+        return allLanguageVariants.filter {
+            $0.languageCode?.identifier == selectedLanguage.languageCode?.identifier
+        }
+    }
+
+    /// Filters compatible targets to ones already represented in the catalog.
+    ///
+    /// - Parameter targetLanguages: Translation-framework-compatible target languages.
+    /// - Returns: Only targets whose catalog localization already exists.
+    @MainActor
+    func targetLanguagesEligibleForUpdate(
+        from targetLanguages: [Locale.Language],
+        mainLanguagesOnly: Bool
+    ) -> [Locale.Language] {
+        targetLanguages.filter { targetLanguage in
+            languageParser.hasExistingLocalization(
+                forLanguage: targetLanguageIdentifier(
+                    for: targetLanguage,
+                    mainLanguagesOnly: mainLanguagesOnly
+                )
+            )
+        }
+    }
+
+    /// Removes targets that have no source strings left to translate.
+    ///
+    /// - Parameters:
+    ///   - targetLanguages: Compatible targets to inspect.
+    ///   - skippingTranslated: Whether complete existing values count as complete.
+    ///   - mainLanguagesOnly: Whether target variants use their collapsed catalog key.
+    /// - Returns: Targets that still have at least one pending source string.
+    @MainActor
+    func targetLanguagesWithPendingWork(
+        from targetLanguages: [Locale.Language],
+        skippingTranslated: Bool,
+        mainLanguagesOnly: Bool
+    ) -> [Locale.Language] {
+        targetLanguages.filter { targetLanguage in
+            !stringsToTranslate(
+                for: targetLanguage,
+                skippingTranslated: skippingTranslated,
+                mainLanguagesOnly: mainLanguagesOnly
+            ).isEmpty
+        }
     }
 
     /// Applies a run plan to view state and starts the first target language.
     ///
-    /// - Parameter runPlan: Plan returned by `translationRunPlan(overwritingExistingTranslations:)`.
+    /// - Parameter runPlan: Plan returned by
+    ///   `translationRunPlan(overwritingExistingTranslations:onlyUpdatingExistingLanguages:
+    ///   includingAllLanguageVariants:)`.
     ///
     /// Side Effects:
     /// Initializes progress counters, timestamps, the pending-language queue, and the
@@ -131,6 +223,7 @@ extension ContentView {
         cancelTranslationRequested = false
         didFinishTranslation = false
         skipAlreadyTranslatedForCurrentRun = runPlan.skippingTranslated
+        mainLanguagesOnlyForCurrentRun = runPlan.mainLanguagesOnly
         completedTargetLanguages = 0
         completedUnitsBeforeCurrentTarget = 0
         totalTranslationUnitsForRun = runPlan.totalTranslationUnits
@@ -166,11 +259,15 @@ extension ContentView {
         let stringKeysToTranslate = await MainActor.run(resultType: [String].self) {
             self.stringsToTranslate(
                 for: activeTargetLanguage,
-                skippingTranslated: skipAlreadyTranslatedForCurrentRun
+            skippingTranslated: skipAlreadyTranslatedForCurrentRun,
+            mainLanguagesOnly: mainLanguagesOnlyForCurrentRun
             )
         }
         let targetLanguageIdentifier = await MainActor.run {
-            targetLanguageIdentifier(for: activeTargetLanguage)
+            targetLanguageIdentifier(
+                for: activeTargetLanguage,
+                mainLanguagesOnly: mainLanguagesOnlyForCurrentRun
+            )
         }
 
         guard let targetLanguageIdentifier else {

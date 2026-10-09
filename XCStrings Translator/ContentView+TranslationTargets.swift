@@ -34,12 +34,21 @@ extension ContentView {
     /// - Returns: Source strings that should be translated for the target.
     func stringsToTranslate(
         for targetLanguage: Locale.Language?,
-        skippingTranslated: Bool
+        skippingTranslated: Bool,
+        mainLanguagesOnly: Bool? = nil
     ) -> [String] {
-        languageParser.stringsToTranslate(
-            forLanguage: targetLanguageIdentifier(for: targetLanguage),
+        let usesMainLanguagesOnly = mainLanguagesOnly ?? languageParser.mainLanguagesOnly
+
+        return languageParser.stringsToTranslate(
+            forLanguage: targetLanguageIdentifier(
+                for: targetLanguage,
+                mainLanguagesOnly: usesMainLanguagesOnly
+            ),
             skippingTranslated: skippingTranslated,
-            treatingVariantsAsSameLanguage: languageParser.mainLanguagesOnly
+            treatingVariantsAsSameLanguage: shouldCollapseToMainLanguage(
+                targetLanguage,
+                mainLanguagesOnly: usesMainLanguagesOnly
+            )
         )
     }
 
@@ -62,12 +71,14 @@ extension ContentView {
     /// - Returns: Total source-string/target-language units.
     func totalTranslationUnits(
         for targetLanguages: [Locale.Language],
-        skippingTranslated: Bool
+        skippingTranslated: Bool,
+        mainLanguagesOnly: Bool? = nil
     ) -> Int {
         targetLanguages.reduce(0) { partialResult, targetLanguage in
             partialResult + stringsToTranslate(
                 for: targetLanguage,
-                skippingTranslated: skippingTranslated
+                skippingTranslated: skippingTranslated,
+                mainLanguagesOnly: mainLanguagesOnly
             ).count
         }
     }
@@ -109,7 +120,9 @@ extension ContentView {
     /// Performance:
     /// Availability is checked sequentially to keep framework calls simple and avoid
     /// racing UI state changes during source-language updates.
-    func availableSystemTargetLanguages() async -> [Locale.Language] {
+    func availableSystemTargetLanguages(
+        mainLanguagesOnly: Bool? = nil
+    ) async -> [Locale.Language] {
         guard let sourceLanguage else {
             return []
         }
@@ -127,17 +140,36 @@ extension ContentView {
             availableLanguages.append(targetLanguage)
         }
 
-        return languageParser.mainLanguagesOnly
+        return (mainLanguagesOnly ?? languageParser.mainLanguagesOnly)
             ? TranslationTargetsResolver.mainLanguages(from: availableLanguages)
             : availableLanguages
     }
 
     /// Returns the catalog key used for a target at the selected granularity.
-    func targetLanguageIdentifier(for language: Locale.Language?) -> String? {
-        TranslationTargetsResolver.languageIdentifier(
+    func targetLanguageIdentifier(
+        for language: Locale.Language?,
+        mainLanguagesOnly: Bool? = nil
+    ) -> String? {
+        TranslationTargetsResolver.targetLanguageIdentifier(
             for: language,
-            mainLanguagesOnly: languageParser.mainLanguagesOnly
+            mainLanguagesOnly: mainLanguagesOnly ?? languageParser.mainLanguagesOnly,
+            availableLanguages: supportedLanguages
         )
+    }
+
+    /// Returns whether this target belongs to a multi-variant language group.
+    ///
+    /// This stays false for a single regional target and for each Chinese script,
+    /// preserving identifiers such as `uk-UA`, `zh-Hans`, and `zh-Hant`.
+    func shouldCollapseToMainLanguage(
+        _ language: Locale.Language?,
+        mainLanguagesOnly: Bool? = nil
+    ) -> Bool {
+        (mainLanguagesOnly ?? languageParser.mainLanguagesOnly) &&
+            TranslationTargetsResolver.shouldCollapseToMainLanguage(
+                language,
+                among: supportedLanguages
+            )
     }
 
     /// Filters a candidate target list to pairs compatible with the current source.

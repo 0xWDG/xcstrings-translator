@@ -57,23 +57,47 @@ struct XCStringsTranslatorTests {
                 Locale.Language(identifier: "fr-CA"),
                 Locale.Language(identifier: "fr-FR"),
                 Locale.Language(identifier: "zh-Hant"),
-                Locale.Language(identifier: "zh-Hans")
+                Locale.Language(identifier: "zh-Hans"),
+                Locale.Language(identifier: "uk-UA")
             ],
             mainLanguagesOnly: true
         )
 
-        #expect(targets.count == 3)
+        #expect(targets.count == 5)
         #expect(
             targets.map(\.maximalIdentifier) == [
                 "nl-Latn-NL",
                 "fr-Latn-FR",
-                "zh-Hans-CN"
+                "zh-Hant-TW",
+                "zh-Hans-CN",
+                "uk-Cyrl-UA"
             ]
         )
         #expect(
             targets.map {
                 TranslationTargetsResolver.mainLanguageIdentifier(for: $0)
-            } == ["nl", "fr", "zh"]
+            } == ["nl", "fr", "zh", "zh", "uk"]
+        )
+        #expect(
+            TranslationTargetsResolver.targetLanguageIdentifier(
+                for: Locale.Language(identifier: "fr-FR"),
+                mainLanguagesOnly: true,
+                availableLanguages: targets
+            ) == "fr"
+        )
+        #expect(
+            TranslationTargetsResolver.targetLanguageIdentifier(
+                for: Locale.Language(identifier: "uk-UA"),
+                mainLanguagesOnly: true,
+                availableLanguages: targets
+            ) == "uk-UA"
+        )
+        #expect(
+            TranslationTargetsResolver.targetLanguageIdentifier(
+                for: Locale.Language(identifier: "zh-Hant"),
+                mainLanguagesOnly: true,
+                availableLanguages: targets
+            ) == "zh-Hant"
         )
     }
 
@@ -348,6 +372,28 @@ struct LanguageParserTests {
                 )
             ) == Set(["Hello", "Goodbye"])
         )
+    }
+
+    @Test func parserRecognizesExistingLanguagesWithEmptyTranslations() async throws {
+        let parser = LanguageParser()
+        parser.languageDictionary = [
+            "strings": [
+                "Hello": [
+                    "localizations": [
+                        "nl-NL": [
+                            "stringUnit": [
+                                "state": "new",
+                                "value": ""
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ]
+        parser.parse()
+
+        #expect(parser.hasExistingLocalization(forLanguage: "nl"))
+        #expect(!parser.hasExistingLocalization(forLanguage: "de"))
     }
 
     @Test func stringsToTranslateTreatsRegionalVariantsAsOneMainLanguage() async throws {
