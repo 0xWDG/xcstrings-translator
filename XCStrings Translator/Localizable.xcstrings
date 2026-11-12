@@ -3235,6 +3235,9 @@
         }
       }
     },
+    "In progress" : {
+
+    },
     "Includes every compatible regional and script variant for the selected language." : {
       "localizations" : {
         "ar" : {
@@ -3388,6 +3391,9 @@
           }
         }
       }
+    },
+    "Initial App Store release." : {
+
     },
     "Initial release" : {
       "localizations" : {
@@ -6006,6 +6012,12 @@
           }
         }
       }
+    },
+    "Preparing translation models" : {
+
+    },
+    "Preparing translation models…" : {
+
     },
     "Progress" : {
       "localizations" : {

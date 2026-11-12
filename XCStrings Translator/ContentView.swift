@@ -98,7 +98,7 @@ struct TranslationTargetsResolver {
         }
     }
 
-    /// Returns whether an available target has multiple interchangeable variants.
+    /// Returns whether a target should use its base-language catalog key.
     ///
     /// Chinese script variants deliberately form separate groups, so Simplified and
     /// Traditional Chinese remain independent targets even when main-language mode is
@@ -107,19 +107,24 @@ struct TranslationTargetsResolver {
         _ language: Locale.Language?,
         among availableLanguages: [Locale.Language]
     ) -> Bool {
-        guard let groupIdentifier = variantGroupIdentifier(for: language) else {
+        guard let language,
+              let groupIdentifier = variantGroupIdentifier(for: language) else {
             return false
         }
 
-        return availableLanguages.filter {
+        if language.languageCode?.identifier == "zh", language.script != nil {
+            return false
+        }
+
+        return language.region != nil || availableLanguages.filter {
             variantGroupIdentifier(for: $0) == groupIdentifier
         }.count > 1
     }
 
     /// Returns the catalog key for a target under the selected granularity.
     ///
-    /// A lone regional target, such as `uk-UA`, retains its regional identifier so it
-    /// remains available. Only groups with multiple choices use a base-language key.
+    /// Regional targets use their base-language catalog key, even when only one
+    /// regional variant is available. Chinese script identifiers remain distinct.
     static func targetLanguageIdentifier(
         for language: Locale.Language?,
         mainLanguagesOnly: Bool,
@@ -300,6 +305,8 @@ struct ContentView: View {
     @State var mainLanguagesOnlyForCurrentRun = true
     /// Whether the latest run completed without cancellation or failure.
     @State var didFinishTranslation = false
+    /// Whether Translation is preparing the active language pair and its models.
+    @State var isPreparingTranslationModels = false
     /// Cooperative cancellation flag checked before and after each translation request.
     @State var cancelTranslationRequested = false
     /// Source string currently being translated, used to scroll the list.
@@ -374,6 +381,7 @@ struct ContentView: View {
                 elapsedTime: elapsedTranslationText,
                 estimatedTimeRemaining: estimatedTimeRemainingText,
                 isTranslating: isTranslating,
+                isPreparingModels: isPreparingTranslationModels,
                 didFinishTranslation: didFinishTranslation,
                 cancelTranslation: cancelTranslation
             )

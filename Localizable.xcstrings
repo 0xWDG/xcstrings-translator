@@ -1,0 +1,15 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "This is a test file for translation" : {
+
+    },
+    "Hello world" : {
+
+    },
+    "All Available Languages" : {
+
+    },
+ },
+  "version" : "1.0"
+}

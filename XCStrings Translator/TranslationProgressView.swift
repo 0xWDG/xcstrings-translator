@@ -35,6 +35,8 @@ struct TranslationProgressView: View {
     let estimatedTimeRemaining: String
     /// Whether a translation session is active.
     let isTranslating: Bool
+    /// Whether the system is checking or preparing models for the active language pair.
+    let isPreparingModels: Bool
     /// Whether the last run completed successfully.
     let didFinishTranslation: Bool
     /// Cancels the active translation run.
@@ -108,11 +110,29 @@ struct TranslationProgressView: View {
 
             ProgressView(value: progressValue, total: 1)
                 .progressViewStyle(.linear)
+                .opacity(isPreparingModels ? 0 : 1)
+                .accessibilityHidden(isPreparingModels)
                 .tint(progressTint)
                 .accessibilityLabel("Translation progress")
                 .accessibilityValue(progressAccessibilityValue)
                 .accessibilityHint("Shows how much of the current translation run is complete.")
                 .accessibilityIdentifier("translationProgress")
+
+            if isPreparingModels {
+                HStack(spacing: 8) {
+                    ProgressView()
+                        .controlSize(.small)
+                        .accessibilityHidden(true)
+
+                    Text("Preparing translation models…")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
+                .accessibilityElement(children: .combine)
+                .accessibilityLabel("Preparing translation models")
+                .accessibilityValue("In progress")
+                .accessibilityIdentifier("translationModelPreparationProgress")
+            }
 
             metricsGrid
         }

@@ -17,7 +17,7 @@ You can find this app on the [AppStore](https://apps.apple.com/us/app/xcstrings-
 - Translate to one target language or all system-supported target languages.
 - Only shows language pairs that are available through Apple's Translation framework.
 - Skips existing translations by default.
-- Optionally translates only one primary language for all regional or script variants.
+- Optionally translates only one primary language for all regional or script variants; a lone regional target such as `ko-KR` is saved as `ko`, and the canonical region is preferred when several variants are available.
 - Skips entries marked with `"shouldTranslate": false`.
 - Translate dropdown option to overwrite all existing translations with fresh translations.
 - Preserves regional language identifiers such as `pt-BR` and script identifiers such as `zh-Hant`.
@@ -55,7 +55,7 @@ The Settings window includes:
 - Default target language.
 - Translation state saved into the catalog: `translated` or `needs_review`.
 - Skip already translated entries.
-- Only main languages, which collapses groups with multiple regional variants into one primary language.
+- Only main languages, which saves regional targets under their base language (for example, `ko-KR` as `ko`) and collapses groups with multiple variants into one primary language.
 - Remove stale translations, which deletes entries marked `extractionState: stale` by Xcode.
 - Automatically save completed-language checkpoints.
 - Test Mode, which prevents overwriting the original catalog.

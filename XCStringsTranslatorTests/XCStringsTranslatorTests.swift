@@ -90,7 +90,7 @@ struct XCStringsTranslatorTests {
                 for: Locale.Language(identifier: "uk-UA"),
                 mainLanguagesOnly: true,
                 availableLanguages: targets
-            ) == "uk-UA"
+            ) == "uk"
         )
         #expect(
             TranslationTargetsResolver.targetLanguageIdentifier(
@@ -98,6 +98,38 @@ struct XCStringsTranslatorTests {
                 mainLanguagesOnly: true,
                 availableLanguages: targets
             ) == "zh-Hant"
+        )
+    }
+
+    @Test func mainLanguageTargetCollapsesSingleRegionalVariant() async throws {
+        let korean = Locale.Language(identifier: "ko-KR")
+
+        #expect(
+            TranslationTargetsResolver.targetLanguageIdentifier(
+                for: korean,
+                mainLanguagesOnly: true,
+                availableLanguages: [korean]
+            ) == "ko"
+        )
+    }
+
+    @Test func mainLanguageTargetPrefersCanonicalVariantWhenSeveralExist() async throws {
+        let targets = TranslationTargetsResolver.mainLanguages(from: [
+            Locale.Language(identifier: "nl-BE"),
+            Locale.Language(identifier: "nl-NL")
+        ])
+
+        #expect(targets.count == 1)
+        #expect(targets.first?.region?.identifier == "NL")
+        #expect(
+            TranslationTargetsResolver.targetLanguageIdentifier(
+                for: try #require(targets.first),
+                mainLanguagesOnly: true,
+                availableLanguages: [
+                    Locale.Language(identifier: "nl-BE"),
+                    Locale.Language(identifier: "nl-NL")
+                ]
+            ) == "nl"
         )
     }
 

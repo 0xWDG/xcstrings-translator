@@ -181,6 +181,7 @@ extension ContentView {
         skipAlreadyTranslatedForCurrentRun = languageParser.skipAlreadyTranslated
         mainLanguagesOnlyForCurrentRun = languageParser.mainLanguagesOnly
         didFinishTranslation = false
+        isPreparingTranslationModels = false
         cancelTranslationRequested = false
         currentTranslation = nil
         translationStartedAt = nil
@@ -255,6 +256,7 @@ extension ContentView {
         // Do not clear LanguageParser here. It already contains completed responses,
         // so the user can save partial results after cancellation.
         cancelTranslationRequested = true
+        isPreparingTranslationModels = false
         translationConfiguration = nil
         activeTargetLanguage = nil
         pendingTargetLanguages = []
@@ -401,6 +403,7 @@ extension ContentView {
         translationEndedAt = Date()
         timerDate = translationEndedAt ?? Date()
         didFinishTranslation = false
+        isPreparingTranslationModels = false
         status = "Translation failed"
     }
 

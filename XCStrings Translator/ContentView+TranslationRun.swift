@@ -222,6 +222,7 @@ extension ContentView {
         // sets `translationConfiguration`, which triggers SwiftUI's translationTask.
         cancelTranslationRequested = false
         didFinishTranslation = false
+        isPreparingTranslationModels = false
         skipAlreadyTranslatedForCurrentRun = runPlan.skippingTranslated
         mainLanguagesOnlyForCurrentRun = runPlan.mainLanguagesOnly
         completedTargetLanguages = 0
@@ -244,9 +245,9 @@ extension ContentView {
     ///   `translationConfiguration`.
     ///
     /// Possible Errors:
-    /// Individual `session.translate(_:)` calls can throw. Non-cancellation errors are
-    /// routed to `failTranslation(_:)`; cancellation exits quietly because the UI has
-    /// already been updated.
+    /// Session preparation and individual `session.translate(_:)` calls can throw.
+    /// Non-cancellation errors are routed to `failTranslation(_:)`; cancellation exits
+    /// quietly because the UI has already been updated.
     ///
     /// Side Effects:
     /// Updates the current-row indicator, writes successful responses into
@@ -275,6 +276,16 @@ extension ContentView {
         }
 
         do {
+            // Prepare the session before the first request so the framework can
+            // present any required language-model download or permission flow.
+            await MainActor.run {
+                isPreparingTranslationModels = true
+            }
+            try await session.prepareTranslation()
+            await MainActor.run {
+                isPreparingTranslationModels = false
+            }
+
             for key in stringKeysToTranslate {
                 // Cancellation is cooperative: check before starting each request and
                 // again before writing the response back into the catalog.
